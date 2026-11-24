@@ -30,7 +30,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="shell header-row">
-    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span class="brand-mark" aria-hidden="true">C<span class="brand-mark-dot">3</span></span><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
     <nav class="nav" aria-label="Main navigation">
       <a href="/cyberbiota-blog/journey/" >Journey</a>
       <a href="/cyberbiota-blog/architecture/" >Architecture</a>
@@ -47,22 +47,52 @@
   <header class="article-header">
     <div class="eyebrow">Project history · Retrospective</div>
     <h1>Why I removed n8n and brought it back</h1>
-    <p class="lede">The April build moved toward agent-driven work. A practical home lab article made me reconsider what a visible workflow engine was good for.</p>
+    <p class="lede">I removed n8n when I couldn’t see a use for it. When it came back, the first useful test gave it one narrow job.</p>
     <div class="meta-line"><span>Events: April 8 and June 26–30, 2026</span><span>Evidence: Dated change records and owner recollection</span><span>Entry date: <time datetime="2026-11-24">November 24, 2026</time></span></div>
   </header>
-  <div class="article-grid"><div class="article-content prose"><p>n8n was removed on April 8, the day after the move to native Ubuntu. The operations log gives a reason: the new build was trying agent-driven automation in place of older workflows. The same part of the log records work on an assistant gateway and a connection to a local model. The log establishes what the rebuild was trying to do. It doesn’t tell me that every older workflow was replaced or where the original workflow data ended up.</p>
-
-<p>At the time I didn’t see much use for n8n. I reconsidered after reading a Virtualization Howto article about using workflow automation and AI in a home lab. The example made it worth looking at the tool again. I don’t have a record of the exact feature I had in mind or the date I read it, so those details aren’t part of the claim. The change in my view is something I remember. Its return is also visible in the June deployment records.</p>
-
-<p>The June 26 record shows n8n deployed as part of CyberBiota3. Later route checks returned HTTP 200 for the selected n8n path. That established reachability on that run. It didn’t establish that a particular workflow would receive an event, execute the right steps, or handle a failure the way I wanted.</p>
-
-<p>The June 30 webhook pilot gave a more concrete test. A source service produced an event and the automation received it. The pilot had loosened transport settings to make that happen, so it was rolled back. The webhook and its workflow were removed. The underlying applications, including n8n, remained in the lab. That sequence can be hard to follow in an undated inventory. It makes sense when the removal, return, and rollback are treated as three separate events.</p>
-
-<p>Bringing the tool back gave me room to test bounded workflows on their own terms. The record still leaves the earlier data disposition open. It proves the later installation and a narrow pilot, with the pilot’s reversal right beside it. That’s a more useful description of how I use tools in this lab than a list that simply marks n8n installed.</p>
-</div><aside class="article-aside"><div class="aside-card"><span class="eyebrow">Reading note</span><p>Historical results describe what the records showed at the time. They are not a live status check.</p><a href="/cyberbiota-blog/methods/">How evidence is handled <span aria-hidden="true">→</span></a></div></aside></div>
-
   
-  
+  <div class="article-grid">
+    <div class="article-content prose"><p>I didn’t think n8n was useful at first. The April 8 log shows it being removed after the move to Ubuntu. I was trying local models and agent-driven work, and the workflow engine no longer looked like something I needed to keep running.</p>
+
+<p>I changed my mind after reading a home lab automation article from Virtualization Howto. That’s my recollection of what brought me back to it. I can’t point to the exact example in the article that did it. What I can show is the difference between trying a tool with no clear job for it and returning to it with a job I could test.</p>
+
+<h2 id="what-came-back-in-june">What came back in June</h2>
+
+<p>n8n appears in the June 26 CyberBiota3 deployment. A route check returned HTTP 200 that day. That told me the service answered. Four days later, the webhook pilot gave it a specific task: take an event from Gitea and hand it to a workflow. Now there was a source, a trigger and a receiver that could be checked independently.</p>
+
+<p>The workflow did receive the event. The way the pilot got it there loosened the connection’s safeguards, so the webhook and associated workflow were removed and the settings were restored. Both applications stayed in the lab. This is where the April and June records can be easy to confuse. April reports removing n8n. June reports deploying it and later withdrawing one connection to it. The files I reviewed do not say whether any of the April workflow data survived.</p>
+
+<p>When n8n returned, the webhook finally gave me a specific way to tell whether it was doing something useful. I could also remove that one connection without undoing the rest of the installation. <a href="/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/">The rollback has its own post.</a></p>
+</div>
+    
+    <aside class="article-aside">
+      <nav class="aside-card chapter-index" aria-label="CyberBiota chapters">
+        <span class="eyebrow">The CyberBiota story</span>
+        <ol start="0">
+          
+          <li><a href="/cyberbiota-blog/journal/the-rise-of-cyberbiota3/">The rise of CyberBiota3</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/ariseone/">AriseOne and the first repeatable jobs</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota-first-build/">The first CyberBiota build and the empty dashboard</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/leaving-proxmox/">Why CyberBiota 2 moved to bare-metal Ubuntu</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/why-n8n-came-back/" aria-current="page">Why I removed n8n and brought it back</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/three-deployment-checks/">A valid Compose file and a failed deployment</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/proving-the-restore/">The first backup I could show how to restore</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/">The webhook worked. I still rolled it back.</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/counting-the-failed-checks/">The failed checks stayed in the report</a></li>
+          
+        </ol>
+      </nav>
+    </aside>
+    
+  </div>
   
   <nav class="section-tight" aria-label="Series navigation">
     <p><a href="/cyberbiota-blog/journal/">All CyberBiota chapters and change notes</a></p>

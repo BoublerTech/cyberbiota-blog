@@ -11,8 +11,8 @@
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="The rise of CyberBiota3" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="I wanted a fresh start for my home lab. CyberBiota3 brought together what I had learned building AriseOne and the first two versions of CyberBiota." />
-<meta name="twitter:description" property="og:description" content="I wanted a fresh start for my home lab. CyberBiota3 brought together what I had learned building AriseOne and the first two versions of CyberBiota." />
+<meta name="description" content="The story of building my first open-source home lab, from AriseOne to CyberBiota3." />
+<meta name="twitter:description" property="og:description" content="The story of building my first open-source home lab, from AriseOne to CyberBiota3." />
 <link rel="canonical" href="https://boublertech.github.io/cyberbiota-blog/journal/the-rise-of-cyberbiota3/" />
 <meta property="og:url" content="https://boublertech.github.io/cyberbiota-blog/journal/the-rise-of-cyberbiota3/" />
 <meta property="og:site_name" content="CyberBiota3" />
@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="The rise of CyberBiota3" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-11-24T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"I wanted a fresh start for my home lab. CyberBiota3 brought together what I had learned building AriseOne and the first two versions of CyberBiota.","headline":"The rise of CyberBiota3","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/the-rise-of-cyberbiota3/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/the-rise-of-cyberbiota3/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-11-24T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"The story of building my first open-source home lab, from AriseOne to CyberBiota3.","headline":"The rise of CyberBiota3","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/the-rise-of-cyberbiota3/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/the-rise-of-cyberbiota3/"}</script>
 <!-- End Jekyll SEO tag -->
 
   </head>
@@ -30,7 +30,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="shell header-row">
-    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span class="brand-mark" aria-hidden="true">C<span class="brand-mark-dot">3</span></span><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
     <nav class="nav" aria-label="Main navigation">
       <a href="/cyberbiota-blog/journey/" >Journey</a>
       <a href="/cyberbiota-blog/architecture/" >Architecture</a>
@@ -47,22 +47,60 @@
   <header class="article-header">
     <div class="eyebrow">Project history · Retrospective</div>
     <h1>The rise of CyberBiota3</h1>
-    <p class="lede">I wanted a fresh start for my home lab. CyberBiota3 brought together what I had learned building AriseOne and the first two versions of CyberBiota.</p>
+    <p class="lede">I wanted to host my own apps and data with open-source technology. AriseOne was my first try. CyberBiota3 brings together what I learned from the builds in between.</p>
     <div class="meta-line"><span>Events: January to November 2026</span><span>Evidence: Owner recollection, historical records and dated change results</span><span>Entry date: <time datetime="2026-11-24">November 24, 2026</time></span></div>
   </header>
-  <div class="article-grid"><div class="article-content prose"><p>It was time for a fresh start in my home lab. I had already built AriseOne, and I would try two versions of CyberBiota before reaching the one I wanted to keep building. Those earlier versions taught me different things. CyberBiota3 is where I brought those lessons together.</p>
-
-<p>AriseOne had started with small jobs: a health script, a list of hosts for Ansible, and a way to keep track of updates. By early February it had a Proxmox host, a file service, a dashboard, and a ticket system. The lab already had real work to do. I wanted a fresh start, and the next records show what that first CyberBiota looked like: Proxmox again, with ZFS for storage and an LXC guest bringing Docker, Ansible, and monitoring together. The records preserve both setups. They leave open exactly which AriseOne files and application data made it across.</p>
-
-<p>The first CyberBiota stretched the virtualized design. The log followed a metric from Proxmox into InfluxDB and still ended the night with empty Grafana panels. Network changes added their own dependencies. After experiments with virtual gateways, I moved the lab to Ubuntu on April 7, with Docker running on the host. That became CyberBiota 2. The earlier record names Ubuntu 25.10. May records refer to 26.04, but they do not show whether I upgraded in place or rebuilt again.</p>
-
-<p>By June, the CyberBiota3 records looked different. They kept the initial failure alongside the retry, separated a working route from a working application, and treated a restore as its own test. I still changed my mind about tools. I had removed n8n in April, then reconsidered it after reading about a practical homelab use for it. By June I was running it again. I also rolled back a webhook pilot that delivered its event under settings I couldn’t keep.</p>
-
-<p>That is the home lab this blog follows. I want you to see what I changed, why I kept or reversed it, and how far I got before the next problem began. The chapters below follow that thread from the January scripts to the tests and operating decisions that define CyberBiota3 for me.</p>
-</div><aside class="article-aside"><div class="aside-card"><span class="eyebrow">Reading note</span><p>Historical results describe what the records showed at the time. They are not a live status check.</p><a href="/cyberbiota-blog/methods/">How evidence is handled <span aria-hidden="true">→</span></a></div></aside></div>
-
   
-  
+  <div class="article-grid">
+    <div class="article-content prose"><p>I wanted to build my first home lab with open-source technology and use it to host my own apps and my own data.</p>
+
+<p>AriseOne was where I started. I had a Proxmox host and a few scripts. One script would ping machines and try to collect health information over SSH. An Ansible playbook could apply updates to the hosts in the inventory and tell me which ones needed a reboot. By February, the lab had a file service in Nextcloud, a dashboard in Homepage and a place for tickets in Zammad. Somewhere between those scripts and those services, my work went from getting one thing online to having several things to look after.</p>
+
+<h2 id="it-was-time-for-a-fresh-start">It was time for a fresh start</h2>
+
+<p>That’s why I moved on from AriseOne. CyberBiota 1 and 2 were earlier versions of a lab. CyberBiota3 is where I brought together what I learned from them. The changes in the logs give that idea a physical shape.</p>
+
+<p>The first CyberBiota still ran on Proxmox. It used ZFS for storage and put the monitoring tools in a Linux container of their own. The host sent data to InfluxDB, but Grafana still showed empty panels. The February log has the whole turn: “success” at 10:40 p.m., empty panels at 11:23, and work suspended at 11:34. The next day, the notes show changes to the Grafana data source, the dashboard JSON and the CPU queries. Each change fixed a different part of the path between the host and the screen.</p>
+
+<p>CyberBiota 2 changed the layout. After a run of gateway and network experiments, I moved off Proxmox. The April 7 record shows a clean Ubuntu 25.10 installation, Docker on the host, a separate NVMe drive for persistent data and models, and a driver check for the GPU. Those records tell me what was installed. They don’t give me a full list of which applications or data were carried forward from AriseOne and the first CyberBiota, so I leave that part of the story open.</p>
+
+<h2 id="what-i-carried-into-cyberbiota3">What I carried into CyberBiota3</h2>
+
+<p>By June, I still wanted the same thing: my own apps and my own data. The records now show more of the work of looking after them. When the first Compose deployment couldn’t pull two image tags, the failure stayed in the notes beside the retry. When one app needed new configuration, its database and cache were left running. When the dashboard stopped returning HTTP 500 and opened its setup screen, the result said exactly that. There wasn’t a completed setup test to put beside it yet.</p>
+
+<p>The clearest example for me is the backup. A snapshot was one step. The June check restored selected project files to a separate folder and verified that important files came back. In July, a natural timer run proved that the backup could run on its own, on that occasion. If I’m going to host my own data, I want to know which of those things I have actually checked.</p>
+
+<p>This blog is where I’m putting those changes in order. <a href="/cyberbiota-blog/journal/ariseone/">Start with AriseOne</a> to see what I had to work with, or <a href="/cyberbiota-blog/journal/#changes">open the change journal</a> for what’s been changing since.</p>
+</div>
+    
+    <aside class="article-aside">
+      <nav class="aside-card chapter-index" aria-label="CyberBiota chapters">
+        <span class="eyebrow">The CyberBiota story</span>
+        <ol start="0">
+          
+          <li><a href="/cyberbiota-blog/journal/the-rise-of-cyberbiota3/" aria-current="page">The rise of CyberBiota3</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/ariseone/">AriseOne and the first repeatable jobs</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota-first-build/">The first CyberBiota build and the empty dashboard</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/leaving-proxmox/">Why CyberBiota 2 moved to bare-metal Ubuntu</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/why-n8n-came-back/">Why I removed n8n and brought it back</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/three-deployment-checks/">A valid Compose file and a failed deployment</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/proving-the-restore/">The first backup I could show how to restore</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/">The webhook worked. I still rolled it back.</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/counting-the-failed-checks/">The failed checks stayed in the report</a></li>
+          
+        </ol>
+      </nav>
+    </aside>
+    
+  </div>
   
   <nav class="section-tight" aria-label="Series navigation">
     <p><a href="/cyberbiota-blog/journal/">All CyberBiota chapters and change notes</a></p>

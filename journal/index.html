@@ -28,7 +28,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="shell header-row">
-    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span class="brand-mark" aria-hidden="true">C<span class="brand-mark-dot">3</span></span><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
     <nav class="nav" aria-label="Main navigation">
       <a href="/cyberbiota-blog/journey/" >Journey</a>
       <a href="/cyberbiota-blog/architecture/" >Architecture</a>
@@ -50,55 +50,55 @@
       
       <article class="line-row">
         <span class="mono">Start here</span>
-        <div><h3>The rise of CyberBiota3</h3><p>I wanted a fresh start for my home lab. CyberBiota3 brought together what I had learned building AriseOne and the first two versions of CyberBiota.</p><span class="status-label">January to November 2026</span></div>
+        <div><h3>The rise of CyberBiota3</h3><p>I wanted to host my own apps and data with open-source technology. AriseOne was my first try. CyberBiota3 brings together what I learned from the builds in between.</p><span class="status-label">January to November 2026</span></div>
         <a href="/cyberbiota-blog/journal/the-rise-of-cyberbiota3/">Read the chapter <span aria-hidden="true">→</span></a>
       </article>
       
       <article class="line-row">
         <span class="mono">Chapter 1</span>
-        <div><h3>AriseOne and the first repeatable jobs</h3><p>Before CyberBiota, the lab was a collection of scripts. An inventory, a health check, and a ticket system gave those jobs a place to live.</p><span class="status-label">January to February 8, 2026</span></div>
+        <div><h3>AriseOne and the first repeatable jobs</h3><p>Running a file service came with a new job: looking after the machines running it. Here is what the early health check, Ansible playbook and ticket system actually did.</p><span class="status-label">January to February 8, 2026</span></div>
         <a href="/cyberbiota-blog/journal/ariseone/">Read the chapter <span aria-hidden="true">→</span></a>
       </article>
       
       <article class="line-row">
         <span class="mono">Chapter 2</span>
-        <div><h3>The first CyberBiota build and the empty dashboard</h3><p>Proxmox was sending metrics to InfluxDB, yet Grafana showed empty panels. The next day’s corrections reveal where the checks fell short.</p><span class="status-label">February 13–14, 2026</span></div>
+        <div><h3>The first CyberBiota build and the empty dashboard</h3><p>The host sent data and Grafana connected. I still had empty panels. Here is what the log says I checked next.</p><span class="status-label">February 13–14, 2026</span></div>
         <a href="/cyberbiota-blog/journal/cyberbiota-first-build/">Read the chapter <span aria-hidden="true">→</span></a>
       </article>
       
       <article class="line-row">
         <span class="mono">Chapter 3</span>
-        <div><h3>Why CyberBiota 2 moved to bare-metal Ubuntu</h3><p>A final Proxmox network migration was followed the next morning by a fresh Ubuntu install. That choice changed the lab’s network, storage, and hardware boundaries.</p><span class="status-label">March 6 to May 2026</span></div>
+        <div><h3>Why CyberBiota 2 moved to bare-metal Ubuntu</h3><p>I tried virtual gateways and moved a fleet of guests before deciding to run Docker directly on Ubuntu. Here is what that removed and what it left me responsible for.</p><span class="status-label">March 6 to May 2026</span></div>
         <a href="/cyberbiota-blog/journal/leaving-proxmox/">Read the chapter <span aria-hidden="true">→</span></a>
       </article>
       
       <article class="line-row">
         <span class="mono">Chapter 4</span>
-        <div><h3>Why I removed n8n and brought it back</h3><p>The April build moved toward agent-driven work. A practical home lab article made me reconsider what a visible workflow engine was good for.</p><span class="status-label">April 8 and June 26–30, 2026</span></div>
+        <div><h3>Why I removed n8n and brought it back</h3><p>I removed n8n when I couldn’t see a use for it. When it came back, the first useful test gave it one narrow job.</p><span class="status-label">April 8 and June 26–30, 2026</span></div>
         <a href="/cyberbiota-blog/journal/why-n8n-came-back/">Read the chapter <span aria-hidden="true">→</span></a>
       </article>
       
       <article class="line-row">
         <span class="mono">Chapter 5</span>
-        <div><h3>A valid Compose file and a failed deployment</h3><p>The first CyberBiota3 deployment failed before images could pull. On the retry, two applications needed different repairs.</p><span class="status-label">June 26, 2026</span></div>
+        <div><h3>A valid Compose file and a failed deployment</h3><p>The June deployment failed once at the registry and again inside two apps. Fixing each failure on its own made the retry useful.</p><span class="status-label">June 26, 2026</span></div>
         <a href="/cyberbiota-blog/journal/three-deployment-checks/">Read the chapter <span aria-hidden="true">→</span></a>
       </article>
       
       <article class="line-row">
         <span class="mono">Chapter 6</span>
-        <div><h3>The first backup I could show how to restore</h3><p>A local encrypted snapshot, a restore into a test directory, and a later timer receipt answered different parts of the recovery question.</p><span class="status-label">June 25 to July 6, 2026</span></div>
+        <div><h3>The first backup I could show how to restore</h3><p>I restored a small encrypted backup into a separate folder and checked what came back. A later timer run answered a different question.</p><span class="status-label">June 25 to July 6, 2026</span></div>
         <a href="/cyberbiota-blog/journal/proving-the-restore/">Read the chapter <span aria-hidden="true">→</span></a>
       </article>
       
       <article class="line-row">
         <span class="mono">Chapter 7</span>
-        <div><h3>The webhook worked. I still rolled it back.</h3><p>The event arrived, but the pilot had changed the transport protections. The rollback removed the integration and kept the applications.</p><span class="status-label">June 30, 2026</span></div>
+        <div><h3>The webhook worked. I still rolled it back.</h3><p>Gitea got an event to n8n. I removed the connection because the way it got there was a compromise I didn’t want to keep.</p><span class="status-label">June 30, 2026</span></div>
         <a href="/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/">Read the chapter <span aria-hidden="true">→</span></a>
       </article>
       
       <article class="line-row">
         <span class="mono">Chapter 8</span>
-        <div><h3>The failed checks stayed in the report</h3><p>A later clean sample helped isolate the problem. The original day still included failures, and the accepted scope stayed limited.</p><span class="status-label">October 6–7, 2026</span></div>
+        <div><h3>The failed checks stayed in the report</h3><p>One diagnostic role passed 87 of 96 scheduled checks against a 95 percent target. A clean follow-up didn’t change the result of that day.</p><span class="status-label">October 6–7, 2026</span></div>
         <a href="/cyberbiota-blog/journal/counting-the-failed-checks/">Read the chapter <span aria-hidden="true">→</span></a>
       </article>
       
@@ -107,7 +107,7 @@
 </section>
 <section class="section-tight">
   <div class="shell">
-    <h2>Changes from the lab</h2>
+    <h2 id="changes">Changes from the lab</h2>
     <div class="line-list">
       
       
@@ -119,7 +119,7 @@
       
       <article class="line-row">
         <span class="mono">November 11, 2026</span>
-        <div><h3>Testing Dockhand before changing container management</h3><p>A side-by-side pilot tested whether Dockhand could handle routine container investigation while the existing interface stayed in place.</p></div>
+        <div><h3>Testing Dockhand before changing container management</h3><p>I ran Dockhand beside Portainer and compared inventory, logs and resource readings before making any cutover decision.</p></div>
         <a href="/cyberbiota-blog/journal/dockhand-pilot/">Read the change note <span aria-hidden="true">→</span></a>
       </article>
       

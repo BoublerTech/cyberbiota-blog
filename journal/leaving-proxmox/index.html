@@ -30,7 +30,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="shell header-row">
-    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span class="brand-mark" aria-hidden="true">C<span class="brand-mark-dot">3</span></span><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
     <nav class="nav" aria-label="Main navigation">
       <a href="/cyberbiota-blog/journey/" >Journey</a>
       <a href="/cyberbiota-blog/architecture/" >Architecture</a>
@@ -47,22 +47,77 @@
   <header class="article-header">
     <div class="eyebrow">Project history · Retrospective</div>
     <h1>Why CyberBiota 2 moved to bare-metal Ubuntu</h1>
-    <p class="lede">A final Proxmox network migration was followed the next morning by a fresh Ubuntu install. That choice changed the lab’s network, storage, and hardware boundaries.</p>
+    <p class="lede">I tried virtual gateways and moved a fleet of guests before deciding to run Docker directly on Ubuntu. Here is what that removed and what it left me responsible for.</p>
     <div class="meta-line"><span>Events: March 6 to May 2026</span><span>Evidence: Network and access notes, April change log and transition summary</span><span>Entry date: <time datetime="2026-11-24">November 24, 2026</time></span></div>
   </header>
-  <div class="article-grid"><div class="article-content prose"><p>On April 6 the log records a fleet of Proxmox guests being moved onto a native software-defined network. The virtual gateway work had already taken several turns. The March records describe a failed OPNsense restoration and an unreliable VyOS installation attempt. A later summary describes the gateway differently. I can show the attempts and the April decision to leave those separate gateways behind. I can’t establish every intermediate working state from the records.</p>
-
-<p>Access had already become part of the problem. The March 14 notes describe an SSH lockout after changes to the management network and access conditions. They also describe how little room there was to recover on a laptop being operated without a local console in normal use. Having a path from the proxy to the application would not solve that problem. The person operating the host still needed a way back in if a network change failed.</p>
-
-<p>The last Proxmox evening shows the amount of work a network move could create. The log records changing guest network configuration, restarting the guests, and updating the reverse proxy’s backend targets. Uptime Kuma remained reachable during the recorded check, and the proxy was able to reach checked backends. That gave some confidence in the change. It did not establish that every application workflow was available to every client.</p>
-
-<p>The next morning, April 7, the transition record calls for replacing that virtualization layout with a clean Ubuntu 25.10 installation. Docker would run on the host. A separate NVMe drive was set aside for persistent application data and model storage. The record reports that Ubuntu detected the GPU and that the driver check passed. The decision notes cite memory pressure, scheduling constraints, and the complexity of passing shell commands through several systems. Those are the recorded reasons for reducing the number of layers. I don’t have a before-and-after benchmark that quantifies their effect.</p>
-
-<p>This was CyberBiota 2. It was a fresh installation with a different failure model. It moved more responsibility onto a single host for storage, permissions, and recovery. The records identify the new layout and the original Ubuntu release. They do not supply a verified migration list for every application and volume. Later records refer to Ubuntu 26.04. Whether that change was an upgrade or another reinstall is still open. I can say what the rebuild was designed to simplify and what its first checks showed, while keeping each of those unknowns attached to the transition.</p>
-</div><aside class="article-aside"><div class="aside-card"><span class="eyebrow">Reading note</span><p>Historical results describe what the records showed at the time. They are not a live status check.</p><a href="/cyberbiota-blog/methods/">How evidence is handled <span aria-hidden="true">→</span></a></div></aside></div>
-
   
-  
+  <div class="article-grid">
+    <div class="article-content prose"><p>The last night of the Proxmox build involved moving Linux guests to a new network, restarting them, and updating the reverse proxy so it knew where to find their services. The log says the monitoring UI remained reachable and the proxy got responses from the backends it checked. The next morning, I was starting over with Ubuntu.</p>
+
+<p>That decision had a few months of experiments behind it. One March note records a failed attempt to restore OPNsense. Another describes a VyOS attempt that had problems. A later summary gives a different account of the gateway’s condition, so I can’t make a clean timeline of every working configuration. By April 6, the log does say the separate gateway experiments were being set aside in favor of Proxmox’s own network layer.</p>
+
+<p>The hardest part of a network change can be getting back in when it goes wrong. The March 14 notes describe losing SSH access after a change and having limited physical recovery options on a laptop usually run without a local console. A service responding through the proxy would not help if I couldn’t reach the host to undo the change.</p>
+
+<h2 id="the-april-7-rebuild">The April 7 rebuild</h2>
+
+<p>The next build, CyberBiota 2, ran Ubuntu and Docker on the hardware. The installation record names Ubuntu 25.10. It describes a separate NVMe drive for persistent application data and local model storage, and records the NVIDIA driver seeing the GPU. The reasons in the transition notes were practical: memory pressure, competing workloads, and the repeated friction of getting commands and services through nested layers.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Before</th>
+      <th>After</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Proxmox host with networked guests</td>
+      <td>Ubuntu on the hardware, with Docker running on the host</td>
+    </tr>
+    <tr>
+      <td>Storage organized through the virtualization layout</td>
+      <td>A separate NVMe drive allocated to persistent app and model data</td>
+    </tr>
+    <tr>
+      <td>Hardware and service checks spread across host and guests</td>
+      <td>The native host could see the GPU in its own driver check</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>It was a simpler layout to describe. It also concentrated more responsibility on the one host: storage, app permissions, backups and the path back into a machine that was normally headless. The April notes don’t give me enough measurements to claim a performance improvement, or a full restore list to say every application’s data survived. Later papers refer to Ubuntu 26.04 and don’t settle whether that was an upgrade or another reinstall.</p>
+
+<p>For the thing I wanted out of my lab, hosting my own apps and data, the useful part of this story is what moved where. I could keep using containers. I no longer had to put a virtualized host between that container work and every part of the machine.</p>
+</div>
+    
+    <aside class="article-aside">
+      <nav class="aside-card chapter-index" aria-label="CyberBiota chapters">
+        <span class="eyebrow">The CyberBiota story</span>
+        <ol start="0">
+          
+          <li><a href="/cyberbiota-blog/journal/the-rise-of-cyberbiota3/">The rise of CyberBiota3</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/ariseone/">AriseOne and the first repeatable jobs</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota-first-build/">The first CyberBiota build and the empty dashboard</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/leaving-proxmox/" aria-current="page">Why CyberBiota 2 moved to bare-metal Ubuntu</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/why-n8n-came-back/">Why I removed n8n and brought it back</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/three-deployment-checks/">A valid Compose file and a failed deployment</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/proving-the-restore/">The first backup I could show how to restore</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/">The webhook worked. I still rolled it back.</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/counting-the-failed-checks/">The failed checks stayed in the report</a></li>
+          
+        </ol>
+      </nav>
+    </aside>
+    
+  </div>
   
   <nav class="section-tight" aria-label="Series navigation">
     <p><a href="/cyberbiota-blog/journal/">All CyberBiota chapters and change notes</a></p>

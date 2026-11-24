@@ -30,7 +30,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="shell header-row">
-    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span class="brand-mark" aria-hidden="true">C<span class="brand-mark-dot">3</span></span><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
     <nav class="nav" aria-label="Main navigation">
       <a href="/cyberbiota-blog/journey/" >Journey</a>
       <a href="/cyberbiota-blog/architecture/" >Architecture</a>
@@ -47,22 +47,52 @@
   <header class="article-header">
     <div class="eyebrow">Project history · Retrospective</div>
     <h1>The failed checks stayed in the report</h1>
-    <p class="lede">A later clean sample helped isolate the problem. The original day still included failures, and the accepted scope stayed limited.</p>
+    <p class="lede">One diagnostic role passed 87 of 96 scheduled checks against a 95 percent target. A clean follow-up didn’t change the result of that day.</p>
     <div class="meta-line"><span>Events: October 6–7, 2026</span><span>Evidence: Dated diagnostic acceptance and exception record</span><span>Entry date: <time datetime="2026-11-24">November 24, 2026</time></span></div>
   </header>
-  <div class="article-grid"><div class="article-content prose"><p>By October, CyberBiota3 was testing what local assistants could do with the evidence the lab collected. One exercise ran read-only diagnostics in parallel with normal operation. The aim was to see whether two roles could produce acceptable diagnostic results in scheduled windows. The roles were distinct, and their scores needed to stay separate for the comparison to mean anything.</p>
-
-<p>Over a day with 96 scheduled windows per role, one role produced 96 accepted results. The other produced 87. That second result was about 91 percent against a 95 percent requirement. The gap mattered because it was measured against the intended run window, with the scheduled checks and failures all included.</p>
-
-<p>The investigation led to a narrow change in how the diagnostics handled data. A later sample returned 16 accepted results out of 16 for the first role and 15 out of 15 for the second. That was useful evidence about the corrected setup in a shorter run. Replacing the original day with the shorter result would have left anyone reading the report unable to tell what had been tried before the correction.</p>
-
-<p>The decision recorded both results. It accepted a limited read-only use and preserved the earlier reliability exception. Full incident handling, external delivery, and remediation were separate questions. The record doesn’t support judging all future runs from either sample.</p>
-
-<p>I want the blog to keep that distinction whenever a repair improves a test. What failed, what was corrected, and what happened on the next run each get their own line in the story. A clean follow-up can explain why the work continued. It doesn’t need to erase the result that made the correction necessary.</p>
-</div><aside class="article-aside"><div class="aside-card"><span class="eyebrow">Reading note</span><p>Historical results describe what the records showed at the time. They are not a live status check.</p><a href="/cyberbiota-blog/methods/">How evidence is handled <span aria-hidden="true">→</span></a></div></aside></div>
-
   
-  
+  <div class="article-grid">
+    <div class="article-content prose"><p>One of my October experiments was to see how much read-only diagnostic work local assistants could handle. There were two roles and a schedule. Each role had 96 windows over a day to turn the information it was given into a diagnostic result that met the check. It was a way to test repeated work rather than rely on one good answer.</p>
+
+<h2 id="the-day-that-missed-the-target">The day that missed the target</h2>
+
+<p>One role passed in all 96 windows. The other passed in 87. That was about 91 percent against a requirement of 95 percent. The second role had missed the target even though the first had met it. An average across both roles would have hidden where the trouble was.</p>
+
+<p>After a narrow correction to the handling of diagnostic data, a shorter set of scheduled checks came back clean. The first role passed 16 out of 16, and the second passed 15 out of 15. I can use that smaller result to see that the correction helped on those runs. It isn’t another full day and doesn’t replace the failures from the first one.</p>
+
+<p>The decision kept the original result in the report and allowed a limited read-only diagnostic use. It did not approve full incident handling or changes to the systems the assistants were examining. That scope matters to me because the lab still hosts my own apps and data. A read that helps me investigate a problem and a change that can affect an app are two different jobs.</p>
+
+<p>I wanted both sets of numbers in the blog because they explain why the work continued with a narrow scope. Anyone reading the report later can see the missed target, the follow-up, and the part of the job I was willing to rely on at that point.</p>
+</div>
+    
+    <aside class="article-aside">
+      <nav class="aside-card chapter-index" aria-label="CyberBiota chapters">
+        <span class="eyebrow">The CyberBiota story</span>
+        <ol start="0">
+          
+          <li><a href="/cyberbiota-blog/journal/the-rise-of-cyberbiota3/">The rise of CyberBiota3</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/ariseone/">AriseOne and the first repeatable jobs</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota-first-build/">The first CyberBiota build and the empty dashboard</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/leaving-proxmox/">Why CyberBiota 2 moved to bare-metal Ubuntu</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/why-n8n-came-back/">Why I removed n8n and brought it back</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/three-deployment-checks/">A valid Compose file and a failed deployment</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/proving-the-restore/">The first backup I could show how to restore</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/">The webhook worked. I still rolled it back.</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/counting-the-failed-checks/" aria-current="page">The failed checks stayed in the report</a></li>
+          
+        </ol>
+      </nav>
+    </aside>
+    
+  </div>
   
   <nav class="section-tight" aria-label="Series navigation">
     <p><a href="/cyberbiota-blog/journal/">All CyberBiota chapters and change notes</a></p>

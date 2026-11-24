@@ -30,7 +30,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="shell header-row">
-    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span class="brand-mark" aria-hidden="true">C<span class="brand-mark-dot">3</span></span><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
     <nav class="nav" aria-label="Main navigation">
       <a href="/cyberbiota-blog/journey/" >Journey</a>
       <a href="/cyberbiota-blog/architecture/" >Architecture</a>
@@ -47,22 +47,77 @@
   <header class="article-header">
     <div class="eyebrow">Project history · Retrospective</div>
     <h1>A valid Compose file and a failed deployment</h1>
-    <p class="lede">The first CyberBiota3 deployment failed before images could pull. On the retry, two applications needed different repairs.</p>
+    <p class="lede">The June deployment failed once at the registry and again inside two apps. Fixing each failure on its own made the retry useful.</p>
     <div class="meta-line"><span>Events: June 26, 2026</span><span>Evidence: First deployment report and dated retry results</span><span>Entry date: <time datetime="2026-11-24">November 24, 2026</time></span></div>
   </header>
-  <div class="article-grid"><div class="article-content prose"><p>The June 26 Compose check passed. Then Docker couldn’t pull two declared images, and the first deployment stopped. The file was shaped correctly enough to parse. The registry couldn’t supply the tags it named. Those checks were testing different things, and the first report leaves the pull failure in place as the outcome of the first attempt.</p>
-
-<p>For the retry, the replacement image tags were checked against registry manifests. That removed the first blocker. Infisical then restarted repeatedly. Its encryption and authentication inputs were present in the deployment, but didn’t match the format and length the app expected. Correcting those inputs called for a targeted recreation of Infisical. Its Postgres and Redis containers were left in place.</p>
-
-<p>Homarr failed on a separate path. Its route returned HTTP 500, and its service definition wasn’t passing a required encryption key into the container. The repair added that mapping and recreated just Homarr. The next route check returned HTTP 307 and went to the first-run setup screen. A reader can see the difference immediately: the old server error was gone and the setup route answered. There is no test of a completed setup in that result.</p>
-
-<p>The remaining route checks tell a similar story at a wider level. Four selected routes responded with HTTP 200. The test proves those responses for the named check window. The next level of assurance would be an actual application job, such as signing in and doing a normal operation. The retry result shows the last completed step with enough detail for the next person to decide what to test.</p>
-
-<p>The way I would read a deployment now is in that order. Can the configuration be rendered? Can the artifacts actually be fetched? Does the application initialize with the supplied inputs? Can a person finish the job they came to do? Those questions also put a limit on the repair. The broken image names did not justify recreating a database, and the missing Homarr input did not tell me anything about how Infisical had been configured. Leaving the healthy dependencies alone made the retry easier to interpret.</p>
-</div><aside class="article-aside"><div class="aside-card"><span class="eyebrow">Reading note</span><p>Historical results describe what the records showed at the time. They are not a live status check.</p><a href="/cyberbiota-blog/methods/">How evidence is handled <span aria-hidden="true">→</span></a></div></aside></div>
-
   
-  
+  <div class="article-grid">
+    <div class="article-content prose"><p>I had a Compose file that passed validation and a stack that wouldn’t start. The first June 26 attempt stopped at the image pull. Two tags in the definition didn’t resolve at their registries. That left me with a perfectly readable file and software Docker couldn’t fetch.</p>
+
+<p>I could check the image problem on its own. The remediation record shows the replacement tags were inspected against the registry before the next attempt. The new image names fixed that part of the deployment. They also let the apps get far enough to report problems that had nothing to do with tags.</p>
+
+<h2 id="two-apps-two-different-faults">Two apps, two different faults</h2>
+
+<p>Infisical was stuck restarting. The inputs it needed were supplied, but their lengths or encoding did not match what the app expected. The repair corrected the inputs and recreated the Infisical app container. Postgres and Redis were left running. The follow-up inspection showed the app running without a restart in that check. Its selected route also returned HTTP 200.</p>
+
+<p>Homarr had a different problem. It returned HTTP 500 because the container was missing an encryption key that the Compose service should have passed in. Adding the mapping and recreating Homarr changed the response to HTTP 307. That sent the browser to first-run setup.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Check</th>
+      <th>Result at the end of the retry</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Caddy, Gitea, Infisical and n8n routes</td>
+      <td>The four selected routes responded with HTTP 200.</td>
+    </tr>
+    <tr>
+      <td>Homarr route</td>
+      <td>HTTP 307 to the setup screen, after the earlier HTTP 500.</td>
+    </tr>
+    <tr>
+      <td>Complete Homarr setup</td>
+      <td>No completed user test in this result.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The point where I stopped for each service tells me what to try next. I would check the tags before the pull, confirm the app can start with the right configuration, and then do the thing I installed the app for. For Homarr, the next check was somebody getting through setup.</p>
+
+<p>Recreating the whole stack would have made this harder to read. The evidence pointed to two apps. Keeping the database and cache in place limited what changed between checks. That’s the part I would carry into another deploy, even if the next stack used completely different software.</p>
+</div>
+    
+    <aside class="article-aside">
+      <nav class="aside-card chapter-index" aria-label="CyberBiota chapters">
+        <span class="eyebrow">The CyberBiota story</span>
+        <ol start="0">
+          
+          <li><a href="/cyberbiota-blog/journal/the-rise-of-cyberbiota3/">The rise of CyberBiota3</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/ariseone/">AriseOne and the first repeatable jobs</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota-first-build/">The first CyberBiota build and the empty dashboard</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/leaving-proxmox/">Why CyberBiota 2 moved to bare-metal Ubuntu</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/why-n8n-came-back/">Why I removed n8n and brought it back</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/three-deployment-checks/" aria-current="page">A valid Compose file and a failed deployment</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/proving-the-restore/">The first backup I could show how to restore</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/">The webhook worked. I still rolled it back.</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/counting-the-failed-checks/">The failed checks stayed in the report</a></li>
+          
+        </ol>
+      </nav>
+    </aside>
+    
+  </div>
   
   <nav class="section-tight" aria-label="Series navigation">
     <p><a href="/cyberbiota-blog/journal/">All CyberBiota chapters and change notes</a></p>

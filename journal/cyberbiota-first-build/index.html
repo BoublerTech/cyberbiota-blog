@@ -30,7 +30,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="shell header-row">
-    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span class="brand-mark" aria-hidden="true">C<span class="brand-mark-dot">3</span></span><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
     <nav class="nav" aria-label="Main navigation">
       <a href="/cyberbiota-blog/journey/" >Journey</a>
       <a href="/cyberbiota-blog/architecture/" >Architecture</a>
@@ -47,22 +47,75 @@
   <header class="article-header">
     <div class="eyebrow">Project history · Retrospective</div>
     <h1>The first CyberBiota build and the empty dashboard</h1>
-    <p class="lede">Proxmox was sending metrics to InfluxDB, yet Grafana showed empty panels. The next day’s corrections reveal where the checks fell short.</p>
+    <p class="lede">The host sent data and Grafana connected. I still had empty panels. Here is what the log says I checked next.</p>
     <div class="meta-line"><span>Events: February 13–14, 2026</span><span>Evidence: Dated CyberBiota operations log</span><span>Entry date: <time datetime="2026-11-24">November 24, 2026</time></span></div>
   </header>
-  <div class="article-grid"><div class="article-content prose"><p>The first dated CyberBiota build log opens on February 13. Proxmox is the host, ZFS is the storage layer, and an LXC guest runs Docker, Ansible, InfluxDB, and Grafana. The entries say that metrics arrived in InfluxDB. That confirmed one part of the route from the host to the dashboard. It would take until late that evening to see how narrow that success was.</p>
-
-<p>At 10:40 p.m. the log marked dashboard recovery successful after changes to the collector and monitoring configuration. At 11:23, the data was still in InfluxDB and Grafana could connect to the data source, but the panels were empty. At 11:34, the work was paused. The log says InfluxDB saw no queries during a later check. Possible causes were still open, including how the data source or browser was making the request. The order matters. The earlier success entry describes the state of the investigation at that point. A reader looking for a working dashboard needed the later entries too.</p>
-
-<p>The next day’s work followed more than one lead. The log describes using explicit organization and bucket IDs in the InfluxDB data source. It also describes Grafana failing to load a provisioned dashboard until the JSON was normalized. The two metric sources needed different queries as well. The Proxmox host metrics used a different CPU field and scale from the Telegraf inputs. A dashboard designed for one source could quietly misread or miss the other. Those corrections are recorded separately, so I don’t have to pick a single cause for every symptom that night.</p>
-
-<p>What can I show from the records? The host produced metrics. A database received them. Grafana had trouble provisioning and querying the right data, and the following log records targeted corrections. The records I have leave the original rendered panels and exact component versions incomplete. An independent check of the whole deployment would have to reopen those questions.</p>
-
-<p>The lasting value of that build is the separation between each test. Check that the host emitted the metric, that the database stored it, that the query names the right field and units, and that the panel actually shows the expected result. If the first three work and the fourth fails, the journal still has a useful answer about where to look next.</p>
-</div><aside class="article-aside"><div class="aside-card"><span class="eyebrow">Reading note</span><p>Historical results describe what the records showed at the time. They are not a live status check.</p><a href="/cyberbiota-blog/methods/">How evidence is handled <span aria-hidden="true">→</span></a></div></aside></div>
-
   
-  
+  <div class="article-grid">
+    <div class="article-content prose"><p>At 11:23 p.m. on February 13, the dashboard still had empty panels. Forty-three minutes earlier, the same log had marked the work as successful. The data was in InfluxDB, and Grafana could connect to it. The screen was still empty.</p>
+
+<p>I was building the first CyberBiota with Proxmox, ZFS storage, and a Linux container for the control tools. That guest ran Docker and Ansible along with InfluxDB and Grafana. Proxmox sent metrics to InfluxDB. The idea was to see what the host was doing in Grafana without having to log in and check each piece by hand. Making it work meant following the metric all the way to a panel on the screen.</p>
+
+<h2 id="what-each-check-told-me">What each check told me</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Part of the system</th>
+      <th>What the February log shows</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Proxmox to InfluxDB</td>
+      <td>The host sent metrics, and the database contained data.</td>
+    </tr>
+    <tr>
+      <td>Grafana to InfluxDB</td>
+      <td>Grafana could connect. That still left the queries and dashboard to check.</td>
+    </tr>
+    <tr>
+      <td>Grafana panels</td>
+      <td>The late check found empty panels. The log says a subsequent check found no incoming queries, and the work stopped for the night.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The next day, the fixes came in three pieces. The InfluxDB data source was changed to use explicit organization and bucket IDs. Then the dashboard JSON was cleaned up after Grafana reported a parsing error during provisioning. After that, the CPU panels needed queries that matched their actual sources. The Proxmox host metrics and the Telegraf metrics did not have the same CPU field or scale. A CPU panel that worked for one could give the wrong answer for the other.</p>
+
+<p>I can’t pin the whole evening on one bug. The first note that says “success” predates the empty-panel observation. The next day’s log describes what changed, but I don’t have the original rendered panels or exact software versions to reconstruct the whole result independently. That leaves enough to tell the story without turning an early check into an uptime claim.</p>
+
+<p>When I look at a dashboard now, the question I come back to is the one that was missing at 10:40 p.m.: <strong>what did the panel actually show?</strong> A sample in the database helps me narrow down a fault. The panel is what I opened the dashboard to see.</p>
+</div>
+    
+    <aside class="article-aside">
+      <nav class="aside-card chapter-index" aria-label="CyberBiota chapters">
+        <span class="eyebrow">The CyberBiota story</span>
+        <ol start="0">
+          
+          <li><a href="/cyberbiota-blog/journal/the-rise-of-cyberbiota3/">The rise of CyberBiota3</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/ariseone/">AriseOne and the first repeatable jobs</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota-first-build/" aria-current="page">The first CyberBiota build and the empty dashboard</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/leaving-proxmox/">Why CyberBiota 2 moved to bare-metal Ubuntu</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/why-n8n-came-back/">Why I removed n8n and brought it back</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/three-deployment-checks/">A valid Compose file and a failed deployment</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/proving-the-restore/">The first backup I could show how to restore</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/">The webhook worked. I still rolled it back.</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/counting-the-failed-checks/">The failed checks stayed in the report</a></li>
+          
+        </ol>
+      </nav>
+    </aside>
+    
+  </div>
   
   <nav class="section-tight" aria-label="Series navigation">
     <p><a href="/cyberbiota-blog/journal/">All CyberBiota chapters and change notes</a></p>

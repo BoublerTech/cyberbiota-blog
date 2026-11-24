@@ -30,7 +30,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="shell header-row">
-    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span class="brand-mark" aria-hidden="true">C<span class="brand-mark-dot">3</span></span><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
     <nav class="nav" aria-label="Main navigation">
       <a href="/cyberbiota-blog/journey/" >Journey</a>
       <a href="/cyberbiota-blog/architecture/" >Architecture</a>
@@ -47,22 +47,58 @@
   <header class="article-header">
     <div class="eyebrow">Project history · Retrospective</div>
     <h1>AriseOne and the first repeatable jobs</h1>
-    <p class="lede">Before CyberBiota, the lab was a collection of scripts. An inventory, a health check, and a ticket system gave those jobs a place to live.</p>
+    <p class="lede">Running a file service came with a new job: looking after the machines running it. Here is what the early health check, Ansible playbook and ticket system actually did.</p>
     <div class="meta-line"><span>Events: January to February 8, 2026</span><span>Evidence: January repository records and a February retrospective</span><span>Entry date: <time datetime="2026-11-24">November 24, 2026</time></span></div>
   </header>
-  <div class="article-grid"><div class="article-content prose"><p>AriseOne is the earliest chapter for which I have both working records and a later account of how the pieces fit together. The retrospective places the first workspace setup on January 16. The January 20 repository entries supply firmer markers: health and network checks, an Ansible inventory, and system update work. The archive folder itself dates to December, but a folder can exist before any of the work inside it. January is where the story has enough evidence to start.</p>
-
-<p>The health checks and inventory served different purposes. A check could capture a condition at the time it ran. An inventory gave the same job a consistent list of systems to act on. Writing update work in Ansible made the intended action easier to repeat and inspect. The early records show that direction. They do not show that all updates were unattended or that every system was covered by the same checks.</p>
-
-<p>In the February 3 to 5 account, Proxmox becomes the center of the lab. Homepage gives the services a front door, Nextcloud adds file service, and Zammad becomes the place to record support work. This is also where the limitations of the setup appear. NVIDIA drivers needed attention after kernel updates. The retrospective describes a repair script and a connection to ticket triggers. I can tell that the repair was written down and that a trigger was part of the design. I can’t reconstruct a complete unattended repair from the records I have.</p>
-
-<p>By February 7 and 8, the documented routine was to look in the ticket system or knowledge base before making a change. A migration moved Markdown notes into Zammad’s knowledge base. The point was practical. A recurring problem needed a history that could be searched, and a repair needed enough context to be repeated. Keeping those notes alongside the services mattered more as one change began affecting several parts of the lab.</p>
-
-<p>When it came time for a fresh start, AriseOne was still part of my history. Proxmox, monitoring, and ticketing appear again in the next set of records. Their reappearance shows that the ideas persisted. The records don’t establish that every service or data set did. CyberBiota’s first dated log gives us a new starting point with a build we can follow component by component.</p>
-</div><aside class="article-aside"><div class="aside-card"><span class="eyebrow">Reading note</span><p>Historical results describe what the records showed at the time. They are not a live status check.</p><a href="/cyberbiota-blog/methods/">How evidence is handled <span aria-hidden="true">→</span></a></div></aside></div>
-
   
-  
+  <div class="article-grid">
+    <div class="article-content prose"><p>The first thing I wanted AriseOne to do was simple: give me somewhere at home to run my own apps and keep my own data. I wanted to do it with open-source tools. Running several services made the next question obvious. How was I supposed to keep track of what each machine needed?</p>
+
+<h2 id="a-script-that-started-with-a-ping">A script that started with a ping</h2>
+
+<p>The early repository has a Bash health check. It starts with a fixed list of machines. For each one, it tries a ping and then attempts to collect information like system load and free memory over SSH. The script can produce JSON as well as text. That made it possible to look at more than one machine from the same place.</p>
+
+<p>The script still had a boundary. A reply to a ping didn’t tell me whether a file service was usable. It told me a machine had replied. SSH and the commands run through it were a second test, and the application would need another. That distinction shows up again later in the story, when Grafana can connect to a database but has nothing useful to display.</p>
+
+<p>The Ansible playbook handled a different job. It refreshed the package cache on Debian-family systems, applied upgrades, and cleaned unused packages. At the end it looked for the reboot-required marker and reported which host needed attention. It didn’t reboot the machines. I could see where the automation stopped and where somebody still had to make a decision. These are things I can see in the January repository. I don’t have a run record that shows how often the playbook was used.</p>
+
+<h2 id="a-lab-with-more-than-one-job">A lab with more than one job</h2>
+
+<p>The early February account describes the services that gave AriseOne a daily purpose. Nextcloud was the file service. Homepage was a single place to find the services. Zammad was for tickets. Proxmox ran the virtualized pieces, and a recurring problem with NVIDIA drivers turned up when the kernel changed. The notes describe a repair script and a ticket trigger. They don’t give me a full run showing that a ticket could trigger and verify a repair by itself.</p>
+
+<p>The February 7 and 8 notes describe checking Zammad before changing a system and moving Markdown notes into its knowledge base. That was a way to put the past work somewhere it could be found the next time a driver or service broke. It matters here because I was learning how much of running the lab depended on having useful notes about it.</p>
+
+<p>The dates in the archive don’t all mean the same thing. A later account puts the workspace setup on January 16, and the earliest repository entries I’ve reviewed are from January 20. The next build has its own log. It shows the ideas I kept working with, including Proxmox, monitoring and ticketing. It leaves open which individual services and data moved over.</p>
+</div>
+    
+    <aside class="article-aside">
+      <nav class="aside-card chapter-index" aria-label="CyberBiota chapters">
+        <span class="eyebrow">The CyberBiota story</span>
+        <ol start="0">
+          
+          <li><a href="/cyberbiota-blog/journal/the-rise-of-cyberbiota3/">The rise of CyberBiota3</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/ariseone/" aria-current="page">AriseOne and the first repeatable jobs</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota-first-build/">The first CyberBiota build and the empty dashboard</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/leaving-proxmox/">Why CyberBiota 2 moved to bare-metal Ubuntu</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/why-n8n-came-back/">Why I removed n8n and brought it back</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/three-deployment-checks/">A valid Compose file and a failed deployment</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/proving-the-restore/">The first backup I could show how to restore</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/">The webhook worked. I still rolled it back.</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/counting-the-failed-checks/">The failed checks stayed in the report</a></li>
+          
+        </ol>
+      </nav>
+    </aside>
+    
+  </div>
   
   <nav class="section-tight" aria-label="Series navigation">
     <p><a href="/cyberbiota-blog/journal/">All CyberBiota chapters and change notes</a></p>
