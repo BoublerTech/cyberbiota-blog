@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>The rise of CyberBiota3 · CyberBiota3</title>
+    <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal feed" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
+    <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css">
+    <!-- Begin Jekyll SEO tag v2.9.1 -->
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="The rise of CyberBiota3" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="I wanted a fresh start for my home lab. CyberBiota3 brought together what I had learned building AriseOne and the first two versions of CyberBiota." />
+<meta name="twitter:description" property="og:description" content="I wanted a fresh start for my home lab. CyberBiota3 brought together what I had learned building AriseOne and the first two versions of CyberBiota." />
+<link rel="canonical" href="https://boublertech.github.io/cyberbiota-blog/journal/the-rise-of-cyberbiota3/" />
+<meta property="og:url" content="https://boublertech.github.io/cyberbiota-blog/journal/the-rise-of-cyberbiota3/" />
+<meta property="og:site_name" content="CyberBiota3" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-11-24T00:00:00-05:00" />
+<meta property="article:modified_time" content="2026-11-24T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="The rise of CyberBiota3" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-11-24T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"I wanted a fresh start for my home lab. CyberBiota3 brought together what I had learned building AriseOne and the first two versions of CyberBiota.","headline":"The rise of CyberBiota3","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/the-rise-of-cyberbiota3/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/the-rise-of-cyberbiota3/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell header-row">
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span class="brand-mark" aria-hidden="true">C<span class="brand-mark-dot">3</span></span><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="/cyberbiota-blog/journey/" >Journey</a>
+      <a href="/cyberbiota-blog/architecture/" >Architecture</a>
+      <a href="/cyberbiota-blog/case-studies/" >Case studies</a>
+      <a href="/cyberbiota-blog/journal/" >Journal</a>
+      <a href="/cyberbiota-blog/about/" >About</a>
+    </nav>
+    <a class="header-contact" href="mailto:abrown1@outlook.com">Email me <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+
+    <main id="main" tabindex="-1"><div class="article-shell shell">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/cyberbiota-blog/">Home</a> <span aria-hidden="true">/</span> <a href="/cyberbiota-blog/journal/">Journal</a></nav>
+  <header class="article-header">
+    <div class="eyebrow">Project history · Retrospective</div>
+    <h1>The rise of CyberBiota3</h1>
+    <p class="lede">I wanted a fresh start for my home lab. CyberBiota3 brought together what I had learned building AriseOne and the first two versions of CyberBiota.</p>
+    <div class="meta-line"><span>Events: January to November 2026</span><span>Evidence: Owner recollection, historical records and dated change results</span><span>Entry date: <time datetime="2026-11-24">November 24, 2026</time></span></div>
+  </header>
+  <div class="article-grid"><div class="article-content prose"><p>It was time for a fresh start in my home lab. I had already built AriseOne, and I would try two versions of CyberBiota before reaching the one I wanted to keep building. Those earlier versions taught me different things. CyberBiota3 is where I brought those lessons together.</p>
+
+<p>AriseOne had started with small jobs: a health script, a list of hosts for Ansible, and a way to keep track of updates. By early February it had a Proxmox host, a file service, a dashboard, and a ticket system. The lab already had real work to do. I wanted a fresh start, and the next records show what that first CyberBiota looked like: Proxmox again, with ZFS for storage and an LXC guest bringing Docker, Ansible, and monitoring together. The records preserve both setups. They leave open exactly which AriseOne files and application data made it across.</p>
+
+<p>The first CyberBiota stretched the virtualized design. The log followed a metric from Proxmox into InfluxDB and still ended the night with empty Grafana panels. Network changes added their own dependencies. After experiments with virtual gateways, I moved the lab to Ubuntu on April 7, with Docker running on the host. That became CyberBiota 2. The earlier record names Ubuntu 25.10. May records refer to 26.04, but they do not show whether I upgraded in place or rebuilt again.</p>
+
+<p>By June, the CyberBiota3 records looked different. They kept the initial failure alongside the retry, separated a working route from a working application, and treated a restore as its own test. I still changed my mind about tools. I had removed n8n in April, then reconsidered it after reading about a practical homelab use for it. By June I was running it again. I also rolled back a webhook pilot that delivered its event under settings I couldn’t keep.</p>
+
+<p>That is the home lab this blog follows. I want you to see what I changed, why I kept or reversed it, and how far I got before the next problem began. The chapters below follow that thread from the January scripts to the tests and operating decisions that define CyberBiota3 for me.</p>
+</div><aside class="article-aside"><div class="aside-card"><span class="eyebrow">Reading note</span><p>Historical results describe what the records showed at the time. They are not a live status check.</p><a href="/cyberbiota-blog/methods/">How evidence is handled <span aria-hidden="true">→</span></a></div></aside></div>
+
+  
+  
+  
+  <nav class="section-tight" aria-label="Series navigation">
+    <p><a href="/cyberbiota-blog/journal/">All CyberBiota chapters and change notes</a></p>
+    <p>Next: <a href="/cyberbiota-blog/journal/ariseone/">AriseOne and the first repeatable jobs</a></p>
+  </nav>
+
+</div>
+</main>
+    <footer class="site-footer">
+  <div class="shell footer-grid">
+    <div><strong>CyberBiota3</strong><p>A learning home lab, documented with its changes and limits.</p></div>
+    <div><span class="eyebrow">Explore</span><a href="/cyberbiota-blog/applications/">Applications</a><a href="/cyberbiota-blog/methods/">Evidence & corrections</a><a href="/cyberbiota-blog/future/">Future research</a></div>
+    <div><span class="eyebrow">Connect</span><a href="mailto:abrown1@outlook.com">abrown1@outlook.com</a><a href="https://github.com/BoublerTech">GitHub profile</a><a href="/cyberbiota-blog/feed.xml">Journal feed</a></div>
+  </div>
+  <div class="shell footer-bottom"><span>© 2026 BoublerTech</span><span>Historical accounts include their evidence boundaries.</span></div>
+</footer>
+
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Why CyberBiota 2 moved to bare-metal Ubuntu · CyberBiota3</title>
+    <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal feed" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
+    <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css">
+    <!-- Begin Jekyll SEO tag v2.9.1 -->
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Why CyberBiota 2 moved to bare-metal Ubuntu" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="A final Proxmox network migration was followed the next morning by a fresh Ubuntu install. That choice changed the lab’s network, storage, and hardware boundaries." />
+<meta name="twitter:description" property="og:description" content="A final Proxmox network migration was followed the next morning by a fresh Ubuntu install. That choice changed the lab’s network, storage, and hardware boundaries." />
+<link rel="canonical" href="https://boublertech.github.io/cyberbiota-blog/journal/leaving-proxmox/" />
+<meta property="og:url" content="https://boublertech.github.io/cyberbiota-blog/journal/leaving-proxmox/" />
+<meta property="og:site_name" content="CyberBiota3" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-11-24T00:00:00-05:00" />
+<meta property="article:modified_time" content="2026-11-24T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Why CyberBiota 2 moved to bare-metal Ubuntu" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-11-24T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"A final Proxmox network migration was followed the next morning by a fresh Ubuntu install. That choice changed the lab’s network, storage, and hardware boundaries.","headline":"Why CyberBiota 2 moved to bare-metal Ubuntu","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/leaving-proxmox/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/leaving-proxmox/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell header-row">
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span class="brand-mark" aria-hidden="true">C<span class="brand-mark-dot">3</span></span><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="/cyberbiota-blog/journey/" >Journey</a>
+      <a href="/cyberbiota-blog/architecture/" >Architecture</a>
+      <a href="/cyberbiota-blog/case-studies/" >Case studies</a>
+      <a href="/cyberbiota-blog/journal/" >Journal</a>
+      <a href="/cyberbiota-blog/about/" >About</a>
+    </nav>
+    <a class="header-contact" href="mailto:abrown1@outlook.com">Email me <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+
+    <main id="main" tabindex="-1"><div class="article-shell shell">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/cyberbiota-blog/">Home</a> <span aria-hidden="true">/</span> <a href="/cyberbiota-blog/journal/">Journal</a></nav>
+  <header class="article-header">
+    <div class="eyebrow">Project history · Retrospective</div>
+    <h1>Why CyberBiota 2 moved to bare-metal Ubuntu</h1>
+    <p class="lede">A final Proxmox network migration was followed the next morning by a fresh Ubuntu install. That choice changed the lab’s network, storage, and hardware boundaries.</p>
+    <div class="meta-line"><span>Events: March 6 to May 2026</span><span>Evidence: Network and access notes, April change log and transition summary</span><span>Entry date: <time datetime="2026-11-24">November 24, 2026</time></span></div>
+  </header>
+  <div class="article-grid"><div class="article-content prose"><p>On April 6 the log records a fleet of Proxmox guests being moved onto a native software-defined network. The virtual gateway work had already taken several turns. The March records describe a failed OPNsense restoration and an unreliable VyOS installation attempt. A later summary describes the gateway differently. I can show the attempts and the April decision to leave those separate gateways behind. I can’t establish every intermediate working state from the records.</p>
+
+<p>Access had already become part of the problem. The March 14 notes describe an SSH lockout after changes to the management network and access conditions. They also describe how little room there was to recover on a laptop being operated without a local console in normal use. Having a path from the proxy to the application would not solve that problem. The person operating the host still needed a way back in if a network change failed.</p>
+
+<p>The last Proxmox evening shows the amount of work a network move could create. The log records changing guest network configuration, restarting the guests, and updating the reverse proxy’s backend targets. Uptime Kuma remained reachable during the recorded check, and the proxy was able to reach checked backends. That gave some confidence in the change. It did not establish that every application workflow was available to every client.</p>
+
+<p>The next morning, April 7, the transition record calls for replacing that virtualization layout with a clean Ubuntu 25.10 installation. Docker would run on the host. A separate NVMe drive was set aside for persistent application data and model storage. The record reports that Ubuntu detected the GPU and that the driver check passed. The decision notes cite memory pressure, scheduling constraints, and the complexity of passing shell commands through several systems. Those are the recorded reasons for reducing the number of layers. I don’t have a before-and-after benchmark that quantifies their effect.</p>
+
+<p>This was CyberBiota 2. It was a fresh installation with a different failure model. It moved more responsibility onto a single host for storage, permissions, and recovery. The records identify the new layout and the original Ubuntu release. They do not supply a verified migration list for every application and volume. Later records refer to Ubuntu 26.04. Whether that change was an upgrade or another reinstall is still open. I can say what the rebuild was designed to simplify and what its first checks showed, while keeping each of those unknowns attached to the transition.</p>
+</div><aside class="article-aside"><div class="aside-card"><span class="eyebrow">Reading note</span><p>Historical results describe what the records showed at the time. They are not a live status check.</p><a href="/cyberbiota-blog/methods/">How evidence is handled <span aria-hidden="true">→</span></a></div></aside></div>
+
+  
+  
+  
+  <nav class="section-tight" aria-label="Series navigation">
+    <p><a href="/cyberbiota-blog/journal/">All CyberBiota chapters and change notes</a></p>
+    <p>Next: <a href="/cyberbiota-blog/journal/why-n8n-came-back/">Why I removed n8n and brought it back</a></p>
+  </nav>
+
+</div>
+</main>
+    <footer class="site-footer">
+  <div class="shell footer-grid">
+    <div><strong>CyberBiota3</strong><p>A learning home lab, documented with its changes and limits.</p></div>
+    <div><span class="eyebrow">Explore</span><a href="/cyberbiota-blog/applications/">Applications</a><a href="/cyberbiota-blog/methods/">Evidence & corrections</a><a href="/cyberbiota-blog/future/">Future research</a></div>
+    <div><span class="eyebrow">Connect</span><a href="mailto:abrown1@outlook.com">abrown1@outlook.com</a><a href="https://github.com/BoublerTech">GitHub profile</a><a href="/cyberbiota-blog/feed.xml">Journal feed</a></div>
+  </div>
+  <div class="shell footer-bottom"><span>© 2026 BoublerTech</span><span>Historical accounts include their evidence boundaries.</span></div>
+</footer>
+
+  </body>
+</html>

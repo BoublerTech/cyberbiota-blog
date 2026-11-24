@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>The failed checks stayed in the report · CyberBiota3</title>
+    <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal feed" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
+    <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css">
+    <!-- Begin Jekyll SEO tag v2.9.1 -->
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="The failed checks stayed in the report" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="A later clean sample helped isolate the problem. The original day still included failures, and the accepted scope stayed limited." />
+<meta name="twitter:description" property="og:description" content="A later clean sample helped isolate the problem. The original day still included failures, and the accepted scope stayed limited." />
+<link rel="canonical" href="https://boublertech.github.io/cyberbiota-blog/journal/counting-the-failed-checks/" />
+<meta property="og:url" content="https://boublertech.github.io/cyberbiota-blog/journal/counting-the-failed-checks/" />
+<meta property="og:site_name" content="CyberBiota3" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-11-24T00:00:00-05:00" />
+<meta property="article:modified_time" content="2026-11-24T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="The failed checks stayed in the report" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-11-24T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"A later clean sample helped isolate the problem. The original day still included failures, and the accepted scope stayed limited.","headline":"The failed checks stayed in the report","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/counting-the-failed-checks/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/counting-the-failed-checks/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell header-row">
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span class="brand-mark" aria-hidden="true">C<span class="brand-mark-dot">3</span></span><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="/cyberbiota-blog/journey/" >Journey</a>
+      <a href="/cyberbiota-blog/architecture/" >Architecture</a>
+      <a href="/cyberbiota-blog/case-studies/" >Case studies</a>
+      <a href="/cyberbiota-blog/journal/" >Journal</a>
+      <a href="/cyberbiota-blog/about/" >About</a>
+    </nav>
+    <a class="header-contact" href="mailto:abrown1@outlook.com">Email me <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+
+    <main id="main" tabindex="-1"><div class="article-shell shell">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/cyberbiota-blog/">Home</a> <span aria-hidden="true">/</span> <a href="/cyberbiota-blog/journal/">Journal</a></nav>
+  <header class="article-header">
+    <div class="eyebrow">Project history · Retrospective</div>
+    <h1>The failed checks stayed in the report</h1>
+    <p class="lede">A later clean sample helped isolate the problem. The original day still included failures, and the accepted scope stayed limited.</p>
+    <div class="meta-line"><span>Events: October 6–7, 2026</span><span>Evidence: Dated diagnostic acceptance and exception record</span><span>Entry date: <time datetime="2026-11-24">November 24, 2026</time></span></div>
+  </header>
+  <div class="article-grid"><div class="article-content prose"><p>By October, CyberBiota3 was testing what local assistants could do with the evidence the lab collected. One exercise ran read-only diagnostics in parallel with normal operation. The aim was to see whether two roles could produce acceptable diagnostic results in scheduled windows. The roles were distinct, and their scores needed to stay separate for the comparison to mean anything.</p>
+
+<p>Over a day with 96 scheduled windows per role, one role produced 96 accepted results. The other produced 87. That second result was about 91 percent against a 95 percent requirement. The gap mattered because it was measured against the intended run window, with the scheduled checks and failures all included.</p>
+
+<p>The investigation led to a narrow change in how the diagnostics handled data. A later sample returned 16 accepted results out of 16 for the first role and 15 out of 15 for the second. That was useful evidence about the corrected setup in a shorter run. Replacing the original day with the shorter result would have left anyone reading the report unable to tell what had been tried before the correction.</p>
+
+<p>The decision recorded both results. It accepted a limited read-only use and preserved the earlier reliability exception. Full incident handling, external delivery, and remediation were separate questions. The record doesn’t support judging all future runs from either sample.</p>
+
+<p>I want the blog to keep that distinction whenever a repair improves a test. What failed, what was corrected, and what happened on the next run each get their own line in the story. A clean follow-up can explain why the work continued. It doesn’t need to erase the result that made the correction necessary.</p>
+</div><aside class="article-aside"><div class="aside-card"><span class="eyebrow">Reading note</span><p>Historical results describe what the records showed at the time. They are not a live status check.</p><a href="/cyberbiota-blog/methods/">How evidence is handled <span aria-hidden="true">→</span></a></div></aside></div>
+
+  
+  
+  
+  <nav class="section-tight" aria-label="Series navigation">
+    <p><a href="/cyberbiota-blog/journal/">All CyberBiota chapters and change notes</a></p>
+    
+  </nav>
+
+</div>
+</main>
+    <footer class="site-footer">
+  <div class="shell footer-grid">
+    <div><strong>CyberBiota3</strong><p>A learning home lab, documented with its changes and limits.</p></div>
+    <div><span class="eyebrow">Explore</span><a href="/cyberbiota-blog/applications/">Applications</a><a href="/cyberbiota-blog/methods/">Evidence & corrections</a><a href="/cyberbiota-blog/future/">Future research</a></div>
+    <div><span class="eyebrow">Connect</span><a href="mailto:abrown1@outlook.com">abrown1@outlook.com</a><a href="https://github.com/BoublerTech">GitHub profile</a><a href="/cyberbiota-blog/feed.xml">Journal feed</a></div>
+  </div>
+  <div class="shell footer-bottom"><span>© 2026 BoublerTech</span><span>Historical accounts include their evidence boundaries.</span></div>
+</footer>
+
+  </body>
+</html>
