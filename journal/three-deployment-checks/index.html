@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark">
   <title>A valid Compose file and a failed deployment · CyberBiota3</title>
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
@@ -30,22 +30,24 @@
 
   
 </head>
-<body><a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-  <div class="shell header-row">
-    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><img class="brand-symbol" src="/cyberbiota-blog/assets/brand/mark.svg" width="40" height="40" alt=""><img class="brand-wordmark" src="/cyberbiota-blog/assets/brand/wordmark-dark.svg" width="192" height="39" alt="CyberBiota3"></a>
-    <nav class="nav" aria-label="Main navigation">
-      <a href="/cyberbiota-blog/journal/" aria-current="page">Journal</a>
-      <a href="/cyberbiota-blog/journey/">The story</a>
-      <a href="/cyberbiota-blog/architecture/">The lab</a>
-      <a href="/cyberbiota-blog/about/">About</a>
-    </nav>
-    <a class="header-contact" href="mailto:abrown1@outlook.com">Get in touch</a>
-  </div>
-</header>
-<main id="main" tabindex="-1"><article>
+<body>
+
+
+
+
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="md-navigation" aria-label="Main navigation">
+  <div class="rail-brand"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="40" height="40" alt="CyberBiota3"></div>
+  
+  
+  
+  
+  <a class="nav-destination" href="/cyberbiota-blog/"><span class="nav-indicator"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></g><g class="symbol-filled"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></g></svg></span><span class="nav-label">Home</span></a><a class="nav-destination" href="/cyberbiota-blog/journal/" aria-current="page"><span class="nav-indicator"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M280-280h280v-80H280v80Zm0-160h400v-80H280v80Zm0-160h400v-80H280v80Zm-80 480q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z"/></g><g class="symbol-filled"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm80-160h280v-80H280v80Zm0-160h400v-80H280v80Zm0-160h400v-80H280v80Z"/></g></svg></span><span class="nav-label">Journal</span></a><a class="nav-destination" href="/cyberbiota-blog/journey/"><span class="nav-indicator"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M480-120q-138 0-240.5-91.5T122-440h82q14 104 92.5 172T480-200q117 0 198.5-81.5T760-480q0-117-81.5-198.5T480-760q-69 0-129 32t-101 88h110v80H120v-240h80v94q51-64 124.5-99T480-840q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-480q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z"/></g><g class="symbol-filled"><path d="M480-120q-138 0-240.5-91.5T122-440h82q14 104 92.5 172T480-200q117 0 198.5-81.5T760-480q0-117-81.5-198.5T480-760q-69 0-129 32t-101 88h110v80H120v-240h80v94q51-64 124.5-99T480-840q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-480q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z"/></g></svg></span><span class="nav-label">Story</span></a><a class="nav-destination" href="/cyberbiota-blog/architecture/"><span class="nav-indicator"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M300-720q-25 0-42.5 17.5T240-660q0 25 17.5 42.5T300-600q25 0 42.5-17.5T360-660q0-25-17.5-42.5T300-720Zm0 400q-25 0-42.5 17.5T240-260q0 25 17.5 42.5T300-200q25 0 42.5-17.5T360-260q0-25-17.5-42.5T300-320ZM160-840h640q17 0 28.5 11.5T840-800v280q0 17-11.5 28.5T800-480H160q-17 0-28.5-11.5T120-520v-280q0-17 11.5-28.5T160-840Zm40 80v200h560v-200H200Zm-40 320h640q17 0 28.5 11.5T840-400v280q0 17-11.5 28.5T800-80H160q-17 0-28.5-11.5T120-120v-280q0-17 11.5-28.5T160-440Zm40 80v200h560v-200H200Zm0-400v200-200Zm0 400v200-200Z"/></g><g class="symbol-filled"><path d="M300-720q-25 0-42.5 17.5T240-660q0 25 17.5 42.5T300-600q25 0 42.5-17.5T360-660q0-25-17.5-42.5T300-720Zm0 400q-25 0-42.5 17.5T240-260q0 25 17.5 42.5T300-200q25 0 42.5-17.5T360-260q0-25-17.5-42.5T300-320ZM160-840h640q17 0 28.5 11.5T840-800v280q0 17-11.5 28.5T800-480H160q-17 0-28.5-11.5T120-520v-280q0-17 11.5-28.5T160-840Zm0 400h640q17 0 28.5 11.5T840-400v280q0 17-11.5 28.5T800-80H160q-17 0-28.5-11.5T120-120v-280q0-17 11.5-28.5T160-440Z"/></g></svg></span><span class="nav-label">Lab</span></a><a class="nav-destination" href="/cyberbiota-blog/about/"><span class="nav-indicator"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/></g><g class="symbol-filled"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></g></svg></span><span class="nav-label">About</span></a>
+</nav>
+<header class="site-header"><div class="shell header-row"><a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><img class="brand-symbol" src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><img class="brand-wordmark" src="/cyberbiota-blog/assets/brand/wordmark-dark.svg" width="176" height="36" alt="CyberBiota3"></a><a class="header-contact button button-tonal" href="mailto:abrown1@outlook.com" aria-label="Email me"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z"/></g><g class="symbol-filled"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280 320-200v-80L480-520 160-720v80l320 200Z"/></g></svg><span>Contact</span></a></div></header>
+<div class="site-body"><main id="main" tabindex="-1"><article>
   <header class="entry-header"><div class="shell entry-heading">
-    <a class="back-link" href="/cyberbiota-blog/journal/">Back to the journal</a>
+    <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">Operations</p>
     <h1>A valid Compose file and a failed deployment</h1><p class="entry-deck">Image pulls, application startup, and the route test each exposed something different during the deployment.</p>
     <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-24">November 24, 2026</time><span>2 min read</span></div>
@@ -97,27 +99,18 @@
 <section class="related-section"><div class="shell"><div class="section-heading"><h2>Keep reading</h2><a class="text-link" href="/cyberbiota-blog/journal/">All entries</a></div><div class="related-grid">
 
 <article class="post-card">
-  <a class="post-art art-openclaw" href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/" tabindex="-1" aria-hidden="true"><img src="/cyberbiota-blog/assets/brand/openclaw.svg" width="720" height="250" alt="" loading="lazy"></a>
-  <div class="post-card-body"><div class="post-meta"><span>Operations</span><time datetime="2026-11-25">Nov 25, 2026</time></div>
-  <h3><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></h3><p>The live cutover, the OpenClaw upgrade, and the tests that let me keep the new coordinator in place.</p>
-  <span class="reading-time">4 min read</span></div>
+  <span class="list-leading"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M240-40q-50 0-85-35t-35-85q0-50 35-85t85-35q14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35ZM120-540q17 0 28.5-11.5T160-580q0-17-11.5-28.5T120-620q-17 0-28.5 11.5T80-580q0 17 11.5 28.5T120-540Zm120 420q17 0 28.5-11.5T280-160q0-17-11.5-28.5T240-200q-17 0-28.5 11.5T200-160q0 17 11.5 28.5T240-120Zm240-680q17 0 28.5-11.5T520-840q0-17-11.5-28.5T480-880q-17 0-28.5 11.5T440-840q0 17 11.5 28.5T480-800Zm0 440q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Zm240 240q17 0 28.5-11.5T760-160q0-17-11.5-28.5T720-200q-17 0-28.5 11.5T680-160q0 17 11.5 28.5T720-120Zm120-420q17 0 28.5-11.5T880-580q0-17-11.5-28.5T840-620q-17 0-28.5 11.5T800-580q0 17 11.5 28.5T840-540ZM480-840ZM120-580Zm360 120Zm360-120ZM240-160Zm480 0Z"/></g><g class="symbol-filled"><path d="M240-40q-50 0-85-35t-35-85q0-50 35-85t85-35q14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35Z"/></g></svg></span>
+  <div class="post-card-body"><div class="post-meta"><span>Operations</span><time datetime="2026-11-25">Nov 25, 2026</time></div><h3><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></h3><p>The live cutover, the OpenClaw upgrade, and the tests that let me keep the new coordinator in place.</p><span class="reading-time">4 min read</span></div>
+  <span class="list-trailing"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg></span>
 </article>
 
 
 <article class="post-card">
-  <a class="post-art art-monitoring" href="/cyberbiota-blog/journal/cyberbiota35-observability/" tabindex="-1" aria-hidden="true"><img src="/cyberbiota-blog/assets/brand/monitoring.svg" width="720" height="250" alt="" loading="lazy"></a>
-  <div class="post-card-body"><div class="post-meta"><span>Operations</span><time datetime="2026-11-25">Nov 25, 2026</time></div>
-  <h3><a href="/cyberbiota-blog/journal/cyberbiota35-observability/">Making the monitoring answer useful questions</a></h3><p>I reused VictoriaMetrics, Loki, and NetBox, then tested small interfaces for probes, inventory, logs, and configuration changes.</p>
-  <span class="reading-time">3 min read</span></div>
+  <span class="list-leading"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M120-120v-80l80-80v160h-80Zm160 0v-240l80-80v320h-80Zm160 0v-320l80 81v239h-80Zm160 0v-239l80-80v319h-80Zm160 0v-400l80-80v480h-80ZM120-327v-113l280-280 160 160 280-280v113L560-447 400-607 120-327Z"/></g><g class="symbol-filled"><path d="M120-120v-80l80-80v160h-80Zm160 0v-240l80-80v320h-80Zm160 0v-320l80 81v239h-80Zm160 0v-239l80-80v319h-80Zm160 0v-400l80-80v480h-80ZM120-327v-113l280-280 160 160 280-280v113L560-447 400-607 120-327Z"/></g></svg></span>
+  <div class="post-card-body"><div class="post-meta"><span>Operations</span><time datetime="2026-11-25">Nov 25, 2026</time></div><h3><a href="/cyberbiota-blog/journal/cyberbiota35-observability/">Making the monitoring answer useful questions</a></h3><p>I reused VictoriaMetrics, Loki, and NetBox, then tested small interfaces for probes, inventory, logs, and configuration changes.</p><span class="reading-time">3 min read</span></div>
+  <span class="list-trailing"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg></span>
 </article>
 </div></div></section>
-</main><footer class="site-footer">
-  <div class="shell footer-top">
-    <div class="footer-intro"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="48" height="48" alt=""><h2>Questions about the lab?</h2><p>I’m always interested in how other people build and run their own services.</p><a class="contact-link" href="mailto:abrown1@outlook.com">abrown1@outlook.com</a></div>
-    <div class="footer-links"><h3>Explore</h3><a href="/cyberbiota-blog/journal/">All entries</a><a href="/cyberbiota-blog/cyberbiota35/">CyberBiota3.5</a><a href="/cyberbiota-blog/applications/">Applications</a><a href="/cyberbiota-blog/case-studies/">Case studies</a></div>
-    <div class="footer-links"><h3>Elsewhere</h3><a href="https://github.com/BoublerTech">GitHub</a><a href="/cyberbiota-blog/feed.xml">Journal feed</a><a href="/cyberbiota-blog/methods/">Sources & corrections</a><a href="/cyberbiota-blog/about/">About this journal</a></div>
-  </div>
-  <div class="shell footer-bottom"><span>© 2026 BoublerTech</span><span>CyberBiota3 · An open-source home lab</span></div>
-</footer>
-</body>
+</main><footer class="site-footer"><div class="shell footer-row"><div><strong>CyberBiota3</strong><p>An open-source home lab journal.</p></div><nav aria-label="Footer"><a href="mailto:abrown1@outlook.com">abrown1@outlook.com</a><a href="/cyberbiota-blog/feed.xml">Feed</a><a href="https://github.com/BoublerTech">GitHub</a><a href="/cyberbiota-blog/methods/">Sources & corrections</a></nav><span>© 2026 BoublerTech</span></div></footer>
+</div></body>
 </html>
