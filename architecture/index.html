@@ -1,56 +1,53 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light">
-    <title>Architecture · CyberBiota3</title>
-    <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal feed" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
-    <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css">
-    <!-- Begin Jekyll SEO tag v2.9.1 -->
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light">
+  <title>Inside the lab · CyberBiota3</title>
+  <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
+  <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
+  <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css">
+  <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
-<meta property="og:title" content="Architecture" />
+<meta property="og:title" content="Inside the lab" />
+<meta name="author" content="BoublerTech" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="Dated architecture snapshots of the CyberBiota home lab and the operating layers behind its services." />
-<meta name="twitter:description" property="og:description" content="Dated architecture snapshots of the CyberBiota home lab and the operating layers behind its services." />
+<meta name="description" content="How the CyberBiota host, applications, monitoring, AI tools, and recovery work fit together, with dated snapshots of the earlier builds." />
+<meta name="twitter:description" property="og:description" content="How the CyberBiota host, applications, monitoring, AI tools, and recovery work fit together, with dated snapshots of the earlier builds." />
 <link rel="canonical" href="https://boublertech.github.io/cyberbiota-blog/architecture/" />
 <meta property="og:url" content="https://boublertech.github.io/cyberbiota-blog/architecture/" />
 <meta property="og:site_name" content="CyberBiota3" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Architecture" />
+<meta name="twitter:title" content="Inside the lab" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","description":"Dated architecture snapshots of the CyberBiota home lab and the operating layers behind its services.","headline":"Architecture","url":"https://boublertech.github.io/cyberbiota-blog/architecture/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"BoublerTech"},"description":"How the CyberBiota host, applications, monitoring, AI tools, and recovery work fit together, with dated snapshots of the earlier builds.","headline":"Inside the lab","url":"https://boublertech.github.io/cyberbiota-blog/architecture/"}</script>
 <!-- End Jekyll SEO tag -->
 
-  </head>
-  <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+  
+</head>
+<body><a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="shell header-row">
-    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><img class="brand-symbol" src="/cyberbiota-blog/assets/brand/mark.svg" width="40" height="40" alt=""><img class="brand-wordmark" src="/cyberbiota-blog/assets/brand/wordmark-dark.svg" width="192" height="39" alt="CyberBiota3"></a>
     <nav class="nav" aria-label="Main navigation">
-      <a href="/cyberbiota-blog/journey/" >Journey</a>
-      <a href="/cyberbiota-blog/architecture/" aria-current="page">Architecture</a>
-      <a href="/cyberbiota-blog/case-studies/" >Case studies</a>
-      <a href="/cyberbiota-blog/journal/" >Journal</a>
-      <a href="/cyberbiota-blog/about/" >About</a>
+      <a href="/cyberbiota-blog/journal/">Journal</a>
+      <a href="/cyberbiota-blog/journey/">The story</a>
+      <a href="/cyberbiota-blog/architecture/" aria-current="page">The lab</a>
+      <a href="/cyberbiota-blog/about/">About</a>
     </nav>
-    <a class="header-contact" href="mailto:abrown1@outlook.com">Email me <span aria-hidden="true">↗</span></a>
+    <a class="header-contact" href="mailto:abrown1@outlook.com">Get in touch</a>
   </div>
 </header>
-
-    <main id="main" tabindex="-1"><div class="page-head"><div class="shell"><span class="eyebrow">System design</span><h1>Architecture, over time.</h1><p class="lede">The lab changed platforms and tools. These simplified snapshots show the operating ideas without revealing private endpoints or presenting old diagrams as live status.</p></div></div>
-<div class="content-section"><div class="shell content-grid"><div class="prose"><h2>Earlier virtualized lab · February–March 2026</h2><p>Legacy records describe Proxmox and LXC hosting services, with ZFS storage, applications, monitoring and several network designs under test. A component appearing in a summary means it was part of that documented stage; it does not prove every workflow passed.</p><div class="note"><strong>Historical view</strong><p>Compute and storage → network/ingress → applications → monitoring and backups. The February dashboard account includes a same-night failure after an initial success report.</p></div><h2>Bare-metal transition · April–May 2026</h2><p>An April 7 summary records retiring the earlier Proxmox iteration and initializing an Ubuntu host for native Docker workloads. The first summary names Ubuntu 25.10; later May documents name 26.04. The upgrade or reinstall path and data continuity remain unresolved.</p><div class="note"><strong>Historical view</strong><p>Ubuntu host → Docker services → direct host storage and network responsibilities. This is an architectural change, not proof of complete migration.</p></div><h2>CyberBiota3 operating model · June–October 2026</h2><p>Formal change results describe a container platform with ingress, applications, observability, scoped backup, and local AI experiments. Later operational records also document drift, incidents and bounded acceptance. Current topology requires a fresh check before a present-tense diagram is published.</p><div class="note"><strong>Documented layers</strong><p>Host/data; network/DNS/identity; containers and applications; observability; automation and local AI; backup/recovery. Each layer has a separate evidence and recovery question.</p></div><h2>What connects the layers</h2><p>For an application to be operated, its process must start, its route and authentication must work for the intended client, its data must persist, and failures must be observable. Backup claims require a restore scope and a receipt. A working integration can still be rolled back if its trust boundary is unacceptable.</p><p><a href="/cyberbiota-blog/applications/">See application episodes →</a></p></div><aside class="prose"><div class="note"><strong>Publication view</strong><p>Internal hostnames, addresses, identities, credentials and exact operational wiring are intentionally omitted. This page explains dependencies and historical decisions.</p></div></aside></div></div>
-</main>
-    <footer class="site-footer">
-  <div class="shell footer-grid">
-    <div><strong>CyberBiota3</strong><p>A learning home lab, documented with its changes and limits.</p></div>
-    <div><span class="eyebrow">Explore</span><a href="/cyberbiota-blog/applications/">Applications</a><a href="/cyberbiota-blog/methods/">Evidence & corrections</a><a href="/cyberbiota-blog/future/">Future research</a></div>
-    <div><span class="eyebrow">Connect</span><a href="mailto:abrown1@outlook.com">abrown1@outlook.com</a><a href="https://github.com/BoublerTech">GitHub profile</a><a href="/cyberbiota-blog/feed.xml">Journal feed</a></div>
+<main id="main" tabindex="-1"><div class="page-head"><div class="shell"><p class="section-kicker">The system behind the journal</p><h1>Inside CyberBiota</h1><p class="lede">One home lab, with applications to run and the operating work that comes with them.</p></div></div>
+<div class="content-section"><div class="shell content-grid"><div class="prose"><h2>The November 2026 build</h2><p>The November 23–25 project records describe a single Dell G7 running Ubuntu and Docker, with separate system and data SSDs and an external USB backup. The lab has no second host or automatic failover. This is a dated project snapshot, rather than a live status page.</p><div class="system-map" aria-label="Simplified operating layers"><div><strong>Host &amp; storage</strong><span>Ubuntu, Docker, system SSD, data SSD</span></div><div><strong>Applications</strong><span>Self-hosted services and their PostgreSQL, MariaDB, Redis or Valkey data stores</span></div><div><strong>Monitoring</strong><span>VictoriaMetrics, Alertmanager, Grafana, Loki, Alloy, Blackbox Exporter</span></div><div><strong>AI-assisted operations</strong><span>OpenClaw coordinator, local Ollama/Qwen3, bounded role and tool design</span></div><div><strong>Recovery</strong><span>Scheduled archives, encrypted USB copy, isolated restore tests</span></div></div><p>The 3.5 cutover added scoped role entries and a cloud coordinator while preserving legacy workflows. Selected live delegation and sandbox checks passed. The Python adapter suite was tested separately, and production remediation stayed disabled.</p><p><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Read the production cutover</a> or <a href="/cyberbiota-blog/cyberbiota35/">browse the upgrade entries</a>.</p><h2>Before the bare-metal host</h2><p>The early CyberBiota records describe Proxmox and LXC, ZFS storage, and a separate monitoring container. A Grafana connection came up while its panels remained empty. The <a href="/cyberbiota-blog/journal/cyberbiota-first-build/">dashboard entry</a> follows the changes to the data source, dashboard, and queries.</p><h2>Moving to Ubuntu and Docker</h2><p>The April 7 record describes retiring the Proxmox iteration and starting an Ubuntu host for native Docker workloads. That summary names Ubuntu 25.10; later May records name 26.04. The records don’t settle whether that later change was an upgrade or reinstall, or which data carried through every earlier build.</p><p><a href="/cyberbiota-blog/journal/leaving-proxmox/">Why I moved off Proxmox</a> explains the transition.</p><h2>What I check around an application</h2><p>Getting a process to start is one step. I also need the intended route and authentication to work, data to persist, failures to be visible, and a recovery path with a defined test scope. Those responsibilities connect the layers above.</p></div><aside class="about-aside"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="96" height="96" alt="" /><h2>Follow the work</h2><p><a href="/cyberbiota-blog/journal/?topic=Operations">Operations notes</a></p><p><a href="/cyberbiota-blog/journal/?topic=Storage%20%26%20recovery">Backups and restores</a></p><p><a href="/cyberbiota-blog/applications/">Application episodes</a></p><p>Internal addresses, credentials, and private operational wiring stay out of the public diagrams.</p></aside></div></div>
+</main><footer class="site-footer">
+  <div class="shell footer-top">
+    <div class="footer-intro"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="48" height="48" alt=""><h2>Questions about the lab?</h2><p>I’m always interested in how other people build and run their own services.</p><a class="contact-link" href="mailto:abrown1@outlook.com">abrown1@outlook.com</a></div>
+    <div class="footer-links"><h3>Explore</h3><a href="/cyberbiota-blog/journal/">All entries</a><a href="/cyberbiota-blog/cyberbiota35/">CyberBiota3.5</a><a href="/cyberbiota-blog/applications/">Applications</a><a href="/cyberbiota-blog/case-studies/">Case studies</a></div>
+    <div class="footer-links"><h3>Elsewhere</h3><a href="https://github.com/BoublerTech">GitHub</a><a href="/cyberbiota-blog/feed.xml">Journal feed</a><a href="/cyberbiota-blog/methods/">Sources & corrections</a><a href="/cyberbiota-blog/about/">About this journal</a></div>
   </div>
-  <div class="shell footer-bottom"><span>© 2026 BoublerTech</span><span>Historical accounts include their evidence boundaries.</span></div>
+  <div class="shell footer-bottom"><span>© 2026 BoublerTech</span><span>CyberBiota3 · An open-source home lab</span></div>
 </footer>
-
-  </body>
+</body>
 </html>

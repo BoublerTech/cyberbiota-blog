@@ -1,143 +1,122 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light">
-    <title>Getting a backup off the host—and restoring from it · CyberBiota3</title>
-    <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal feed" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
-    <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css">
-    <!-- Begin Jekyll SEO tag v2.9.1 -->
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light">
+  <title>Taking a backup off the laptop · CyberBiota3</title>
+  <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
+  <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
+  <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css">
+  <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
-<meta property="og:title" content="Getting a backup off the host—and restoring from it" />
+<meta property="og:title" content="Taking a backup off the laptop" />
+<meta name="author" content="BoublerTech" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="We added an encrypted repository to an existing USB drive, checked restored files, and verified the overnight backup job." />
-<meta name="twitter:description" property="og:description" content="We added an encrypted repository to an existing USB drive, checked restored files, and verified the overnight backup job." />
+<meta name="description" content="I added an encrypted repository to an existing USB drive, restored selected files, and checked the overnight job." />
+<meta name="twitter:description" property="og:description" content="I added an encrypted repository to an existing USB drive, restored selected files, and checked the overnight job." />
 <link rel="canonical" href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-usb-backup/" />
 <meta property="og:url" content="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-usb-backup/" />
 <meta property="og:site_name" content="CyberBiota3" />
+<meta property="og:image" content="https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2026-11-25T00:00:00-05:00" />
 <meta property="article:modified_time" content="2026-11-25T00:00:00-05:00" />
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Getting a backup off the host—and restoring from it" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png" />
+<meta name="twitter:title" content="Taking a backup off the laptop" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-11-25T00:00:00-05:00","datePublished":"2026-11-25T00:00:00-05:00","description":"We added an encrypted repository to an existing USB drive, checked restored files, and verified the overnight backup job.","headline":"Getting a backup off the host—and restoring from it","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-usb-backup/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-usb-backup/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-25T00:00:00-05:00","datePublished":"2026-11-25T00:00:00-05:00","description":"I added an encrypted repository to an existing USB drive, restored selected files, and checked the overnight job.","headline":"Taking a backup off the laptop","image":"https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-usb-backup/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-usb-backup/"}</script>
 <!-- End Jekyll SEO tag -->
 
-  </head>
-  <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+  
+</head>
+<body><a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="shell header-row">
-    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><img class="brand-symbol" src="/cyberbiota-blog/assets/brand/mark.svg" width="40" height="40" alt=""><img class="brand-wordmark" src="/cyberbiota-blog/assets/brand/wordmark-dark.svg" width="192" height="39" alt="CyberBiota3"></a>
     <nav class="nav" aria-label="Main navigation">
-      <a href="/cyberbiota-blog/journey/" >Journey</a>
-      <a href="/cyberbiota-blog/architecture/" >Architecture</a>
-      <a href="/cyberbiota-blog/case-studies/" >Case studies</a>
-      <a href="/cyberbiota-blog/journal/" >Journal</a>
-      <a href="/cyberbiota-blog/about/" >About</a>
+      <a href="/cyberbiota-blog/journal/" aria-current="page">Journal</a>
+      <a href="/cyberbiota-blog/journey/">The story</a>
+      <a href="/cyberbiota-blog/architecture/">The lab</a>
+      <a href="/cyberbiota-blog/about/">About</a>
     </nav>
-    <a class="header-contact" href="mailto:abrown1@outlook.com">Email me <span aria-hidden="true">↗</span></a>
+    <a class="header-contact" href="mailto:abrown1@outlook.com">Get in touch</a>
   </div>
 </header>
+<main id="main" tabindex="-1"><article>
+  <header class="entry-header"><div class="shell entry-heading">
+    <a class="back-link" href="/cyberbiota-blog/journal/">Back to the journal</a>
+    <p class="entry-topic">Storage &amp; recovery</p>
+    <h1>Taking a backup off the laptop</h1><p class="entry-deck">I added an encrypted repository to an existing USB drive, restored selected files, and checked the overnight job.</p>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div>
+  </div></header>
+  <div class="shell reading-layout">
+    <div class="article-content prose"><p>The first backup question in the CyberBiota3.5 audit was where the successful jobs were writing. The verified copies were on the same laptop that ran the lab.</p>
 
-    <main id="main" tabindex="-1"><div class="article-shell shell">
-  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/cyberbiota-blog/">Home</a> <span aria-hidden="true">/</span> <a href="/cyberbiota-blog/journal/">Journal</a></nav>
-  <header class="article-header">
-    <div class="eyebrow">CyberBiota3.5 · Retrospective</div>
-    <h1>Getting a backup off the host—and restoring from it</h1>
-    <p class="lede">We added an encrypted repository to an existing USB drive, checked restored files, and verified the overnight backup job.</p>
-    <div class="meta-line"><span>Events: November 23–25, 2026</span><span>Evidence: Project records reviewed through November 25, 2026</span><span>Entry date: <time datetime="2026-11-25">November 25, 2026</time></span></div>
-  </header>
-  
-  <div class="article-grid">
-    <div class="article-content prose"><p>The first CyberBiota3.5 audit found several successful backup jobs. It also found that the verified copies were on the same Dell that ran the lab.</p>
+<p>That left me with a recovery gap. A local archive could help after a bad edit, but I didn’t have a verified copy outside the machine. I approved adding an encrypted Restic repository to the external USB drive under the name CyberBiota_Ark.</p>
 
-<p>A local backup could help with a bad configuration or a damaged file. It didn’t give me a verified recovery copy outside the host. We kept that gap open while preparing the upgrade, then added an encrypted Restic repository on the external USB drive, under the name CyberBiota_Ark.</p>
+<h2 id="the-drive-already-had-my-files-on-it">The drive already had my files on it</h2>
 
-<h2 id="preserve-the-drives-existing-files">Preserve the drive’s existing files</h2>
+<p>This wasn’t an empty disk waiting to be formatted. The job created its own repository directory and left the existing files alone.</p>
 
-<p>The USB drive already contained my files. The approved work created a new backup repository in its own directory. It didn’t format the drive or remove what was there.</p>
+<p>Its scope was specific: the new 3.5 project records, selected Compose configuration, scripts, and the latest verified daily OpenClaw archive. Staging and selected sensitive or runtime files were excluded. It was a recovery copy for that material, rather than a full image of the laptop or every application’s data.</p>
 
-<p>The backup covered the new 3.5 project records, selected Compose configuration, scripts, and the latest verified daily OpenClaw backup archive. Staging directories and selected sensitive or runtime files were excluded. That scope matters: this was not a complete image of the machine or a backup of every application’s data.</p>
+<p>Restic encrypted the repository. The job used the established credential arrangement without printing values in its receipts. I also needed a usable copy of the repository password outside the Dell. The encrypted files would be little use on replacement hardware if the only decryption key disappeared with the host.</p>
 
-<p>Restic encrypted the repository. The job obtained its credentials through the established secret-management arrangement without writing values into its receipts. The remaining recovery requirement was to keep a usable copy of the repository password outside the Dell. Losing the host must not also mean losing the only way to decrypt the external copy.</p>
+<h2 id="test-the-missing-drive-before-the-successful-backup">Test the missing drive before the successful backup</h2>
 
-<h2 id="the-disconnected-drive-test-came-first">The disconnected-drive test came first</h2>
+<p>During the power and SSD work, the USB drive was disconnected. That gave the mount guard a useful test.</p>
 
-<p>During the power and SSD work, the USB drive was disconnected. The backup script was tested in that state and returned its designated skip code without writing into the root filesystem.</p>
+<p>A missing mount can leave an ordinary directory at the expected location. A backup job that writes into it can fill the internal disk while looking as though it is using external storage. This script returned its designated skip code when the drive was absent and didn’t write into the root filesystem. The service checked the mountpoint and the expected backup directory before proceeding.</p>
 
-<p>That guard prevents a particular failure: a missing external mount can otherwise leave an ordinary directory at the expected path, allowing a job to fill the internal disk while appearing to write to USB. The service checked both the mountpoint and the expected backup directory before proceeding.</p>
+<p>Once the drive was reconnected, the recorded backup processed about 355 MiB across 13,015 files. It exited successfully, and <code class="language-plaintext highlighter-rouge">restic check</code> reported no errors. A separate start through the systemd service also passed under its CPU and memory limits.</p>
 
-<p>After the drive was reconnected, the first recorded run processed about 355 MiB across 13,015 files. It exited successfully, and <code class="language-plaintext highlighter-rouge">restic check</code> reported no errors. Starting the service separately also succeeded under its memory and CPU limits.</p>
+<h2 id="restore-something-from-the-external-copy">Restore something from the external copy</h2>
 
-<h2 id="bring-files-back-from-the-external-copy">Bring files back from the external copy</h2>
+<p>The restore test brought two selected project files back from the USB repository into a private staging directory on the data SSD. Their SHA-256 hashes matched the originals. The selective restore took 1.07 seconds, after which the temporary directory was removed.</p>
 
-<p>We then restored two selected project files from the USB repository into a private staging directory on the data SSD. Their SHA-256 hashes matched the originals. The measured selective restore took 1.07 seconds, and the temporary directory was removed after verification.</p>
+<p>That established that those files could be recovered from the encrypted external copy. The timing belongs to that two-file exercise. It doesn’t describe how long it would take to rebuild CyberBiota or restore its applications.</p>
 
-<p>That is a small but concrete test. The files came from the external repository, decrypted, and matched. The 1.07-second figure is the time for those selected files. It is not the recovery time for CyberBiota, its databases, or replacement hardware.</p>
+<p>The <a href="/cyberbiota-blog/journal/cyberbiota35-database-restore/">database restore</a> went further by restoring a dump into an isolated PostgreSQL engine. I kept the two results separate because a matching file and a usable database answer different questions.</p>
 
-<p>The separate database exercise later in this series went further: it started an isolated PostgreSQL instance and restored a database into it. Each test answered a different recovery question.</p>
+<h2 id="watch-the-overnight-job-run">Watch the overnight job run</h2>
 
-<h2 id="check-an-unattended-run-as-well">Check an unattended run as well</h2>
+<p>The USB timer was set for 04:15 with up to two minutes of randomized delay and persistent scheduling. It was configured to skip when the drive wasn’t available.</p>
 
-<p>The USB job was scheduled for 04:15, with up to two minutes of randomized delay and a persistent systemd timer. The service was configured to skip when the drive was unavailable.</p>
+<p>The November 25 upgrade receipt recorded an automatic run at 04:17 and a clean repository check. That was the scheduled path actually running, beyond the manual service test.</p>
 
-<p>Enabling that timer wasn’t the last piece of evidence. The November 25 upgrade receipt recorded an automatic run at 04:17 and a clean repository check. That showed the scheduled path had actually run, beyond the earlier manual service test.</p>
+<p>CyberBiota_Ark now gave this upgrade an external encrypted copy, a selective restore receipt, and an unattended-run receipt. It was still an attached USB drive. Offsite protection, complete application coverage, and recovery onto replacement hardware remained separate work.</p>
 
-<p>CyberBiota_Ark gave this upgrade an external encrypted recovery copy and a verified selective restore. It remains an attached USB backup rather than an offsite or continuously offline copy. Full host-loss recovery still needs replacement hardware, the separately held key, the missing application coverage, and a wider recovery exercise.</p>
-
-</div>
+      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: November 23–25, 2026.</p><p>Project records reviewed through November 25, 2026. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+    </div>
     
-    <aside class="article-aside">
-      <nav class="aside-card chapter-index" aria-label="Series contents">
-        <span class="eyebrow">The CyberBiota3.5 upgrade</span>
-        <p><a href="/cyberbiota-blog/cyberbiota35/">About this series</a></p>
-        <ol>
-          
-          <li><a href="/cyberbiota-blog/journal/cyberbiota35-starting-point/">CyberBiota3.5 started with the lab I already had</a></li>
-          
-          <li><a href="/cyberbiota-blog/journal/cyberbiota35-host-repairs/">Before adding more AI, we had to fix the host</a></li>
-          
-          <li><a href="/cyberbiota-blog/journal/cyberbiota35-usb-backup/" aria-current="page">Getting a backup off the host—and restoring from it</a></li>
-          
-          <li><a href="/cyberbiota-blog/journal/cyberbiota35-agent-roles/">Thirty-two roles on one home lab</a></li>
-          
-          <li><a href="/cyberbiota-blog/journal/cyberbiota35-hybrid-inference/">Why the coordinator went to the cloud</a></li>
-          
-          <li><a href="/cyberbiota-blog/journal/cyberbiota35-observability/">Teaching the new tools to read the lab</a></li>
-          
-          <li><a href="/cyberbiota-blog/journal/cyberbiota35-security-monitoring/">Building security visibility that fit the laptop</a></li>
-          
-          <li><a href="/cyberbiota-blog/journal/cyberbiota35-database-restore/">A backup archive finally became a running database</a></li>
-          
-          <li><a href="/cyberbiota-blog/journal/cyberbiota35-incident-drills/">Five incident drills, with production changes disabled</a></li>
-          
-          <li><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></li>
-          
-        </ol>
-      </nav>
-    </aside>
-    
+    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#the-drive-already-had-my-files-on-it">The drive already had my files on it</a></li><li><a href="#test-the-missing-drive-before-the-successful-backup">Test the missing drive before the successful backup</a></li><li><a href="#restore-something-from-the-external-copy">Restore something from the external copy</a></li><li><a href="#watch-the-overnight-job-run">Watch the overnight job run</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
   </div>
-  
-  <nav class="section-tight" aria-label="Series navigation">
-    <p><a href="/cyberbiota-blog/cyberbiota35/">All ten posts in the CyberBiota3.5 series</a></p>
-    <p>Previous: <a href="/cyberbiota-blog/journal/cyberbiota35-host-repairs/">Before adding more AI, we had to fix the host</a></p>
-    <p>Next: <a href="/cyberbiota-blog/journal/cyberbiota35-agent-roles/">Thirty-two roles on one home lab</a></p>
-  </nav>
+</article>
+<section class="related-section"><div class="shell"><div class="section-heading"><h2>Keep reading</h2><a class="text-link" href="/cyberbiota-blog/journal/">All entries</a></div><div class="related-grid">
 
-</div>
-</main>
-    <footer class="site-footer">
-  <div class="shell footer-grid">
-    <div><strong>CyberBiota3</strong><p>A learning home lab, documented with its changes and limits.</p></div>
-    <div><span class="eyebrow">Explore</span><a href="/cyberbiota-blog/applications/">Applications</a><a href="/cyberbiota-blog/methods/">Evidence & corrections</a><a href="/cyberbiota-blog/future/">Future research</a></div>
-    <div><span class="eyebrow">Connect</span><a href="mailto:abrown1@outlook.com">abrown1@outlook.com</a><a href="https://github.com/BoublerTech">GitHub profile</a><a href="/cyberbiota-blog/feed.xml">Journal feed</a></div>
+<article class="post-card">
+  <a class="post-art art-storage" href="/cyberbiota-blog/journal/cyberbiota35-database-restore/" tabindex="-1" aria-hidden="true"><img src="/cyberbiota-blog/assets/brand/storage.svg" width="720" height="250" alt="" loading="lazy"></a>
+  <div class="post-card-body"><div class="post-meta"><span>Storage &amp; recovery</span><time datetime="2026-11-25">Nov 25, 2026</time></div>
+  <h3><a href="/cyberbiota-blog/journal/cyberbiota35-database-restore/">Restoring a database from the daily backup</a></h3><p>I restored the orchestration database into an isolated PostgreSQL instance and checked the tables, indexes, and remaining gaps.</p>
+  <span class="reading-time">3 min read</span></div>
+</article>
+
+
+<article class="post-card">
+  <a class="post-art art-storage" href="/cyberbiota-blog/journal/proving-the-restore/" tabindex="-1" aria-hidden="true"><img src="/cyberbiota-blog/assets/brand/storage.svg" width="720" height="250" alt="" loading="lazy"></a>
+  <div class="post-card-body"><div class="post-meta"><span>Storage &amp; recovery</span><time datetime="2026-11-24">Nov 24, 2026</time></div>
+  <h3><a href="/cyberbiota-blog/journal/proving-the-restore/">The first backup I could show how to restore</a></h3><p>A repository restore and a later scheduled run gave me two different pieces of recovery evidence.</p>
+  <span class="reading-time">2 min read</span></div>
+</article>
+</div></div></section>
+</main><footer class="site-footer">
+  <div class="shell footer-top">
+    <div class="footer-intro"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="48" height="48" alt=""><h2>Questions about the lab?</h2><p>I’m always interested in how other people build and run their own services.</p><a class="contact-link" href="mailto:abrown1@outlook.com">abrown1@outlook.com</a></div>
+    <div class="footer-links"><h3>Explore</h3><a href="/cyberbiota-blog/journal/">All entries</a><a href="/cyberbiota-blog/cyberbiota35/">CyberBiota3.5</a><a href="/cyberbiota-blog/applications/">Applications</a><a href="/cyberbiota-blog/case-studies/">Case studies</a></div>
+    <div class="footer-links"><h3>Elsewhere</h3><a href="https://github.com/BoublerTech">GitHub</a><a href="/cyberbiota-blog/feed.xml">Journal feed</a><a href="/cyberbiota-blog/methods/">Sources & corrections</a><a href="/cyberbiota-blog/about/">About this journal</a></div>
   </div>
-  <div class="shell footer-bottom"><span>© 2026 BoublerTech</span><span>Historical accounts include their evidence boundaries.</span></div>
+  <div class="shell footer-bottom"><span>© 2026 BoublerTech</span><span>CyberBiota3 · An open-source home lab</span></div>
 </footer>
-
-  </body>
+</body>
 </html>
