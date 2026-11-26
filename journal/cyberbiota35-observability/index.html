@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Teaching the new tools to read the lab · CyberBiota3</title>
+    <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal feed" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
+    <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css">
+    <!-- Begin Jekyll SEO tag v2.9.1 -->
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Teaching the new tools to read the lab" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="The monitoring work reused VictoriaMetrics, Loki, NetBox, and existing probes, then added bounded Python adapters for specific operational questions." />
+<meta name="twitter:description" property="og:description" content="The monitoring work reused VictoriaMetrics, Loki, NetBox, and existing probes, then added bounded Python adapters for specific operational questions." />
+<link rel="canonical" href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-observability/" />
+<meta property="og:url" content="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-observability/" />
+<meta property="og:site_name" content="CyberBiota3" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-11-25T00:00:00-05:00" />
+<meta property="article:modified_time" content="2026-11-25T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Teaching the new tools to read the lab" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-11-25T00:00:00-05:00","datePublished":"2026-11-25T00:00:00-05:00","description":"The monitoring work reused VictoriaMetrics, Loki, NetBox, and existing probes, then added bounded Python adapters for specific operational questions.","headline":"Teaching the new tools to read the lab","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-observability/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-observability/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell header-row">
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="/cyberbiota-blog/journey/" >Journey</a>
+      <a href="/cyberbiota-blog/architecture/" >Architecture</a>
+      <a href="/cyberbiota-blog/case-studies/" >Case studies</a>
+      <a href="/cyberbiota-blog/journal/" >Journal</a>
+      <a href="/cyberbiota-blog/about/" >About</a>
+    </nav>
+    <a class="header-contact" href="mailto:abrown1@outlook.com">Email me <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+
+    <main id="main" tabindex="-1"><div class="article-shell shell">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/cyberbiota-blog/">Home</a> <span aria-hidden="true">/</span> <a href="/cyberbiota-blog/journal/">Journal</a></nav>
+  <header class="article-header">
+    <div class="eyebrow">CyberBiota3.5 · Retrospective</div>
+    <h1>Teaching the new tools to read the lab</h1>
+    <p class="lede">The monitoring work reused VictoriaMetrics, Loki, NetBox, and existing probes, then added bounded Python adapters for specific operational questions.</p>
+    <div class="meta-line"><span>Events: November 23–24, 2026</span><span>Evidence: Project records reviewed through November 25, 2026</span><span>Entry date: <time datetime="2026-11-25">November 25, 2026</time></span></div>
+  </header>
+  
+  <div class="article-grid">
+    <div class="article-content prose"><p>CyberBiota already had monitoring before the 3.5 upgrade. The discovery pass found VictoriaMetrics, vmalert, Alertmanager, Grafana, Loki, Alloy, and Blackbox Exporter running. NetBox held inventory, and AdGuard handled DNS.</p>
+
+<p>The new work was to give the project small, testable ways to read those systems. We didn’t add another polling stack.</p>
+
+<h2 id="ask-a-specific-question">Ask a specific question</h2>
+
+<p>The first Python adapter set covered host and container health, bounded logs, network metrics, DNS and TLS checks, database health, backup status, restore evidence, and draft tickets.</p>
+
+<p>Instead of taking an arbitrary monitoring query, <code class="language-plaintext highlighter-rouge">network_health_query</code> accepted a named query template. The probe helper accepted approved targets. The database helper exposed fixed health views rather than arbitrary SQL. The container view omitted environment variables.</p>
+
+<p>That made the interfaces useful to test. An argument either selected a supported operation or was rejected. The tests included arbitrary URLs, SQL text, shell fragments, and free-form metric queries; those inputs were denied.</p>
+
+<p>The common adapter code also applied output limits and redaction. It capped responses at 64 KiB, recorded calls in a restricted audit log, and returned <code class="language-plaintext highlighter-rouge">unavailable</code> when a backend couldn’t be reached. An unavailable result had to remain visible to the caller.</p>
+
+<h2 id="follow-one-failed-probe-through-to-a-draft">Follow one failed probe through to a draft</h2>
+
+<p>The first monitoring drill used a deliberately closed local port. Blackbox Exporter reported <code class="language-plaintext highlighter-rouge">probe_success=0</code>. The adapter created a draft ticket and recorded that no external notification had been sent.</p>
+
+<p>Replaying the same idempotency key returned a deduplicated result. A check against the working target then returned <code class="language-plaintext highlighter-rouge">probe_success=1</code>.</p>
+
+<p>That sequence tested failure detection, draft creation, repeat handling, and the contrasting healthy probe. It didn’t simulate a real customer outage or prove that an agent repaired a service. Nothing was automatically restarted.</p>
+
+<p>The live integration checks also looked for fresh telemetry, read an Alertmanager summary, retrieved a small bounded log sample, and checked selected host, container, database, and backup metadata. The first combined set passed 11 tests.</p>
+
+<h2 id="compare-inventory-with-what-the-host-reports">Compare inventory with what the host reports</h2>
+
+<p>The next stage added NetBox inventory queries and a redacted configuration diff. The inventory reconciliation compared the host’s passively observed addresses with a sample from NetBox. Both observed host addresses were represented in that sample.</p>
+
+<p>That result was about this host and that inventory sample. It didn’t show that every device on the home network was accurately inventoried.</p>
+
+<p>The diff adapter read only approved configuration files. Tests rejected traversal into other paths, secret-file requests, invalid revisions, and unauthorized role IDs. The purpose was to explain a configuration change without returning a raw checkout full of unrelated settings.</p>
+
+<p>There was also a documentation mismatch worth resolving before writing this post: one phase report described a broader set of authorized NOC names than the implementation’s role allowlist. The shared adapter code has the narrower list. I haven’t treated the longer report table as proof that those extra roles have access.</p>
+
+<h2 id="leave-network-visibility-gaps-visible">Leave network visibility gaps visible</h2>
+
+<p>The Dell was connected over Wi-Fi. There was no authorized switch-mirror feed, no live packet sensor, and no approved set of switch polling targets in this work.</p>
+
+<p>We deferred Zabbix, Oxidized, SmokePing, and continuous flow tooling because the existing stack covered the approved questions or the hardware and network setup didn’t justify the addition.</p>
+
+<p>The Python tests reached live backends. The later gateway tests proved selected role routing and sandbox behavior. Those are separate results: this work doesn’t yet demonstrate a real Telegram incident using every adapter end to end. The next step is to collect that evidence during actual use, without changing the meaning of the tests we already have.</p>
+
+</div>
+    
+    <aside class="article-aside">
+      <nav class="aside-card chapter-index" aria-label="Series contents">
+        <span class="eyebrow">The CyberBiota3.5 upgrade</span>
+        <p><a href="/cyberbiota-blog/cyberbiota35/">About this series</a></p>
+        <ol>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-starting-point/">CyberBiota3.5 started with the lab I already had</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-host-repairs/">Before adding more AI, we had to fix the host</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-usb-backup/">Getting a backup off the host—and restoring from it</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-agent-roles/">Thirty-two roles on one home lab</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-hybrid-inference/">Why the coordinator went to the cloud</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-observability/" aria-current="page">Teaching the new tools to read the lab</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-security-monitoring/">Building security visibility that fit the laptop</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-database-restore/">A backup archive finally became a running database</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-incident-drills/">Five incident drills, with production changes disabled</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></li>
+          
+        </ol>
+      </nav>
+    </aside>
+    
+  </div>
+  
+  <nav class="section-tight" aria-label="Series navigation">
+    <p><a href="/cyberbiota-blog/cyberbiota35/">All ten posts in the CyberBiota3.5 series</a></p>
+    <p>Previous: <a href="/cyberbiota-blog/journal/cyberbiota35-hybrid-inference/">Why the coordinator went to the cloud</a></p>
+    <p>Next: <a href="/cyberbiota-blog/journal/cyberbiota35-security-monitoring/">Building security visibility that fit the laptop</a></p>
+  </nav>
+
+</div>
+</main>
+    <footer class="site-footer">
+  <div class="shell footer-grid">
+    <div><strong>CyberBiota3</strong><p>A learning home lab, documented with its changes and limits.</p></div>
+    <div><span class="eyebrow">Explore</span><a href="/cyberbiota-blog/applications/">Applications</a><a href="/cyberbiota-blog/methods/">Evidence & corrections</a><a href="/cyberbiota-blog/future/">Future research</a></div>
+    <div><span class="eyebrow">Connect</span><a href="mailto:abrown1@outlook.com">abrown1@outlook.com</a><a href="https://github.com/BoublerTech">GitHub profile</a><a href="/cyberbiota-blog/feed.xml">Journal feed</a></div>
+  </div>
+  <div class="shell footer-bottom"><span>© 2026 BoublerTech</span><span>Historical accounts include their evidence boundaries.</span></div>
+</footer>
+
+  </body>
+</html>

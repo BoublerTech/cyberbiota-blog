@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Thirty-two roles on one home lab · CyberBiota3</title>
+    <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal feed" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
+    <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css">
+    <!-- Begin Jekyll SEO tag v2.9.1 -->
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Thirty-two roles on one home lab" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="The upgrade divided operations into leads and specialists, then tested who could read, delegate, and execute." />
+<meta name="twitter:description" property="og:description" content="The upgrade divided operations into leads and specialists, then tested who could read, delegate, and execute." />
+<link rel="canonical" href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-agent-roles/" />
+<meta property="og:url" content="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-agent-roles/" />
+<meta property="og:site_name" content="CyberBiota3" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-11-25T00:00:00-05:00" />
+<meta property="article:modified_time" content="2026-11-25T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Thirty-two roles on one home lab" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-11-25T00:00:00-05:00","datePublished":"2026-11-25T00:00:00-05:00","description":"The upgrade divided operations into leads and specialists, then tested who could read, delegate, and execute.","headline":"Thirty-two roles on one home lab","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-agent-roles/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-agent-roles/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell header-row">
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="/cyberbiota-blog/journey/" >Journey</a>
+      <a href="/cyberbiota-blog/architecture/" >Architecture</a>
+      <a href="/cyberbiota-blog/case-studies/" >Case studies</a>
+      <a href="/cyberbiota-blog/journal/" >Journal</a>
+      <a href="/cyberbiota-blog/about/" >About</a>
+    </nav>
+    <a class="header-contact" href="mailto:abrown1@outlook.com">Email me <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+
+    <main id="main" tabindex="-1"><div class="article-shell shell">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/cyberbiota-blog/">Home</a> <span aria-hidden="true">/</span> <a href="/cyberbiota-blog/journal/">Journal</a></nav>
+  <header class="article-header">
+    <div class="eyebrow">CyberBiota3.5 · Retrospective</div>
+    <h1>Thirty-two roles on one home lab</h1>
+    <p class="lede">The upgrade divided operations into leads and specialists, then tested who could read, delegate, and execute.</p>
+    <div class="meta-line"><span>Events: November 23–24, 2026</span><span>Evidence: Project records reviewed through November 25, 2026</span><span>Entry date: <time datetime="2026-11-25">November 25, 2026</time></span></div>
+  </header>
+  
+  <div class="article-grid">
+    <div class="article-content prose"><p>The live CyberBiota3 configuration already had 14 agent IDs when we began the upgrade. That made replacing it a migration problem: the Telegram-bound coordinator and the older workflows still had jobs to do.</p>
+
+<p>I approved designing the new structure offline first. It used 32 roles, with exact IDs and explicit delegation paths. Only the existing coordinator, <code class="language-plaintext highlighter-rouge">main</code>, shared its name with the new structure.</p>
+
+<h2 id="give-each-role-a-bounded-job">Give each role a bounded job</h2>
+
+<p>The design grouped work into eight departments: security operations, network operations, help desk, Linux, Docker, databases, the AI platform, and backup and recovery. Together they contained 30 roles. The coordinator and an independent governance role brought the total to 32.</p>
+
+<p>The split was ten core identities and 22 on-demand specialists. “Core” meant an identity the system could address. It didn’t mean a continuously running model or a new heartbeat job.</p>
+
+<p>A database question illustrates the intended route:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Owner
+  → main
+    → dba-lead
+      → dba-performance
+</code></pre></div></div>
+
+<p>The coordinator could delegate to a department lead. A lead could delegate to its registered specialists. Specialists couldn’t spawn their own teams. Governance had no children and could review evidence without approving a change.</p>
+
+<p>That structure put a limit on how far a request could spread. The candidate required explicit agent IDs, allowed two delegation edges below the coordinator, and started with one concurrent run. A graph check looked for unreachable roles, cycles, and paths that exceeded the depth limit.</p>
+
+<h2 id="a-workspace-isnt-the-whole-boundary">A workspace isn’t the whole boundary</h2>
+
+<p>Each new role had a separate workspace and state directory. The candidate also specified a Docker sandbox, read-only workspace access, no sandbox network, a read-only root filesystem, dropped capabilities, and explicit denial of shell and modifying tools.</p>
+
+<p>The production registration later recorded these settings for the 31 newly added roles:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"all"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"scope"</span><span class="p">:</span><span class="w"> </span><span class="s2">"agent"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"workspaceAccess"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ro"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"docker"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"network"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"readOnlyRoot"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"capDrop"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"ALL"</span><span class="p">],</span><span class="w">
+    </span><span class="nl">"memory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"512m"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cpus"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>This is an excerpt of the recorded configuration, not a complete deployable file. The per-role tool rules were another part of the restriction. A later live test inspected a running sandbox to check that the network, root-filesystem, capability, CPU, and memory settings were actually applied.</p>
+
+<h2 id="keep-the-migration-count-honest">Keep the migration count honest</h2>
+
+<p>The three database IDs were checked for collisions and explicitly ratified. The older roles were mapped in the design, but that mapping didn’t authorize deleting them.</p>
+
+<p>At production cutover, 31 new roles were added beside the existing configuration. <code class="language-plaintext highlighter-rouge">main</code> became the shared coordinator for the new delegation paths, and the 13 other legacy roles were preserved. The live registry therefore contained 45 IDs: 32 belonging to the 3.5 structure, including <code class="language-plaintext highlighter-rouge">main</code>, plus 13 preserved legacy IDs.</p>
+
+<p>That count doesn’t show 45 active workers, nor does it establish identical permissions across the old and new roles. The new sandbox settings were recorded per new role; the legacy configuration was deliberately preserved.</p>
+
+<h2 id="test-the-rules-after-the-configuration-passes">Test the rules after the configuration passes</h2>
+
+<p>The offline candidate passed OpenClaw’s schema validator and the project checks for role counts, delegation edges, and forbidden tools. Runtime tests then asked different questions: could a role read another workspace, access the credential store, or skip the hierarchy?</p>
+
+<p>Those attempts were denied in the staging pilot. The allowed coordinator-to-lead route succeeded. The next post covers the complication behind that success: the local model didn’t complete the multi-step delegation task, and the working pilot used a cloud coordinator with local specialists.</p>
+
+</div>
+    
+    <aside class="article-aside">
+      <nav class="aside-card chapter-index" aria-label="Series contents">
+        <span class="eyebrow">The CyberBiota3.5 upgrade</span>
+        <p><a href="/cyberbiota-blog/cyberbiota35/">About this series</a></p>
+        <ol>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-starting-point/">CyberBiota3.5 started with the lab I already had</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-host-repairs/">Before adding more AI, we had to fix the host</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-usb-backup/">Getting a backup off the host—and restoring from it</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-agent-roles/" aria-current="page">Thirty-two roles on one home lab</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-hybrid-inference/">Why the coordinator went to the cloud</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-observability/">Teaching the new tools to read the lab</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-security-monitoring/">Building security visibility that fit the laptop</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-database-restore/">A backup archive finally became a running database</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-incident-drills/">Five incident drills, with production changes disabled</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></li>
+          
+        </ol>
+      </nav>
+    </aside>
+    
+  </div>
+  
+  <nav class="section-tight" aria-label="Series navigation">
+    <p><a href="/cyberbiota-blog/cyberbiota35/">All ten posts in the CyberBiota3.5 series</a></p>
+    <p>Previous: <a href="/cyberbiota-blog/journal/cyberbiota35-usb-backup/">Getting a backup off the host—and restoring from it</a></p>
+    <p>Next: <a href="/cyberbiota-blog/journal/cyberbiota35-hybrid-inference/">Why the coordinator went to the cloud</a></p>
+  </nav>
+
+</div>
+</main>
+    <footer class="site-footer">
+  <div class="shell footer-grid">
+    <div><strong>CyberBiota3</strong><p>A learning home lab, documented with its changes and limits.</p></div>
+    <div><span class="eyebrow">Explore</span><a href="/cyberbiota-blog/applications/">Applications</a><a href="/cyberbiota-blog/methods/">Evidence & corrections</a><a href="/cyberbiota-blog/future/">Future research</a></div>
+    <div><span class="eyebrow">Connect</span><a href="mailto:abrown1@outlook.com">abrown1@outlook.com</a><a href="https://github.com/BoublerTech">GitHub profile</a><a href="/cyberbiota-blog/feed.xml">Journal feed</a></div>
+  </div>
+  <div class="shell footer-bottom"><span>© 2026 BoublerTech</span><span>Historical accounts include their evidence boundaries.</span></div>
+</footer>
+
+  </body>
+</html>

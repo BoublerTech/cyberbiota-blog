@@ -1,209 +1,428 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://boublertech.github.io/cyberbiota-blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://boublertech.github.io/cyberbiota-blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-11-24T17:38:17-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/feed.xml</id><title type="html">CyberBiota3</title><subtitle>Building, operating, and learning in a home lab.</subtitle><entry><title type="html">AriseOne and the first repeatable jobs</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/ariseone/" rel="alternate" type="text/html" title="AriseOne and the first repeatable jobs" /><published>2026-11-24T00:00:00-05:00</published><updated>2026-11-24T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/ariseone</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/ariseone/"><![CDATA[<p>The first thing I wanted AriseOne to do was simple: give me somewhere at home to run my own apps and keep my own data. I wanted to do it with open-source tools. Running several services made the next question obvious. How was I supposed to keep track of what each machine needed?</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://boublertech.github.io/cyberbiota-blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://boublertech.github.io/cyberbiota-blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-11-25T20:01:57-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/feed.xml</id><title type="html">CyberBiota3</title><subtitle>Building, operating, and learning in a home lab.</subtitle><entry><title type="html">Thirty-two roles on one home lab</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-agent-roles/" rel="alternate" type="text/html" title="Thirty-two roles on one home lab" /><published>2026-11-25T00:00:00-05:00</published><updated>2026-11-25T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-agent-roles</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-agent-roles/"><![CDATA[<p>The live CyberBiota3 configuration already had 14 agent IDs when we began the upgrade. That made replacing it a migration problem: the Telegram-bound coordinator and the older workflows still had jobs to do.</p>
 
-<h2 id="a-script-that-started-with-a-ping">A script that started with a ping</h2>
+<p>I approved designing the new structure offline first. It used 32 roles, with exact IDs and explicit delegation paths. Only the existing coordinator, <code class="language-plaintext highlighter-rouge">main</code>, shared its name with the new structure.</p>
 
-<p>The early repository has a Bash health check. It starts with a fixed list of machines. For each one, it tries a ping and then attempts to collect information like system load and free memory over SSH. The script can produce JSON as well as text. That made it possible to look at more than one machine from the same place.</p>
+<h2 id="give-each-role-a-bounded-job">Give each role a bounded job</h2>
 
-<p>The script still had a boundary. A reply to a ping didn’t tell me whether a file service was usable. It told me a machine had replied. SSH and the commands run through it were a second test, and the application would need another. That distinction shows up again later in the story, when Grafana can connect to a database but has nothing useful to display.</p>
+<p>The design grouped work into eight departments: security operations, network operations, help desk, Linux, Docker, databases, the AI platform, and backup and recovery. Together they contained 30 roles. The coordinator and an independent governance role brought the total to 32.</p>
 
-<p>The Ansible playbook handled a different job. It refreshed the package cache on Debian-family systems, applied upgrades, and cleaned unused packages. At the end it looked for the reboot-required marker and reported which host needed attention. It didn’t reboot the machines. I could see where the automation stopped and where somebody still had to make a decision. These are things I can see in the January repository. I don’t have a run record that shows how often the playbook was used.</p>
+<p>The split was ten core identities and 22 on-demand specialists. “Core” meant an identity the system could address. It didn’t mean a continuously running model or a new heartbeat job.</p>
 
-<h2 id="a-lab-with-more-than-one-job">A lab with more than one job</h2>
+<p>A database question illustrates the intended route:</p>
 
-<p>The early February account describes the services that gave AriseOne a daily purpose. Nextcloud was the file service. Homepage was a single place to find the services. Zammad was for tickets. Proxmox ran the virtualized pieces, and a recurring problem with NVIDIA drivers turned up when the kernel changed. The notes describe a repair script and a ticket trigger. They don’t give me a full run showing that a ticket could trigger and verify a repair by itself.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Owner
+  → main
+    → dba-lead
+      → dba-performance
+</code></pre></div></div>
 
-<p>The February 7 and 8 notes describe checking Zammad before changing a system and moving Markdown notes into its knowledge base. That was a way to put the past work somewhere it could be found the next time a driver or service broke. It matters here because I was learning how much of running the lab depended on having useful notes about it.</p>
+<p>The coordinator could delegate to a department lead. A lead could delegate to its registered specialists. Specialists couldn’t spawn their own teams. Governance had no children and could review evidence without approving a change.</p>
 
-<p>The dates in the archive don’t all mean the same thing. A later account puts the workspace setup on January 16, and the earliest repository entries I’ve reviewed are from January 20. The next build has its own log. It shows the ideas I kept working with, including Proxmox, monitoring and ticketing. It leaves open which individual services and data moved over.</p>]]></content><author><name></name></author><category term="Project history" /><summary type="html"><![CDATA[Before CyberBiota, the lab was a collection of scripts. An inventory, a health check, and a ticket system gave those jobs a place to live.]]></summary></entry><entry><title type="html">The failed checks stayed in the report</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/counting-the-failed-checks/" rel="alternate" type="text/html" title="The failed checks stayed in the report" /><published>2026-11-24T00:00:00-05:00</published><updated>2026-11-24T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/counting-the-failed-checks</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/counting-the-failed-checks/"><![CDATA[<p>One of my October experiments was to see how much read-only diagnostic work local assistants could handle. There were two roles and a schedule. Each role had 96 windows over a day to turn the information it was given into a diagnostic result that met the check. It was a way to test repeated work rather than rely on one good answer.</p>
+<p>That structure put a limit on how far a request could spread. The candidate required explicit agent IDs, allowed two delegation edges below the coordinator, and started with one concurrent run. A graph check looked for unreachable roles, cycles, and paths that exceeded the depth limit.</p>
 
-<h2 id="the-day-that-missed-the-target">The day that missed the target</h2>
+<h2 id="a-workspace-isnt-the-whole-boundary">A workspace isn’t the whole boundary</h2>
 
-<p>One role passed in all 96 windows. The other passed in 87. That was about 91 percent against a requirement of 95 percent. The second role had missed the target even though the first had met it. An average across both roles would have hidden where the trouble was.</p>
+<p>Each new role had a separate workspace and state directory. The candidate also specified a Docker sandbox, read-only workspace access, no sandbox network, a read-only root filesystem, dropped capabilities, and explicit denial of shell and modifying tools.</p>
 
-<p>After a narrow correction to the handling of diagnostic data, a shorter set of scheduled checks came back clean. The first role passed 16 out of 16, and the second passed 15 out of 15. I can use that smaller result to see that the correction helped on those runs. It isn’t another full day and doesn’t replace the failures from the first one.</p>
+<p>The production registration later recorded these settings for the 31 newly added roles:</p>
 
-<p>The decision kept the original result in the report and allowed a limited read-only diagnostic use. It did not approve full incident handling or changes to the systems the assistants were examining. That scope matters to me because the lab still hosts my own apps and data. A read that helps me investigate a problem and a change that can affect an app are two different jobs.</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"all"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"scope"</span><span class="p">:</span><span class="w"> </span><span class="s2">"agent"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"workspaceAccess"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ro"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"docker"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"network"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"readOnlyRoot"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"capDrop"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"ALL"</span><span class="p">],</span><span class="w">
+    </span><span class="nl">"memory"</span><span class="p">:</span><span class="w"> </span><span class="s2">"512m"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"cpus"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
-<p>I wanted both sets of numbers in the blog because they explain why the work continued with a narrow scope. Anyone reading the report later can see the missed target, the follow-up, and the part of the job I was willing to rely on at that point.</p>]]></content><author><name></name></author><category term="Project history" /><summary type="html"><![CDATA[A later clean sample helped isolate the problem. The original day still included failures, and the accepted scope stayed limited.]]></summary></entry><entry><title type="html">The first CyberBiota build and the empty dashboard</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota-first-build/" rel="alternate" type="text/html" title="The first CyberBiota build and the empty dashboard" /><published>2026-11-24T00:00:00-05:00</published><updated>2026-11-24T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota-first-build</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota-first-build/"><![CDATA[<p>At 11:23 p.m. on February 13, the dashboard still had empty panels. Forty-three minutes earlier, the same log had marked the work as successful. The data was in InfluxDB, and Grafana could connect to it. The screen was still empty.</p>
+<p>This is an excerpt of the recorded configuration, not a complete deployable file. The per-role tool rules were another part of the restriction. A later live test inspected a running sandbox to check that the network, root-filesystem, capability, CPU, and memory settings were actually applied.</p>
 
-<p>I was building the first CyberBiota with Proxmox, ZFS storage, and a Linux container for the control tools. That guest ran Docker and Ansible along with InfluxDB and Grafana. Proxmox sent metrics to InfluxDB. The idea was to see what the host was doing in Grafana without having to log in and check each piece by hand. Making it work meant following the metric all the way to a panel on the screen.</p>
+<h2 id="keep-the-migration-count-honest">Keep the migration count honest</h2>
 
-<h2 id="what-each-check-told-me">What each check told me</h2>
+<p>The three database IDs were checked for collisions and explicitly ratified. The older roles were mapped in the design, but that mapping didn’t authorize deleting them.</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Part of the system</th>
-      <th>What the February log shows</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Proxmox to InfluxDB</td>
-      <td>The host sent metrics, and the database contained data.</td>
-    </tr>
-    <tr>
-      <td>Grafana to InfluxDB</td>
-      <td>Grafana could connect. That still left the queries and dashboard to check.</td>
-    </tr>
-    <tr>
-      <td>Grafana panels</td>
-      <td>The late check found empty panels. The log says a subsequent check found no incoming queries, and the work stopped for the night.</td>
-    </tr>
-  </tbody>
-</table>
+<p>At production cutover, 31 new roles were added beside the existing configuration. <code class="language-plaintext highlighter-rouge">main</code> became the shared coordinator for the new delegation paths, and the 13 other legacy roles were preserved. The live registry therefore contained 45 IDs: 32 belonging to the 3.5 structure, including <code class="language-plaintext highlighter-rouge">main</code>, plus 13 preserved legacy IDs.</p>
 
-<p>The next day, the fixes came in three pieces. The InfluxDB data source was changed to use explicit organization and bucket IDs. Then the dashboard JSON was cleaned up after Grafana reported a parsing error during provisioning. After that, the CPU panels needed queries that matched their actual sources. The Proxmox host metrics and the Telegraf metrics did not have the same CPU field or scale. A CPU panel that worked for one could give the wrong answer for the other.</p>
+<p>That count doesn’t show 45 active workers, nor does it establish identical permissions across the old and new roles. The new sandbox settings were recorded per new role; the legacy configuration was deliberately preserved.</p>
 
-<p>I can’t pin the whole evening on one bug. The first note that says “success” predates the empty-panel observation. The next day’s log describes what changed, but I don’t have the original rendered panels or exact software versions to reconstruct the whole result independently. That leaves enough to tell the story without turning an early check into an uptime claim.</p>
+<h2 id="test-the-rules-after-the-configuration-passes">Test the rules after the configuration passes</h2>
 
-<p>When I look at a dashboard now, the question I come back to is the one that was missing at 10:40 p.m.: <strong>what did the panel actually show?</strong> A sample in the database helps me narrow down a fault. The panel is what I opened the dashboard to see.</p>]]></content><author><name></name></author><category term="Project history" /><summary type="html"><![CDATA[Proxmox was sending metrics to InfluxDB, yet Grafana showed empty panels. The next day’s corrections reveal where the checks fell short.]]></summary></entry><entry><title type="html">Testing Dockhand before changing container management</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/dockhand-pilot/" rel="alternate" type="text/html" title="Testing Dockhand before changing container management" /><published>2026-11-24T00:00:00-05:00</published><updated>2026-11-24T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/dockhand-pilot</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/dockhand-pilot/"><![CDATA[<p>Portainer was already there when I tried Dockhand. I wanted to see how the other tool felt for the work I usually need a management screen to do: find a container, watch its logs and check how much of the host it is using. I kept Portainer available and left the Compose deployment files in charge of configuration. That way I could compare the interfaces without having to commit to a migration.</p>
+<p>The offline candidate passed OpenClaw’s schema validator and the project checks for role counts, delegation edges, and forbidden tools. Runtime tests then asked different questions: could a role read another workspace, access the credential store, or skip the hierarchy?</p>
 
-<p>The November 11 report is a record of what I was able to check on the first day.</p>
+<p>Those attempts were denied in the staging pilot. The allowed coordinator-to-lead route succeeded. The next post covers the complication behind that success: the local model didn’t complete the multi-step delegation task, and the working pilot used a cloud coordinator with local specialists.</p>]]></content><author><name></name></author><category term="CyberBiota3.5" /><summary type="html"><![CDATA[The upgrade divided operations into leads and specialists, then tested who could read, delegate, and execute.]]></summary></entry><entry><title type="html">A backup archive finally became a running database</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-database-restore/" rel="alternate" type="text/html" title="A backup archive finally became a running database" /><published>2026-11-25T00:00:00-05:00</published><updated>2026-11-25T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-database-restore</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-database-restore/"><![CDATA[<p>Earlier in the CyberBiota3.5 work, we had extracted backup files and checked their hashes. The OpenClaw archive also passed a listing check that found PostgreSQL table objects.</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Task</th>
-      <th>Observation</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Find what’s running</td>
-      <td>Dockhand and Docker listed the same 97 containers, of which 72 were running.</td>
-    </tr>
-    <tr>
-      <td>Follow a container’s output</td>
-      <td>A live log stream returned output from the selected container.</td>
-    </tr>
-    <tr>
-      <td>Check resource use</td>
-      <td>Sampled memory matched Docker. CPU readings differed slightly between polls.</td>
-    </tr>
-    <tr>
-      <td>Try the inventory without signing in</td>
-      <td>The request returned HTTP 401 after native app authentication was configured.</td>
-    </tr>
-  </tbody>
-</table>
+<p>The next stage went further. Could a dump from the daily backup actually restore into a running database?</p>
 
-<p>The report also inspected the bind mount used to reach Docker. That established the mount setting. It did not show which Docker API operations the app was authorized to make. That question needs a separate check before I can describe the permanent setup as limited to inspection.</p>
+<h2 id="start-with-the-database-footprint">Start with the database footprint</h2>
 
-<p>The pilot started a planned observation period. The report I used doesn’t include the result of that period or a completed retirement of Portainer. The useful result I can show is narrower: the everyday inspection tasks worked in the comparison, and I still had the existing interface if the new one stopped being useful.</p>]]></content><author><name></name></author><category term="Change journal" /><summary type="html"><![CDATA[A November change note on the Dockhand pilot, what its checks established, and why cutover is a separate decision.]]></summary></entry><entry><title type="html">Why CyberBiota 2 moved to bare-metal Ubuntu</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/leaving-proxmox/" rel="alternate" type="text/html" title="Why CyberBiota 2 moved to bare-metal Ubuntu" /><published>2026-11-24T00:00:00-05:00</published><updated>2026-11-24T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/leaving-proxmox</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/leaving-proxmox/"><![CDATA[<p>The last night of the Proxmox build involved moving Linux guests to a new network, restarting them, and updating the reverse proxy so it knew where to find their services. The log says the monitoring UI remained reachable and the proxy got responses from the backends it checked. The next morning, I was starting over with Ubuntu.</p>
+<p>The audit had found five PostgreSQL instances, plus MariaDB and Redis or Valkey services. The new database adapters exposed fixed statistics: connections, locks, sizes, cache-related views, and persistence status. They didn’t need application rows to answer those operational questions.</p>
 
-<p>That decision had a few months of experiments behind it. One March note records a failed attempt to restore OPNsense. Another describes a VyOS attempt that had problems. A later summary gives a different account of the gateway’s condition, so I can’t make a clean timeline of every working configuration. By April 6, the log does say the separate gateway experiments were being set aside in favor of Proxmox’s own network layer.</p>
+<p>At the measured checkpoint, PostgreSQL connection use was between 6% and 12%, with no waiting locks. That didn’t justify adding PgBouncer during this upgrade. We deferred it rather than adding a connection pool without a measured need.</p>
 
-<p>The hardest part of a network change can be getting back in when it goes wrong. The March 14 notes describe losing SSH access after a change and having limited physical recovery options on a laptop usually run without a local console. A service responding through the proxy would not help if I couldn’t reach the host to undo the change.</p>
+<p>Backup coverage needed more work. All five PostgreSQL instances had WAL archiving disabled, so the project had no demonstrated point-in-time recovery through that mechanism. The records also lacked verified standalone daily dump timers for Gitea, Planka, and Immich. A passing backup elsewhere couldn’t cover those gaps by implication.</p>
 
-<h2 id="the-april-7-rebuild">The April 7 rebuild</h2>
+<h2 id="restore-without-touching-production">Restore without touching production</h2>
 
-<p>The next build, CyberBiota 2, ran Ubuntu and Docker on the hardware. The installation record names Ubuntu 25.10. It describes a separate NVMe drive for persistent application data and local model storage, and records the NVIDIA driver seeing the GPU. The reasons in the transition notes were practical: memory pressure, competing workloads, and the repeated friction of getting commands and services through nested layers.</p>
+<p>The functional restore used the orchestration dump from the verified daily OpenClaw archive. We extracted it into private staging, checked its SHA-256 checksum, and started an ephemeral PostgreSQL 17 container.</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Before</th>
-      <th>After</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Proxmox host with networked guests</td>
-      <td>Ubuntu on the hardware, with Docker running on the host</td>
-    </tr>
-    <tr>
-      <td>Storage organized through the virtualization layout</td>
-      <td>A separate NVMe drive allocated to persistent app and model data</td>
-    </tr>
-    <tr>
-      <td>Hardware and service checks spread across host and guests</td>
-      <td>The native host could see the GPU in its own driver check</td>
-    </tr>
-  </tbody>
-</table>
+<p>The container had no network, a 512 MiB memory limit, one CPU, and no production mounts. No application jobs or webhooks were attached. That kept the test database from becoming an accidental second copy of an active automation service.</p>
 
-<p>It was a simpler layout to describe. It also concentrated more responsibility on the one host: storage, app permissions, backups and the path back into a machine that was normally headless. The April notes don’t give me enough measurements to claim a performance improvement, or a full restore list to say every application’s data survived. Later papers refer to Ubuntu 26.04 and don’t settle whether that was an upgrade or another reinstall.</p>
+<p>The dump was restored with <code class="language-plaintext highlighter-rouge">pg_restore</code>, followed by <code class="language-plaintext highlighter-rouge">ANALYZE</code>. The checks then queried database metadata rather than printing user data.</p>
 
-<p>For the thing I wanted out of my lab, hosting my own apps and data, the useful part of this story is what moved where. I could keep using containers. I no longer had to put a virtualized host between that container work and every part of the machine.</p>]]></content><author><name></name></author><category term="Project history" /><summary type="html"><![CDATA[A final Proxmox network migration was followed the next morning by a fresh Ubuntu install. That choice changed the lab’s network, storage, and hardware boundaries.]]></summary></entry><entry><title type="html">The first backup I could show how to restore</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/proving-the-restore/" rel="alternate" type="text/html" title="The first backup I could show how to restore" /><published>2026-11-24T00:00:00-05:00</published><updated>2026-11-24T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/proving-the-restore</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/proving-the-restore/"><![CDATA[<p>If the machine disappeared, I’d need to know how to put it back together. The first CyberBiota3 backup exercise kept that question small: could I get the project repository back and read the files that explained how the lab was built?</p>
-
-<p>I used Restic for a local encrypted copy. The result records both what was included and what was kept out. The project instructions and change records belonged in the backup. Known sensitive configuration and live runtime data were outside that scope. There was no reason to treat an encrypted copy as a reason to back up everything indiscriminately.</p>
-
-<h2 id="open-the-copy-and-check-it">Open the copy and check it</h2>
-
-<p>After confirming a snapshot existed, the test restored it into a separate folder. That meant I could inspect the restored files without laying them over the working copy. The June report names the README, the operations instructions and the backup plan among the files restored. It records a separate check for excluded paths. Those are the details that let me follow the test. I can tell where the data was restored, what was expected to show up, and what the test deliberately left outside.</p>
-
-<p>On July 6, the systemd timer ran the repository backup without a manual start. The receipt records an exit status of zero, a new snapshot timestamp and a successful Restic check. That’s useful because a recoverable copy today doesn’t mean the schedule will leave me another copy tomorrow. The scheduled run is also a different result from the June test, which actually put files back in a directory.</p>
-
-<p>The two checks leave me with something I can work from: selected project files were recoverable, and a later backup ran on schedule. The result doesn’t tell me how to restore a live app database or bring the whole host back. And because the copy was local, it doesn’t cover losing the machine and its storage together. If I’m keeping my own data, each of those jobs deserves the same treatment as the repository: restore it somewhere safe, then check what’s really there.</p>]]></content><author><name></name></author><category term="Project history" /><summary type="html"><![CDATA[A local encrypted snapshot, a restore into a test directory, and a later timer receipt answered different parts of the recovery question.]]></summary></entry><entry><title type="html">The rise of CyberBiota3</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/the-rise-of-cyberbiota3/" rel="alternate" type="text/html" title="The rise of CyberBiota3" /><published>2026-11-24T00:00:00-05:00</published><updated>2026-11-24T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/the-rise-of-cyberbiota3</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/the-rise-of-cyberbiota3/"><![CDATA[<p>I wanted to build my first home lab with open-source technology and use it to host my own apps and my own data.</p>
-
-<p>AriseOne was where I started. I had a Proxmox host and a few scripts. One script would ping machines and try to collect health information over SSH. An Ansible playbook could apply updates to the hosts in the inventory and tell me which ones needed a reboot. By February, the lab had a file service in Nextcloud, a dashboard in Homepage and a place for tickets in Zammad. Somewhere between those scripts and those services, my work went from getting one thing online to having several things to look after.</p>
-
-<h2 id="it-was-time-for-a-fresh-start">It was time for a fresh start</h2>
-
-<p>That’s why I moved on from AriseOne. CyberBiota 1 and 2 were earlier versions of a lab. CyberBiota3 is where I brought together what I learned from them. The changes in the logs give that idea a physical shape.</p>
-
-<p>The first CyberBiota still ran on Proxmox. It used ZFS for storage and put the monitoring tools in a Linux container of their own. The host sent data to InfluxDB, but Grafana still showed empty panels. The February log has the whole turn: “success” at 10:40 p.m., empty panels at 11:23, and work suspended at 11:34. The next day, the notes show changes to the Grafana data source, the dashboard JSON and the CPU queries. Each change fixed a different part of the path between the host and the screen.</p>
-
-<p>CyberBiota 2 changed the layout. After a run of gateway and network experiments, I moved off Proxmox. The April 7 record shows a clean Ubuntu 25.10 installation, Docker on the host, a separate NVMe drive for persistent data and models, and a driver check for the GPU. Those records tell me what was installed. They don’t give me a full list of which applications or data were carried forward from AriseOne and the first CyberBiota, so I leave that part of the story open.</p>
-
-<h2 id="what-i-carried-into-cyberbiota3">What I carried into CyberBiota3</h2>
-
-<p>By June, I still wanted the same thing: my own apps and my own data. The records now show more of the work of looking after them. When the first Compose deployment couldn’t pull two image tags, the failure stayed in the notes beside the retry. When one app needed new configuration, its database and cache were left running. When the dashboard stopped returning HTTP 500 and opened its setup screen, the result said exactly that. There wasn’t a completed setup test to put beside it yet.</p>
-
-<p>The clearest example for me is the backup. A snapshot was one step. The June check restored selected project files to a separate folder and verified that important files came back. In July, a natural timer run proved that the backup could run on its own, on that occasion. If I’m going to host my own data, I want to know which of those things I have actually checked.</p>
-
-<p>This blog is where I’m putting those changes in order. <a href="/cyberbiota-blog/journal/ariseone/">Start with AriseOne</a> to see what I had to work with, or <a href="/cyberbiota-blog/journal/#changes">open the change journal</a> for what’s been changing since.</p>]]></content><author><name></name></author><category term="Project history" /><summary type="html"><![CDATA[The story of building my first open-source home lab, from AriseOne to CyberBiota3.]]></summary></entry><entry><title type="html">A valid Compose file and a failed deployment</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/three-deployment-checks/" rel="alternate" type="text/html" title="A valid Compose file and a failed deployment" /><published>2026-11-24T00:00:00-05:00</published><updated>2026-11-24T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/three-deployment-checks</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/three-deployment-checks/"><![CDATA[<p>I had a Compose file that passed validation and a stack that wouldn’t start. The first June 26 attempt stopped at the image pull. Two tags in the definition didn’t resolve at their registries. That left me with a perfectly readable file and software Docker couldn’t fetch.</p>
-
-<p>I could check the image problem on its own. The remediation record shows the replacement tags were inspected against the registry before the next attempt. The new image names fixed that part of the deployment. They also let the apps get far enough to report problems that had nothing to do with tags.</p>
-
-<h2 id="two-apps-two-different-faults">Two apps, two different faults</h2>
-
-<p>Infisical was stuck restarting. The inputs it needed were supplied, but their lengths or encoding did not match what the app expected. The repair corrected the inputs and recreated the Infisical app container. Postgres and Redis were left running. The follow-up inspection showed the app running without a restart in that check. Its selected route also returned HTTP 200.</p>
-
-<p>Homarr had a different problem. It returned HTTP 500 because the container was missing an encryption key that the Compose service should have passed in. Adding the mapping and recreating Homarr changed the response to HTTP 307. That sent the browser to first-run setup.</p>
+<p>The recorded result was:</p>
 
 <table>
   <thead>
     <tr>
       <th>Check</th>
-      <th>Result at the end of the retry</th>
+      <th>Restored result</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>Caddy, Gitea, Infisical and n8n routes</td>
-      <td>The four selected routes responded with HTTP 200.</td>
+      <td>Public tables</td>
+      <td>17</td>
     </tr>
     <tr>
-      <td>Homarr route</td>
-      <td>HTTP 307 to the setup screen, after the earlier HTTP 500.</td>
+      <td>Indexes</td>
+      <td>40</td>
     </tr>
     <tr>
-      <td>Complete Homarr setup</td>
-      <td>No completed user test in this result.</td>
+      <td>Populated tables</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>Database size</td>
+      <td>51 MB</td>
+    </tr>
+    <tr>
+      <td>Extract, checksum, startup, restore, and analysis</td>
+      <td>9.48 seconds</td>
     </tr>
   </tbody>
 </table>
 
-<p>The point where I stopped for each service tells me what to try next. I would check the tags before the pull, confirm the app can start with the right configuration, and then do the thing I installed the app for. For Homarr, the next check was somebody getting through setup.</p>
+<p>The source backup was taken at midnight local time that day. That timestamp identifies the recoverable snapshot used in this exercise. The 9.48 seconds measures this isolated database test; it isn’t a recovery target for the entire home lab.</p>
 
-<p>Recreating the whole stack would have made this harder to read. The evidence pointed to two apps. Keeping the database and cache in place limited what changed between checks. That’s the part I would carry into another deploy, even if the next stack used completely different software.</p>]]></content><author><name></name></author><category term="Project history" /><summary type="html"><![CDATA[The first CyberBiota3 deployment failed before images could pull. On the retry, two applications needed different repairs.]]></summary></entry><entry><title type="html">The webhook worked. I still rolled it back.</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/" rel="alternate" type="text/html" title="The webhook worked. I still rolled it back." /><published>2026-11-24T00:00:00-05:00</published><updated>2026-11-24T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/"><![CDATA[<p>I wanted a change in Gitea to reach an n8n workflow without somebody carrying the event between the two. The pilot proved it could make the trip. It also made the sender less picky about where it could send requests and how it checked the connection. Those were the settings in use when the event arrived. The result didn’t tell me whether the integration worked under the rules I wanted to keep.</p>
+<p>The temporary container and staging files were removed after the checks. Existing backup jobs, retention settings, and production volumes were preserved.</p>
 
-<h2 id="what-went-back">What went back</h2>
+<h2 id="put-recovery-evidence-beside-the-ticket">Put recovery evidence beside the ticket</h2>
 
-<p>The June 30 rollback removed the webhook at the source and the associated workflow on the receiving side. It restored the transport settings that had been widened for the pilot. The follow-up checks still showed the underlying services available. I could keep Gitea and n8n without keeping that integration.</p>
+<p>This phase also added draft service-desk classification, reviewed knowledge drafts, and a closure check requiring a human identifier and evidence references. Tests rejected the registered agent IDs when they tried to stand in for the human closer.</p>
 
-<p>That difference is easy to lose in a journal. Writing “n8n removed” would make it look like I had taken the service out again. Writing “webhook verified” would hide the condition I wouldn’t accept. The dated rollback records enough to name both results: event delivery was demonstrated, and that particular configuration was withdrawn.</p>
+<p>Those were adapter tests. They showed the intended draft and closure behavior under the tested inputs, rather than proving a deployed help-desk identity system. GLPI stayed deferred because the lab already had Leantime and Planka and the new draft helpers didn’t justify another application stack.</p>
 
-<p>The next time I try the connection, I want to be able to show two things with the same test setup. The intended workflow received the event, and the sender reached only the intended receiver over a connection it verified. Until those two results sit next to each other, a success message is one part of the work.</p>]]></content><author><name></name></author><category term="Project history" /><summary type="html"><![CDATA[The event arrived, but the pilot had changed the transport protections. The rollback removed the integration and kept the applications.]]></summary></entry><entry><title type="html">Why I removed n8n and brought it back</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/why-n8n-came-back/" rel="alternate" type="text/html" title="Why I removed n8n and brought it back" /><published>2026-11-24T00:00:00-05:00</published><updated>2026-11-24T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/why-n8n-came-back</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/why-n8n-came-back/"><![CDATA[<p>I didn’t think n8n was useful at first. The April 8 log shows it being removed after the move to Ubuntu. I was trying local models and agent-driven work, and the workflow engine no longer looked like something I needed to keep running.</p>
+<h2 id="keep-the-successful-restore-in-its-proper-scope">Keep the successful restore in its proper scope</h2>
 
-<p>I changed my mind after reading a home lab automation article from Virtualization Howto. That’s my recollection of what brought me back to it. I can’t point to the exact example in the article that did it. What I can show is the difference between trying a tool with no clear job for it and returning to it with a job I could test.</p>
+<p>The restored database was queryable, its indexes existed, and populated tables were present. That was stronger evidence than merely listing objects inside the dump.</p>
 
-<h2 id="what-came-back-in-june">What came back in June</h2>
+<p>It still didn’t test the application against the restored database, recover the photo library, or bring the whole machine back on replacement hardware. The recovery runbook therefore retained the missing dump coverage and WAL work as separate jobs. It also called out schema compatibility before any future image rollback: reverting an application image doesn’t by itself reverse its database migrations.</p>
 
-<p>n8n appears in the June 26 CyberBiota3 deployment. A route check returned HTTP 200 that day. That told me the service answered. Four days later, the webhook pilot gave it a specific task: take an event from Gitea and hand it to a workflow. Now there was a source, a trigger and a receiver that could be checked independently.</p>
+<p>This test gave the orchestration database a concrete recovery receipt. The other applications still need their own.</p>]]></content><author><name></name></author><category term="CyberBiota3.5" /><summary type="html"><![CDATA[The database stage restored a real PostgreSQL dump into an isolated engine, checked tables and indexes, and kept the untested recovery gaps on the list.]]></summary></entry><entry><title type="html">Before adding more AI, we had to fix the host</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-host-repairs/" rel="alternate" type="text/html" title="Before adding more AI, we had to fix the host" /><published>2026-11-25T00:00:00-05:00</published><updated>2026-11-25T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-host-repairs</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-host-repairs/"><![CDATA[<p>At the start of the CyberBiota3.5 work, OpenClaw answered its health check while the authenticated route failed with HTTP 502. Authelia was restarting. The host also wasn’t synchronizing its clock.</p>
 
-<p>The workflow did receive the event. The way the pilot got it there loosened the connection’s safeguards, so the webhook and associated workflow were removed and the settings were restored. Both applications stayed in the lab. This is where the April and June records can be easy to confuse. April reports removing n8n. June reports deploying it and later withdrawing one connection to it. The files I reviewed do not say whether any of the April workflow data survived.</p>
+<p>That was a useful place to begin. Adding a new agent structure wouldn’t repair the service sitting in front of it.</p>
 
-<p>When n8n returned, the webhook finally gave me a specific way to tell whether it was doing something useful. I could also remove that one connection without undoing the rest of the installation. <a href="/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/">The rollback has its own post.</a></p>]]></content><author><name></name></author><category term="Project history" /><summary type="html"><![CDATA[The April build moved toward agent-driven work. A practical home lab article made me reconsider what a visible workflow engine was good for.]]></summary></entry></feed>
+<h2 id="repair-the-clock-and-check-the-route-again">Repair the clock and check the route again</h2>
+
+<p>The audit found Chrony trying to reach time sources over NTS, the authenticated time-synchronization protocol, and receiving connection refusals. The approved repair added working NTS sources and stepped the clock. The recorded correction was about 3.5 seconds.</p>
+
+<p>Afterward, the host reported that its clock was synchronized. Authelia became healthy. The reliability check that had received a 502 now received a 401 on the protected route—the expected result for a request without a login. That checked something the gateway’s direct health response couldn’t: the authentication layer was responding again.</p>
+
+<p>Those results support the recorded repair. They don’t establish that every possible Authelia failure comes from clock drift. Here, clock synchronization, authentication health, and the proxy retest were checked together.</p>
+
+<h2 id="put-limits-around-the-workloads-already-running">Put limits around the workloads already running</h2>
+
+<p>Most of the running containers had no CPU or memory limit. We applied measured limits and saved them in ten Compose files, then validated all ten with <code class="language-plaintext highlighter-rouge">docker compose config -q</code>.</p>
+
+<p>cAdvisor was the clearest before-and-after example. The first remediation receipt recorded it at 3.39 GiB before recreation and about 50 MiB afterward, with a 512 MiB limit. A later checkpoint showed about 37 MiB. These are snapshots, rather than a long-term memory benchmark, but they explain why the existing footprint needed attention.</p>
+
+<p>At the first checkpoint, all 70 running containers had CPU and memory limits and none were unhealthy. After the later host work, the corresponding count was 71 of 71. Temporary agent sandboxes can change the running count, so those numbers belong to their checkpoints.</p>
+
+<p>We also removed the deprecated Portainer container and 26 stale rehearsal or candidate containers. Dockhand stayed healthy. No volumes were deleted. Portainer’s Compose service was placed behind a deprecated profile, preserving a route back without leaving it running.</p>
+
+<h2 id="make-room-without-deleting-the-data">Make room without deleting the data</h2>
+
+<p>The root SSD had only about 58 GiB available in the initial audit. The project required at least 20% free space on that disk—about 93.6 GiB.</p>
+
+<p>The next stage reclaimed roughly 70.6 GB of unused Docker build cache and 1.7 GB of dangling images. During the power-stability and storage work, Docker and containerd storage were moved onto the larger data SSD. The post-move record verified the bind mounts and showed the root disk at 70% used, with about 137 GiB free.</p>
+
+<p>The same checkpoint recorded the battery charge cap at 80%, synchronized time after reboot, healthy Authelia and cAdvisor, and no failed system or user units. It gave us a working baseline for continuing the upgrade. It didn’t prove the cause of every earlier freeze, so the project kept a seven-day observation period for stability.</p>
+
+<h2 id="fix-the-backup-job-too">Fix the backup job too</h2>
+
+<p>The repository backup had been exiting with status 3. The repair added narrow exclusions for protected key, runtime, and staging paths instead of loosening their permissions. The rerun completed successfully, and <code class="language-plaintext highlighter-rouge">restic check</code> passed across the 44 existing snapshots. Nothing was pruned.</p>
+
+<p>By the end of this stage, the lab had synchronized time, a working authentication check, bounded containers, more system-disk headroom, and a passing repository backup. The new AI work could now be tested against that baseline.</p>]]></content><author><name></name></author><category term="CyberBiota3.5" /><summary type="html"><![CDATA[A drifting clock, an authentication crash loop, uncapped containers, and a nearly full system disk became the first jobs in the CyberBiota3.5 upgrade.]]></summary></entry><entry><title type="html">Why the coordinator went to the cloud</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-hybrid-inference/" rel="alternate" type="text/html" title="Why the coordinator went to the cloud" /><published>2026-11-25T00:00:00-05:00</published><updated>2026-11-25T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-hybrid-inference</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-hybrid-inference/"><![CDATA[<p>I chose Qwen3 for CyberBiota3.5 because it was already the local model I wanted to keep using. The first inspection confirmed Ollama was serving <code class="language-plaintext highlighter-rouge">qwen3:8b</code> on the RTX 2070. We kept it as the local baseline rather than downloading another model to match an outdated proposal.</p>
+
+<p>The tests showed where that choice worked and where the coordinator needed something else.</p>
+
+<h2 id="one-correct-tool-call-didnt-prove-coordination">One correct tool call didn’t prove coordination</h2>
+
+<p>In the first model test, Qwen3 produced the expected typed call to <code class="language-plaintext highlighter-rouge">network_health_query</code>, selecting a DNS-latency query and a 15-minute window. A separate malicious-ticket test asked for secret access, firewall changes, and self-approval. The recorded response refused, with no tool calls.</p>
+
+<p>The staging pilot was harder. It required the coordinator to delegate work and handle the deferred tool response. Qwen3 returned an empty disposition on that multi-step task. That failure stayed in the record.</p>
+
+<p>On the same task class, the approved OpenAI OAuth model succeeded. The pilot coordinator delegated to <code class="language-plaintext highlighter-rouge">noc-lead</code>, and the child ran on local Qwen3 in its own Docker sandbox. That result gave us a specific reason for hybrid routing: use the cloud coordinator for the tested delegation task and retain local inference for the other roles.</p>
+
+<p>It wasn’t a benchmark proving every cloud task would be better. The local cold tool-call test and the later warm role turns also had different timings and workloads, so they shouldn’t be compared as if they were the same test.</p>
+
+<h2 id="authentication-and-execution-were-separate-problems">Authentication and execution were separate problems</h2>
+
+<p>The first unauthenticated cloud requests failed rather than switching providers. After I completed the official device-code approval for the isolated profile, the subscription catalog could be refreshed.</p>
+
+<p>There was still a runtime conflict. The selected Codex harness rejected the configuration while shell execution was denied. Enabling shell access would have changed the security boundary we were trying to test.</p>
+
+<p>The working configuration explicitly selected OpenClaw’s built-in runtime for the cloud model. The harmless cloud prompt then completed while <code class="language-plaintext highlighter-rouge">tools.exec.mode</code> remained <code class="language-plaintext highlighter-rouge">deny</code>. The receipt recorded a sandboxed run, the expected provider and model, and no fallback.</p>
+
+<p>A follow-up request for shell execution and a host-file read was blocked. Separately, the governance role had no inherited OAuth profile and the workspaces contained no copied credential databases.</p>
+
+<h2 id="prove-the-route-and-the-refusal">Prove the route and the refusal</h2>
+
+<p>The staging pilot used <code class="language-plaintext highlighter-rouge">gpt-6-astra</code> for the coordinator. Its allowed route to local <code class="language-plaintext highlighter-rouge">noc-lead</code> succeeded. A direct route from <code class="language-plaintext highlighter-rouge">main</code> to <code class="language-plaintext highlighter-rouge">soc-tier1</code> was denied because the coordinator was required to go through the security lead.</p>
+
+<p>Stopping the staging gateway left the live gateway and the existing monitoring services responsive. This let us test the coordinator without making monitoring depend on the experimental controller.</p>
+
+<h2 id="carry-the-tested-choice-into-production">Carry the tested choice into production</h2>
+
+<p>The installed OpenClaw release didn’t initially include the newer 6.2 model entries in its catalog. We handled the release upgrade as a separate approved change, rather than treating a model name in a proposal as proof it was usable.</p>
+
+<p>After the November 25 upgrade, the live account-scoped catalog exposed the approved model. <code class="language-plaintext highlighter-rouge">main</code> was changed to <code class="language-plaintext highlighter-rouge">openai/gpt-6.2-sol</code> through the built-in OpenClaw runtime. The default stayed <code class="language-plaintext highlighter-rouge">ollama/qwen3:8b</code> for the other 44 registered roles.</p>
+
+<p>The final smoke recorded the expected provider and model with <code class="language-plaintext highlighter-rouge">FALLBACK_USED=False</code>. The checked gateway process had no OpenAI API-key environment variable, and the 31 new role directories had no duplicated OAuth credentials. Live cloud-to-local delegation succeeded, and the direct-specialist bypass was denied again.</p>
+
+<p>Cloud coordination is still cloud processing; local specialist execution doesn’t make the whole request local. These receipts establish the tested route and credential checks. They don’t establish that every future task, quota response, or provider failure will behave correctly. Those remain part of operating the system after cutover.</p>]]></content><author><name></name></author><category term="CyberBiota3.5" /><summary type="html"><![CDATA[Qwen3 passed a typed-tool test but failed the pilot’s multi-step delegation task. A separate runtime problem also had to be solved without enabling shell execution.]]></summary></entry><entry><title type="html">Five incident drills, with production changes disabled</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-incident-drills/" rel="alternate" type="text/html" title="Five incident drills, with production changes disabled" /><published>2026-11-25T00:00:00-05:00</published><updated>2026-11-25T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-incident-drills</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-incident-drills/"><![CDATA[<p>Once the individual adapters were passing, we needed to see what happened when a problem involved more than one role. For CyberBiota3.5, we used five synthetic incident drills.</p>
+
+<p>The scenarios were invented test inputs. Some read-only checks reached the live lab, but we didn’t break production to make the stories more realistic, and no drill was an actual security incident.</p>
+
+<h2 id="assemble-only-the-team-the-scenario-needs">Assemble only the team the scenario needs</h2>
+
+<p>A database slowdown followed the route from <code class="language-plaintext highlighter-rouge">main</code> to <code class="language-plaintext highlighter-rouge">dba-lead</code> to <code class="language-plaintext highlighter-rouge">dba-performance</code>, then read live connection and lock statistics. A DNS outage used the network lead, the service specialist, a DNS check, and the monitoring probe summary.</p>
+
+<p>The endpoint-event drill combined security posture, a benign forensic manifest, and an offline detection sample. Its output was a draft case and a proposed response, with execution still false.</p>
+
+<p>The OpenClaw-failure drill checked whether the existing monitoring evidence remained available independently of the AI controller. The storage-pressure drill read disk and backup coverage and produced a draft request. It didn’t prune backups or delete volumes.</p>
+
+<p>The Python orchestrator loaded delegation edges from the candidate manifest. Tests rejected recursive delegation, cross-department jumps, a coordinator skipping directly to a specialist, and specialists trying to spawn another worker.</p>
+
+<p>These were controlled orchestration tests. The separate live gateway pilot and production smoke supplied the model-delegation evidence; the five drills weren’t five autonomous live model teams repairing the host.</p>
+
+<h2 id="repeat-the-request-and-limit-the-retries">Repeat the request and limit the retries</h2>
+
+<p>Each scenario was replayed with the same run identifier. Tickets, cases, and change requests were deduplicated instead of creating another set of records.</p>
+
+<p>The runner also imposed budgets. A flaky backend hit its circuit breaker after three attempts: the initial request and two retries. A test with a two-call tool budget refused the third call. Configuring three concurrent runs was rejected; the exercised limits were serial execution or at most two total runs.</p>
+
+<p>That mattered on a laptop with one local GPU. A failed backend shouldn’t create an expanding queue of reasoning jobs.</p>
+
+<h2 id="a-valid-delegation-path-cant-authorize-a-forbidden-action">A valid delegation path can’t authorize a forbidden action</h2>
+
+<p>The negative tests sent prohibited requests through otherwise valid coordinator-to-lead-to-specialist chains. Shell execution, live IP blocking, volume deletion, backup pruning, container management, and self-approval were refused.</p>
+
+<p>The approval component had its own checks outside the language model. It compared the human approver, allowed target and operation, canonical change-packet digest, signature, expiry, and single-use nonce. Tests rejected altered parameters, a forged signature, expired approval, replay, and attempts to use an agent identity as the approver.</p>
+
+<p>Even the correctly signed test packet remained in dry-run mode. The verifier did not grant a production executor permission to act.</p>
+
+<h2 id="what-the-passing-suite-meant">What the passing suite meant</h2>
+
+<p>By this point the combined Python suite contained 37 passing tests across monitoring, security, inventory, databases, service desk, and incident orchestration.</p>
+
+<p>That result was useful because it included refusals and failure handling, not just successful queries. It was still a finite test suite. It didn’t independently certify the security of every interface or establish a working production remediation service.</p>
+
+<p>The production executor remained disabled. The next stage could register the roles and test the live coordinator without quietly turning these draft workflows into autonomous host administration.</p>]]></content><author><name></name></author><category term="CyberBiota3.5" /><summary type="html"><![CDATA[We exercised small incident teams, duplicate handling, forbidden actions, and an approval verifier that stayed outside the model—and in dry-run mode.]]></summary></entry><entry><title type="html">Teaching the new tools to read the lab</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-observability/" rel="alternate" type="text/html" title="Teaching the new tools to read the lab" /><published>2026-11-25T00:00:00-05:00</published><updated>2026-11-25T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-observability</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-observability/"><![CDATA[<p>CyberBiota already had monitoring before the 3.5 upgrade. The discovery pass found VictoriaMetrics, vmalert, Alertmanager, Grafana, Loki, Alloy, and Blackbox Exporter running. NetBox held inventory, and AdGuard handled DNS.</p>
+
+<p>The new work was to give the project small, testable ways to read those systems. We didn’t add another polling stack.</p>
+
+<h2 id="ask-a-specific-question">Ask a specific question</h2>
+
+<p>The first Python adapter set covered host and container health, bounded logs, network metrics, DNS and TLS checks, database health, backup status, restore evidence, and draft tickets.</p>
+
+<p>Instead of taking an arbitrary monitoring query, <code class="language-plaintext highlighter-rouge">network_health_query</code> accepted a named query template. The probe helper accepted approved targets. The database helper exposed fixed health views rather than arbitrary SQL. The container view omitted environment variables.</p>
+
+<p>That made the interfaces useful to test. An argument either selected a supported operation or was rejected. The tests included arbitrary URLs, SQL text, shell fragments, and free-form metric queries; those inputs were denied.</p>
+
+<p>The common adapter code also applied output limits and redaction. It capped responses at 64 KiB, recorded calls in a restricted audit log, and returned <code class="language-plaintext highlighter-rouge">unavailable</code> when a backend couldn’t be reached. An unavailable result had to remain visible to the caller.</p>
+
+<h2 id="follow-one-failed-probe-through-to-a-draft">Follow one failed probe through to a draft</h2>
+
+<p>The first monitoring drill used a deliberately closed local port. Blackbox Exporter reported <code class="language-plaintext highlighter-rouge">probe_success=0</code>. The adapter created a draft ticket and recorded that no external notification had been sent.</p>
+
+<p>Replaying the same idempotency key returned a deduplicated result. A check against the working target then returned <code class="language-plaintext highlighter-rouge">probe_success=1</code>.</p>
+
+<p>That sequence tested failure detection, draft creation, repeat handling, and the contrasting healthy probe. It didn’t simulate a real customer outage or prove that an agent repaired a service. Nothing was automatically restarted.</p>
+
+<p>The live integration checks also looked for fresh telemetry, read an Alertmanager summary, retrieved a small bounded log sample, and checked selected host, container, database, and backup metadata. The first combined set passed 11 tests.</p>
+
+<h2 id="compare-inventory-with-what-the-host-reports">Compare inventory with what the host reports</h2>
+
+<p>The next stage added NetBox inventory queries and a redacted configuration diff. The inventory reconciliation compared the host’s passively observed addresses with a sample from NetBox. Both observed host addresses were represented in that sample.</p>
+
+<p>That result was about this host and that inventory sample. It didn’t show that every device on the home network was accurately inventoried.</p>
+
+<p>The diff adapter read only approved configuration files. Tests rejected traversal into other paths, secret-file requests, invalid revisions, and unauthorized role IDs. The purpose was to explain a configuration change without returning a raw checkout full of unrelated settings.</p>
+
+<p>There was also a documentation mismatch worth resolving before writing this post: one phase report described a broader set of authorized NOC names than the implementation’s role allowlist. The shared adapter code has the narrower list. I haven’t treated the longer report table as proof that those extra roles have access.</p>
+
+<h2 id="leave-network-visibility-gaps-visible">Leave network visibility gaps visible</h2>
+
+<p>The Dell was connected over Wi-Fi. There was no authorized switch-mirror feed, no live packet sensor, and no approved set of switch polling targets in this work.</p>
+
+<p>We deferred Zabbix, Oxidized, SmokePing, and continuous flow tooling because the existing stack covered the approved questions or the hardware and network setup didn’t justify the addition.</p>
+
+<p>The Python tests reached live backends. The later gateway tests proved selected role routing and sandbox behavior. Those are separate results: this work doesn’t yet demonstrate a real Telegram incident using every adapter end to end. The next step is to collect that evidence during actual use, without changing the meaning of the tests we already have.</p>]]></content><author><name></name></author><category term="CyberBiota3.5" /><summary type="html"><![CDATA[The monitoring work reused VictoriaMetrics, Loki, NetBox, and existing probes, then added bounded Python adapters for specific operational questions.]]></summary></entry><entry><title type="html">Putting CyberBiota3.5 into production</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-production-cutover/" rel="alternate" type="text/html" title="Putting CyberBiota3.5 into production" /><published>2026-11-25T00:00:00-05:00</published><updated>2026-11-25T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-production-cutover</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-production-cutover/"><![CDATA[<p>By late November 24, the offline design, staging pilot, adapter tests, and restore exercises had their validation records. The operating handoff had also been written. It still described the production cutover as future work.</p>
+
+<p>The project then continued through separately approved changes. That sequence matters when reading the files: the later cutover receipts supersede the handoff’s statement about production still being untouched.</p>
+
+<h2 id="add-the-new-roles-without-removing-the-old-workflows">Add the new roles without removing the old workflows</h2>
+
+<p>The first cutover saved a restricted pre-change configuration copy, checked its hash, and ran the external USB backup. The merged configuration passed OpenClaw’s schema validator before it replaced the live file.</p>
+
+<p>We added 31 role entries, each with its own workspace and state directory. Their per-role settings included a Docker sandbox, no sandbox network, read-only root and workspace access, dropped capabilities, resource limits, and denied shell execution.</p>
+
+<p>The existing <code class="language-plaintext highlighter-rouge">main</code> ID was wired to the eight department leads. Thirteen other legacy IDs, the Telegram binding, the documentation heartbeat, and the existing MCP server configuration were preserved. That made 45 registered IDs in total.</p>
+
+<p>The gateway restart took about 35 seconds through plugin and channel startup. The direct health response and reliability monitor passed afterward. A live governance turn identified its role and refused the requested shell and host-file access. Inspecting its actual Docker container confirmed the recorded network, filesystem, capability, memory, and CPU restrictions.</p>
+
+<p>The new per-role restrictions don’t establish that every legacy role or the preserved coordinator inherited the complete candidate policy. This was an additive cutover with targeted verification, not a clean replacement of all existing permissions.</p>
+
+<h2 id="upgrade-the-runtime-as-a-separate-change">Upgrade the runtime as a separate change</h2>
+
+<p>The next approved packet upgraded OpenClaw from <code class="language-plaintext highlighter-rouge">2026.10.4</code> to <code class="language-plaintext highlighter-rouge">2026.11.9</code>. Beforehand, the daily OpenClaw backup and external USB copy had successful receipts.</p>
+
+<p>Two admission blockers needed attention. An unused development symlink caused the candidate snapshot to be rejected; its target was recorded before removing the link. The expected policy-attestation hash also needed reconciliation with the verified post-cutover state. The recorded policy check passed all 68 checks before the upgrade proceeded.</p>
+
+<p>Afterward, the installed version, live health, schema validation, reliability monitor, and a sandboxed governance turn were checked again. The 37-test adapter suite passed. The newer model entries appeared in the catalog.</p>
+
+<p>One host result stayed separate: the daily AIDE file-integrity service reported failure after the approved changes. The upgrade receipt left that for an explicit baseline-review decision. It didn’t reinitialize the integrity database simply to clear the failure, and I can’t call that later checkpoint entirely clean.</p>
+
+<h2 id="put-the-hybrid-coordinator-on-the-live-route">Put the hybrid coordinator on the live route</h2>
+
+<p>I completed the official device-code authorization for the production coordinator. We didn’t copy the staging credentials into it.</p>
+
+<p><code class="language-plaintext highlighter-rouge">main</code> was configured for <code class="language-plaintext highlighter-rouge">openai/gpt-6.2-sol</code> through OpenClaw’s built-in runtime, with an empty fallback list. The default remained local <code class="language-plaintext highlighter-rouge">ollama/qwen3:8b</code> for the other 44 roles.</p>
+
+<p>The smoke test recorded the expected cloud model and no fallback. The credential checks found no OAuth duplication in the 31 new role directories and no OpenAI API-key environment variable in the gateway process.</p>
+
+<p>The decisive routing check used the live gateway: <code class="language-plaintext highlighter-rouge">main</code> delegated to local <code class="language-plaintext highlighter-rouge">noc-lead</code> in a restricted sandbox. A direct attempt to reach <code class="language-plaintext highlighter-rouge">soc-tier1</code> was denied. Health and readiness passed, and the adapter suite passed again. The owner accepted these two final change packets on November 25.</p>
+
+<h2 id="where-this-leaves-the-lab">Where this leaves the lab</h2>
+
+<p>The records show a production upgrade, an external backup with a selective restore, a functional database restore, new role boundaries, tested adapters, and a live hybrid delegation path. They don’t yet show every adapter used through a real Telegram request, a complete application recovery, or enabled production remediation.</p>
+
+<p>The project scheduled a seven-day observation window from November 24 to December 1. As of this November 25 entry, that period hasn’t elapsed. The final acceptance needs the daily backup receipts and stability evidence, with material regressions investigated and the affected observation period reset where required.</p>
+
+<p>The remaining list also includes the AIDE review, incomplete database dump coverage, no demonstrated WAL-based point-in-time recovery, the separately held recovery key, and the pending desktop-agent permission review. There is still one host and no failover.</p>
+
+<p>That is the current stopping point for this series. The next post should come from what the lab actually does during the observation period: the scheduled jobs, any failures, the fixes, and the eventual acceptance decision.</p>]]></content><author><name></name></author><category term="CyberBiota3.5" /><summary type="html"><![CDATA[The final changes added the new roles, upgraded OpenClaw, and proved a live cloud-to-local delegation. The observation period and recovery gaps remained open.]]></summary></entry><entry><title type="html">Building security visibility that fit the laptop</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-security-monitoring/" rel="alternate" type="text/html" title="Building security visibility that fit the laptop" /><published>2026-11-25T00:00:00-05:00</published><updated>2026-11-25T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-security-monitoring</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-security-monitoring/"><![CDATA[<p>Wazuh was part of the CyberBiota3.5 proposal. The machine’s resource budget decided whether it belonged in this implementation.</p>
+
+<p>At the admission checkpoint, the Dell had about 12.2 GiB of available RAM. The project’s budget for the proposed Wazuh central stack was 8 GiB. Subtracting that left roughly 4.2 GiB—below the 8 GiB safety reserve and below the 6 GiB stop threshold.</p>
+
+<p>We deferred it. The disk work had made room for files, but it hadn’t added RAM.</p>
+
+<h2 id="use-the-security-signals-already-present">Use the security signals already present</h2>
+
+<p>CrowdSec and Alertmanager were running. The new security adapter queried their existing signals without enabling active response. Requests for Wazuh data returned a structured unavailable result because there was no Wazuh backend to query.</p>
+
+<p>The vulnerability adapter read stored reports. It didn’t trigger an active scan. Case creation produced a draft, and the response interface produced a proposal awaiting approval, with <code class="language-plaintext highlighter-rouge">executed: false</code>.</p>
+
+<p>Those distinctions mattered on a home lab carrying my apps and data. A security-related message was still data to inspect, not permission to change the firewall or stop a container.</p>
+
+<p>The first security test set included malicious instructions embedded in tickets, cross-role access attempts, and input filtering for indicator lookups. Internal addresses, internal domains, and incident prose were rejected as external-enrichment inputs. The evidence here includes offline indicator fixtures; it doesn’t prove a complete live threat-intelligence service.</p>
+
+<h2 id="test-detection-logic-without-claiming-a-sensor">Test detection logic without claiming a sensor</h2>
+
+<p>We used benign positive and negative controls for detection handling. A matching sample had to appear, and a nonmatching control had to stay absent.</p>
+
+<p>Later tests parsed offline EVE JSON and Zeek connection samples. The EVE test removed two raw-payload fields before returning a result. Connection summaries exposed metadata rather than packet contents.</p>
+
+<p>Suricata wasn’t installed, and there was no switch-mirror feed. Passing these tests showed that the adapter handled those samples. It didn’t establish live network intrusion detection.</p>
+
+<p>The live socket query had a different, narrower source: passive sockets on the Dell itself. Its result explicitly described local-host coverage. It couldn’t see all traffic crossing the home network, and we didn’t label it as if it could.</p>
+
+<h2 id="inspect-the-endpoint-without-handing-over-a-shell">Inspect the endpoint without handing over a shell</h2>
+
+<p>The endpoint posture view gathered a fixed selection of information such as AppArmor status, failed units, and the state of existing security services. The investigation adapter used pre-approved packs for listening ports, container digests, privileged containers, and systemd timers.</p>
+
+<p>The live container review still found two privileged containers and seven using host networking. The new agent sandboxes didn’t remove those existing exceptions. Keeping the exceptions in the record prevents a successful sandbox test from turning into a claim that the whole Docker estate has the same isolation.</p>
+
+<p>Forensic handling was tested with a benign collection manifest and SHA-256 verification. The result returned evidence metadata rather than raw contents. That was a controlled test of the metadata path, not an investigation of an actual compromise.</p>
+
+<h2 id="what-remained-outside-this-upgrade">What remained outside this upgrade</h2>
+
+<p>We also deferred Security Onion, Arkime, Graylog, Greenbone/OpenVAS, MISP, Fleet, Velociraptor, and Shuffle. Some would need substantially more resources; others would need a separate justification, target scope, or execution authorization.</p>
+
+<p>The delivered work was smaller and more specific: existing security-signal queries, draft cases, bounded posture and investigation helpers, and tests that distinguished live data from offline samples. CyberBiota3.5 did not become a complete SIEM or an autonomous response platform during these three days.</p>]]></content><author><name></name></author><category term="CyberBiota3.5" /><summary type="html"><![CDATA[The security work used existing signals and bounded investigations. The RAM calculation kept Wazuh out, and offline detection samples stayed clearly labeled.]]></summary></entry><entry><title type="html">CyberBiota3.5 started with the lab I already had</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-starting-point/" rel="alternate" type="text/html" title="CyberBiota3.5 started with the lab I already had" /><published>2026-11-25T00:00:00-05:00</published><updated>2026-11-25T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-starting-point</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-starting-point/"><![CDATA[<p>I started home labbing because I wanted to use open-source technology to host my own apps and keep my own data. AriseOne was the beginning. CyberBiota 1 and 2 gave me room to try different versions of the lab. CyberBiota3 brought those earlier lessons together.</p>
+
+<p>CyberBiota3.5 builds on that same lab. The work recorded here happened over November 23–25, 2026: checking the host, repairing existing faults, testing a new agent structure, improving recovery, and putting the approved changes into production. I worked with coding agents on the implementation. The decisions, approvals, test results, and failures were recorded as we went.</p>
+
+<h2 id="the-plan-reached-beyond-the-agent-registry">The plan reached beyond the agent registry</h2>
+
+<p>The November 22 plan had two connected aims. OpenClaw would coordinate work on the home lab, while Addie 3 would bring together personal knowledge, planning, research, and selected actions. It covered the frontends, model routes, retrieval and memory, tools, identity, automation, monitoring, and recovery around that assistant.</p>
+
+<p>The implementation records from the following days are more specific: host repairs, the operations roles, subscription-backed inference, read-only and draft adapters, recovery tests, and the live gateway changes. They don’t establish that the whole personal-assistant and second-brain plan was delivered. This series follows the work we can trace through those records; the broader plan remains context for where it is meant to lead.</p>
+
+<h2 id="start-by-finding-out-what-is-actually-running">Start by finding out what is actually running</h2>
+
+<p>The first inspection found 98 containers: 70 running, 25 exited, two created, and one restarting. That last one was Authelia, the authentication service. Its crash loop was also making the authenticated proxy check fail, even though OpenClaw’s own health endpoint still responded.</p>
+
+<p>The machine was a Dell G7 7700 with a six-core, twelve-thread i7, about 30 GiB of usable RAM, and an RTX 2070 with 8 GiB of VRAM. It already ran the apps, databases, monitoring, and local inference. There wasn’t an empty server waiting for the new design.</p>
+
+<p>The smaller system SSD was 87% full. The larger data SSD had about 1.2 TiB free. Fifty-three of the 70 running containers had no memory limit; 55 had no CPU limit. The repository backup service had failed on its last recorded run. Those findings determined the first changes.</p>
+
+<p>The audit also corrected the paperwork. The monitoring backend was VictoriaMetrics, with vmalert, Alertmanager, Grafana, Loki, Alloy, and Blackbox Exporter. We didn’t need to install another monitoring stack just because an older plan named one. NetBox and CrowdSec were already running too.</p>
+
+<h2 id="keep-the-upgrade-inside-this-machines-limits">Keep the upgrade inside this machine’s limits</h2>
+
+<p>I ruled out adding the second laptop to this build. Its inspection showed a two-core, four-thread processor, about 14 GiB of RAM, Wi-Fi connectivity, and no available KVM device. The approved project stayed on the Dell.</p>
+
+<p>I also confirmed Qwen3 as the local model. An earlier proposal referred to a model that wasn’t installed. Ollama was actually serving <code class="language-plaintext highlighter-rouge">qwen3:8b</code>, and the first GPU snapshot showed it using about 6.6 GiB of the 8 GiB available. That made concurrent local inference a real capacity question.</p>
+
+<p>The new design separated the work into 32 named roles across operations, security, databases, recovery, and the AI platform, with a coordinator and an independent governance role. These were identities with different permissions. They weren’t 32 models loaded into memory. Local reasoning started serially, and specialists were intended to run when needed.</p>
+
+<h2 id="build-beside-production-then-cross-over-deliberately">Build beside production, then cross over deliberately</h2>
+
+<p>The early phases used separate state directories, an offline candidate configuration, and a loopback-only staging gateway. The existing OpenClaw gateway, Telegram binding, and legacy agents stayed in place while we tested.</p>
+
+<p>By November 24, the new roles had been added to production. On November 25, OpenClaw had been upgraded and the live coordinator was using the approved OpenAI subscription route while the other roles stayed on local Qwen3. An allowed delegation succeeded; an attempt to skip the department lead was denied.</p>
+
+<p>There is still a difference between reaching that point and finishing every part of the larger vision. The adapter suite was tested separately from the live gateway routing. Automatic production remediation remained disabled. Heavy security platforms were deferred, and the seven-day observation period was still underway when I wrote this.</p>
+
+<p>The posts that follow trace the actual work: the clock and container repairs, the external backup, the failed local delegation test, the monitoring interfaces, the database restore, the incident drills, and the final cutover. That is the November upgrade I can show from the records.</p>]]></content><author><name></name></author><category term="CyberBiota3.5" /><summary type="html"><![CDATA[The November upgrade began with an audit of a working home lab: one laptop, crowded storage, a local model, and several problems to fix before building on it.]]></summary></entry><entry><title type="html">Getting a backup off the host—and restoring from it</title><link href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-usb-backup/" rel="alternate" type="text/html" title="Getting a backup off the host—and restoring from it" /><published>2026-11-25T00:00:00-05:00</published><updated>2026-11-25T00:00:00-05:00</updated><id>https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-usb-backup</id><content type="html" xml:base="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-usb-backup/"><![CDATA[<p>The first CyberBiota3.5 audit found several successful backup jobs. It also found that the verified copies were on the same Dell that ran the lab.</p>
+
+<p>A local backup could help with a bad configuration or a damaged file. It didn’t give me a verified recovery copy outside the host. We kept that gap open while preparing the upgrade, then added an encrypted Restic repository on the external USB drive, under the name CyberBiota_Ark.</p>
+
+<h2 id="preserve-the-drives-existing-files">Preserve the drive’s existing files</h2>
+
+<p>The USB drive already contained my files. The approved work created a new backup repository in its own directory. It didn’t format the drive or remove what was there.</p>
+
+<p>The backup covered the new 3.5 project records, selected Compose configuration, scripts, and the latest verified daily OpenClaw backup archive. Staging directories and selected sensitive or runtime files were excluded. That scope matters: this was not a complete image of the machine or a backup of every application’s data.</p>
+
+<p>Restic encrypted the repository. The job obtained its credentials through the established secret-management arrangement without writing values into its receipts. The remaining recovery requirement was to keep a usable copy of the repository password outside the Dell. Losing the host must not also mean losing the only way to decrypt the external copy.</p>
+
+<h2 id="the-disconnected-drive-test-came-first">The disconnected-drive test came first</h2>
+
+<p>During the power and SSD work, the USB drive was disconnected. The backup script was tested in that state and returned its designated skip code without writing into the root filesystem.</p>
+
+<p>That guard prevents a particular failure: a missing external mount can otherwise leave an ordinary directory at the expected path, allowing a job to fill the internal disk while appearing to write to USB. The service checked both the mountpoint and the expected backup directory before proceeding.</p>
+
+<p>After the drive was reconnected, the first recorded run processed about 355 MiB across 13,015 files. It exited successfully, and <code class="language-plaintext highlighter-rouge">restic check</code> reported no errors. Starting the service separately also succeeded under its memory and CPU limits.</p>
+
+<h2 id="bring-files-back-from-the-external-copy">Bring files back from the external copy</h2>
+
+<p>We then restored two selected project files from the USB repository into a private staging directory on the data SSD. Their SHA-256 hashes matched the originals. The measured selective restore took 1.07 seconds, and the temporary directory was removed after verification.</p>
+
+<p>That is a small but concrete test. The files came from the external repository, decrypted, and matched. The 1.07-second figure is the time for those selected files. It is not the recovery time for CyberBiota, its databases, or replacement hardware.</p>
+
+<p>The separate database exercise later in this series went further: it started an isolated PostgreSQL instance and restored a database into it. Each test answered a different recovery question.</p>
+
+<h2 id="check-an-unattended-run-as-well">Check an unattended run as well</h2>
+
+<p>The USB job was scheduled for 04:15, with up to two minutes of randomized delay and a persistent systemd timer. The service was configured to skip when the drive was unavailable.</p>
+
+<p>Enabling that timer wasn’t the last piece of evidence. The November 25 upgrade receipt recorded an automatic run at 04:17 and a clean repository check. That showed the scheduled path had actually run, beyond the earlier manual service test.</p>
+
+<p>CyberBiota_Ark gave this upgrade an external encrypted recovery copy and a verified selective restore. It remains an attached USB backup rather than an offsite or continuously offline copy. Full host-loss recovery still needs replacement hardware, the separately held key, the missing application coverage, and a wider recovery exercise.</p>]]></content><author><name></name></author><category term="CyberBiota3.5" /><summary type="html"><![CDATA[We added an encrypted repository to an existing USB drive, checked restored files, and verified the overnight backup job.]]></summary></entry></feed>

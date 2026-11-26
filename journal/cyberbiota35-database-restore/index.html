@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>A backup archive finally became a running database · CyberBiota3</title>
+    <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal feed" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
+    <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css">
+    <!-- Begin Jekyll SEO tag v2.9.1 -->
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="A backup archive finally became a running database" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="The database stage restored a real PostgreSQL dump into an isolated engine, checked tables and indexes, and kept the untested recovery gaps on the list." />
+<meta name="twitter:description" property="og:description" content="The database stage restored a real PostgreSQL dump into an isolated engine, checked tables and indexes, and kept the untested recovery gaps on the list." />
+<link rel="canonical" href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-database-restore/" />
+<meta property="og:url" content="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-database-restore/" />
+<meta property="og:site_name" content="CyberBiota3" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-11-25T00:00:00-05:00" />
+<meta property="article:modified_time" content="2026-11-25T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="A backup archive finally became a running database" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-11-25T00:00:00-05:00","datePublished":"2026-11-25T00:00:00-05:00","description":"The database stage restored a real PostgreSQL dump into an isolated engine, checked tables and indexes, and kept the untested recovery gaps on the list.","headline":"A backup archive finally became a running database","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-database-restore/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-database-restore/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell header-row">
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="/cyberbiota-blog/journey/" >Journey</a>
+      <a href="/cyberbiota-blog/architecture/" >Architecture</a>
+      <a href="/cyberbiota-blog/case-studies/" >Case studies</a>
+      <a href="/cyberbiota-blog/journal/" >Journal</a>
+      <a href="/cyberbiota-blog/about/" >About</a>
+    </nav>
+    <a class="header-contact" href="mailto:abrown1@outlook.com">Email me <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+
+    <main id="main" tabindex="-1"><div class="article-shell shell">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/cyberbiota-blog/">Home</a> <span aria-hidden="true">/</span> <a href="/cyberbiota-blog/journal/">Journal</a></nav>
+  <header class="article-header">
+    <div class="eyebrow">CyberBiota3.5 · Retrospective</div>
+    <h1>A backup archive finally became a running database</h1>
+    <p class="lede">The database stage restored a real PostgreSQL dump into an isolated engine, checked tables and indexes, and kept the untested recovery gaps on the list.</p>
+    <div class="meta-line"><span>Events: November 24, 2026</span><span>Evidence: Project records reviewed through November 25, 2026</span><span>Entry date: <time datetime="2026-11-25">November 25, 2026</time></span></div>
+  </header>
+  
+  <div class="article-grid">
+    <div class="article-content prose"><p>Earlier in the CyberBiota3.5 work, we had extracted backup files and checked their hashes. The OpenClaw archive also passed a listing check that found PostgreSQL table objects.</p>
+
+<p>The next stage went further. Could a dump from the daily backup actually restore into a running database?</p>
+
+<h2 id="start-with-the-database-footprint">Start with the database footprint</h2>
+
+<p>The audit had found five PostgreSQL instances, plus MariaDB and Redis or Valkey services. The new database adapters exposed fixed statistics: connections, locks, sizes, cache-related views, and persistence status. They didn’t need application rows to answer those operational questions.</p>
+
+<p>At the measured checkpoint, PostgreSQL connection use was between 6% and 12%, with no waiting locks. That didn’t justify adding PgBouncer during this upgrade. We deferred it rather than adding a connection pool without a measured need.</p>
+
+<p>Backup coverage needed more work. All five PostgreSQL instances had WAL archiving disabled, so the project had no demonstrated point-in-time recovery through that mechanism. The records also lacked verified standalone daily dump timers for Gitea, Planka, and Immich. A passing backup elsewhere couldn’t cover those gaps by implication.</p>
+
+<h2 id="restore-without-touching-production">Restore without touching production</h2>
+
+<p>The functional restore used the orchestration dump from the verified daily OpenClaw archive. We extracted it into private staging, checked its SHA-256 checksum, and started an ephemeral PostgreSQL 17 container.</p>
+
+<p>The container had no network, a 512 MiB memory limit, one CPU, and no production mounts. No application jobs or webhooks were attached. That kept the test database from becoming an accidental second copy of an active automation service.</p>
+
+<p>The dump was restored with <code class="language-plaintext highlighter-rouge">pg_restore</code>, followed by <code class="language-plaintext highlighter-rouge">ANALYZE</code>. The checks then queried database metadata rather than printing user data.</p>
+
+<p>The recorded result was:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Check</th>
+      <th>Restored result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Public tables</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <td>Indexes</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <td>Populated tables</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>Database size</td>
+      <td>51 MB</td>
+    </tr>
+    <tr>
+      <td>Extract, checksum, startup, restore, and analysis</td>
+      <td>9.48 seconds</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The source backup was taken at midnight local time that day. That timestamp identifies the recoverable snapshot used in this exercise. The 9.48 seconds measures this isolated database test; it isn’t a recovery target for the entire home lab.</p>
+
+<p>The temporary container and staging files were removed after the checks. Existing backup jobs, retention settings, and production volumes were preserved.</p>
+
+<h2 id="put-recovery-evidence-beside-the-ticket">Put recovery evidence beside the ticket</h2>
+
+<p>This phase also added draft service-desk classification, reviewed knowledge drafts, and a closure check requiring a human identifier and evidence references. Tests rejected the registered agent IDs when they tried to stand in for the human closer.</p>
+
+<p>Those were adapter tests. They showed the intended draft and closure behavior under the tested inputs, rather than proving a deployed help-desk identity system. GLPI stayed deferred because the lab already had Leantime and Planka and the new draft helpers didn’t justify another application stack.</p>
+
+<h2 id="keep-the-successful-restore-in-its-proper-scope">Keep the successful restore in its proper scope</h2>
+
+<p>The restored database was queryable, its indexes existed, and populated tables were present. That was stronger evidence than merely listing objects inside the dump.</p>
+
+<p>It still didn’t test the application against the restored database, recover the photo library, or bring the whole machine back on replacement hardware. The recovery runbook therefore retained the missing dump coverage and WAL work as separate jobs. It also called out schema compatibility before any future image rollback: reverting an application image doesn’t by itself reverse its database migrations.</p>
+
+<p>This test gave the orchestration database a concrete recovery receipt. The other applications still need their own.</p>
+
+</div>
+    
+    <aside class="article-aside">
+      <nav class="aside-card chapter-index" aria-label="Series contents">
+        <span class="eyebrow">The CyberBiota3.5 upgrade</span>
+        <p><a href="/cyberbiota-blog/cyberbiota35/">About this series</a></p>
+        <ol>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-starting-point/">CyberBiota3.5 started with the lab I already had</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-host-repairs/">Before adding more AI, we had to fix the host</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-usb-backup/">Getting a backup off the host—and restoring from it</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-agent-roles/">Thirty-two roles on one home lab</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-hybrid-inference/">Why the coordinator went to the cloud</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-observability/">Teaching the new tools to read the lab</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-security-monitoring/">Building security visibility that fit the laptop</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-database-restore/" aria-current="page">A backup archive finally became a running database</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-incident-drills/">Five incident drills, with production changes disabled</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></li>
+          
+        </ol>
+      </nav>
+    </aside>
+    
+  </div>
+  
+  <nav class="section-tight" aria-label="Series navigation">
+    <p><a href="/cyberbiota-blog/cyberbiota35/">All ten posts in the CyberBiota3.5 series</a></p>
+    <p>Previous: <a href="/cyberbiota-blog/journal/cyberbiota35-security-monitoring/">Building security visibility that fit the laptop</a></p>
+    <p>Next: <a href="/cyberbiota-blog/journal/cyberbiota35-incident-drills/">Five incident drills, with production changes disabled</a></p>
+  </nav>
+
+</div>
+</main>
+    <footer class="site-footer">
+  <div class="shell footer-grid">
+    <div><strong>CyberBiota3</strong><p>A learning home lab, documented with its changes and limits.</p></div>
+    <div><span class="eyebrow">Explore</span><a href="/cyberbiota-blog/applications/">Applications</a><a href="/cyberbiota-blog/methods/">Evidence & corrections</a><a href="/cyberbiota-blog/future/">Future research</a></div>
+    <div><span class="eyebrow">Connect</span><a href="mailto:abrown1@outlook.com">abrown1@outlook.com</a><a href="https://github.com/BoublerTech">GitHub profile</a><a href="/cyberbiota-blog/feed.xml">Journal feed</a></div>
+  </div>
+  <div class="shell footer-bottom"><span>© 2026 BoublerTech</span><span>Historical accounts include their evidence boundaries.</span></div>
+</footer>
+
+  </body>
+</html>

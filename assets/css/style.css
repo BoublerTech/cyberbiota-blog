@@ -47,3 +47,12 @@
   .article-aside { order:initial; }
   .article-grid { gap:32px; }
 }
+
+/* Upgrade series: reuse the brand's editorial layout and eight-pixel spacing. */
+.series-feature h2 { font-size:clamp(2rem,4vw,3rem); font-weight:600; line-height:1.12; letter-spacing:-.039em; margin:16px 0; max-width:24ch; }
+.series-feature p { max-width:68ch; }
+.series-feature .button { margin-top:16px; }
+.series-intro { max-width:68ch; margin-bottom:48px; }
+.line-row h2 { font-size:1.13rem; line-height:1.4; margin:0 0 8px; }
+.article-content pre { max-width:100%; overflow-x:auto; }
+.article-content, .article-aside { min-width:0; }

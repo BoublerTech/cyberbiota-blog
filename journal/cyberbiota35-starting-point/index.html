@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>CyberBiota3.5 started with the lab I already had · CyberBiota3</title>
+    <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal feed" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
+    <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css">
+    <!-- Begin Jekyll SEO tag v2.9.1 -->
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="CyberBiota3.5 started with the lab I already had" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="The November upgrade began with an audit of a working home lab: one laptop, crowded storage, a local model, and several problems to fix before building on it." />
+<meta name="twitter:description" property="og:description" content="The November upgrade began with an audit of a working home lab: one laptop, crowded storage, a local model, and several problems to fix before building on it." />
+<link rel="canonical" href="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-starting-point/" />
+<meta property="og:url" content="https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-starting-point/" />
+<meta property="og:site_name" content="CyberBiota3" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-11-25T00:00:00-05:00" />
+<meta property="article:modified_time" content="2026-11-25T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="CyberBiota3.5 started with the lab I already had" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-11-25T00:00:00-05:00","datePublished":"2026-11-25T00:00:00-05:00","description":"The November upgrade began with an audit of a working home lab: one laptop, crowded storage, a local model, and several problems to fix before building on it.","headline":"CyberBiota3.5 started with the lab I already had","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-starting-point/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota35-starting-point/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell header-row">
+    <a class="brand" href="/cyberbiota-blog/" aria-label="CyberBiota3 home"><span>CyberBiota<span class="brand-three">3</span><small>HOME LAB</small></span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="/cyberbiota-blog/journey/" >Journey</a>
+      <a href="/cyberbiota-blog/architecture/" >Architecture</a>
+      <a href="/cyberbiota-blog/case-studies/" >Case studies</a>
+      <a href="/cyberbiota-blog/journal/" >Journal</a>
+      <a href="/cyberbiota-blog/about/" >About</a>
+    </nav>
+    <a class="header-contact" href="mailto:abrown1@outlook.com">Email me <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+
+    <main id="main" tabindex="-1"><div class="article-shell shell">
+  <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/cyberbiota-blog/">Home</a> <span aria-hidden="true">/</span> <a href="/cyberbiota-blog/journal/">Journal</a></nav>
+  <header class="article-header">
+    <div class="eyebrow">CyberBiota3.5 · Retrospective</div>
+    <h1>CyberBiota3.5 started with the lab I already had</h1>
+    <p class="lede">The November upgrade began with an audit of a working home lab: one laptop, crowded storage, a local model, and several problems to fix before building on it.</p>
+    <div class="meta-line"><span>Events: November 22–25, 2026</span><span>Evidence: Project records reviewed through November 25, 2026</span><span>Entry date: <time datetime="2026-11-25">November 25, 2026</time></span></div>
+  </header>
+  
+  <div class="article-grid">
+    <div class="article-content prose"><p>I started home labbing because I wanted to use open-source technology to host my own apps and keep my own data. AriseOne was the beginning. CyberBiota 1 and 2 gave me room to try different versions of the lab. CyberBiota3 brought those earlier lessons together.</p>
+
+<p>CyberBiota3.5 builds on that same lab. The work recorded here happened over November 23–25, 2026: checking the host, repairing existing faults, testing a new agent structure, improving recovery, and putting the approved changes into production. I worked with coding agents on the implementation. The decisions, approvals, test results, and failures were recorded as we went.</p>
+
+<h2 id="the-plan-reached-beyond-the-agent-registry">The plan reached beyond the agent registry</h2>
+
+<p>The November 22 plan had two connected aims. OpenClaw would coordinate work on the home lab, while Addie 3 would bring together personal knowledge, planning, research, and selected actions. It covered the frontends, model routes, retrieval and memory, tools, identity, automation, monitoring, and recovery around that assistant.</p>
+
+<p>The implementation records from the following days are more specific: host repairs, the operations roles, subscription-backed inference, read-only and draft adapters, recovery tests, and the live gateway changes. They don’t establish that the whole personal-assistant and second-brain plan was delivered. This series follows the work we can trace through those records; the broader plan remains context for where it is meant to lead.</p>
+
+<h2 id="start-by-finding-out-what-is-actually-running">Start by finding out what is actually running</h2>
+
+<p>The first inspection found 98 containers: 70 running, 25 exited, two created, and one restarting. That last one was Authelia, the authentication service. Its crash loop was also making the authenticated proxy check fail, even though OpenClaw’s own health endpoint still responded.</p>
+
+<p>The machine was a Dell G7 7700 with a six-core, twelve-thread i7, about 30 GiB of usable RAM, and an RTX 2070 with 8 GiB of VRAM. It already ran the apps, databases, monitoring, and local inference. There wasn’t an empty server waiting for the new design.</p>
+
+<p>The smaller system SSD was 87% full. The larger data SSD had about 1.2 TiB free. Fifty-three of the 70 running containers had no memory limit; 55 had no CPU limit. The repository backup service had failed on its last recorded run. Those findings determined the first changes.</p>
+
+<p>The audit also corrected the paperwork. The monitoring backend was VictoriaMetrics, with vmalert, Alertmanager, Grafana, Loki, Alloy, and Blackbox Exporter. We didn’t need to install another monitoring stack just because an older plan named one. NetBox and CrowdSec were already running too.</p>
+
+<h2 id="keep-the-upgrade-inside-this-machines-limits">Keep the upgrade inside this machine’s limits</h2>
+
+<p>I ruled out adding the second laptop to this build. Its inspection showed a two-core, four-thread processor, about 14 GiB of RAM, Wi-Fi connectivity, and no available KVM device. The approved project stayed on the Dell.</p>
+
+<p>I also confirmed Qwen3 as the local model. An earlier proposal referred to a model that wasn’t installed. Ollama was actually serving <code class="language-plaintext highlighter-rouge">qwen3:8b</code>, and the first GPU snapshot showed it using about 6.6 GiB of the 8 GiB available. That made concurrent local inference a real capacity question.</p>
+
+<p>The new design separated the work into 32 named roles across operations, security, databases, recovery, and the AI platform, with a coordinator and an independent governance role. These were identities with different permissions. They weren’t 32 models loaded into memory. Local reasoning started serially, and specialists were intended to run when needed.</p>
+
+<h2 id="build-beside-production-then-cross-over-deliberately">Build beside production, then cross over deliberately</h2>
+
+<p>The early phases used separate state directories, an offline candidate configuration, and a loopback-only staging gateway. The existing OpenClaw gateway, Telegram binding, and legacy agents stayed in place while we tested.</p>
+
+<p>By November 24, the new roles had been added to production. On November 25, OpenClaw had been upgraded and the live coordinator was using the approved OpenAI subscription route while the other roles stayed on local Qwen3. An allowed delegation succeeded; an attempt to skip the department lead was denied.</p>
+
+<p>There is still a difference between reaching that point and finishing every part of the larger vision. The adapter suite was tested separately from the live gateway routing. Automatic production remediation remained disabled. Heavy security platforms were deferred, and the seven-day observation period was still underway when I wrote this.</p>
+
+<p>The posts that follow trace the actual work: the clock and container repairs, the external backup, the failed local delegation test, the monitoring interfaces, the database restore, the incident drills, and the final cutover. That is the November upgrade I can show from the records.</p>
+
+</div>
+    
+    <aside class="article-aside">
+      <nav class="aside-card chapter-index" aria-label="Series contents">
+        <span class="eyebrow">The CyberBiota3.5 upgrade</span>
+        <p><a href="/cyberbiota-blog/cyberbiota35/">About this series</a></p>
+        <ol>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-starting-point/" aria-current="page">CyberBiota3.5 started with the lab I already had</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-host-repairs/">Before adding more AI, we had to fix the host</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-usb-backup/">Getting a backup off the host—and restoring from it</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-agent-roles/">Thirty-two roles on one home lab</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-hybrid-inference/">Why the coordinator went to the cloud</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-observability/">Teaching the new tools to read the lab</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-security-monitoring/">Building security visibility that fit the laptop</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-database-restore/">A backup archive finally became a running database</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-incident-drills/">Five incident drills, with production changes disabled</a></li>
+          
+          <li><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></li>
+          
+        </ol>
+      </nav>
+    </aside>
+    
+  </div>
+  
+  <nav class="section-tight" aria-label="Series navigation">
+    <p><a href="/cyberbiota-blog/cyberbiota35/">All ten posts in the CyberBiota3.5 series</a></p>
+    
+    <p>Next: <a href="/cyberbiota-blog/journal/cyberbiota35-host-repairs/">Before adding more AI, we had to fix the host</a></p>
+  </nav>
+
+</div>
+</main>
+    <footer class="site-footer">
+  <div class="shell footer-grid">
+    <div><strong>CyberBiota3</strong><p>A learning home lab, documented with its changes and limits.</p></div>
+    <div><span class="eyebrow">Explore</span><a href="/cyberbiota-blog/applications/">Applications</a><a href="/cyberbiota-blog/methods/">Evidence & corrections</a><a href="/cyberbiota-blog/future/">Future research</a></div>
+    <div><span class="eyebrow">Connect</span><a href="mailto:abrown1@outlook.com">abrown1@outlook.com</a><a href="https://github.com/BoublerTech">GitHub profile</a><a href="/cyberbiota-blog/feed.xml">Journal feed</a></div>
+  </div>
+  <div class="shell footer-bottom"><span>© 2026 BoublerTech</span><span>Historical accounts include their evidence boundaries.</span></div>
+</footer>
+
+  </body>
+</html>
