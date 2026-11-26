@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="The webhook worked. I still rolled it back." />
@@ -20,12 +20,12 @@
 <meta property="og:image" content="https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2026-11-24T00:00:00-05:00" />
-<meta property="article:modified_time" content="2026-11-24T00:00:00-05:00" />
+<meta property="article:modified_time" content="2026-11-25T00:00:00-05:00" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png" />
 <meta name="twitter:title" content="The webhook worked. I still rolled it back." />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-24T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"The n8n integration reached its target, but the trust boundary needed more work before I could keep it running.","headline":"The webhook worked. I still rolled it back.","image":"https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-25T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"The n8n integration reached its target, but the trust boundary needed more work before I could keep it running.","headline":"The webhook worked. I still rolled it back.","image":"https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -50,23 +50,25 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">AI &amp; automation</p>
     <h1>The webhook worked. I still rolled it back.</h1><p class="entry-deck">The n8n integration reached its target, but the trust boundary needed more work before I could keep it running.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-24">November 24, 2026</time><span>2 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-24">November 24, 2026</time><span>Updated November 25, 2026</span><span>1 min read</span></div><p class="entry-period">Work covered: June 30, 2026</p>
   </div></header>
   <div class="shell reading-layout">
-    <div class="article-content prose"><p>I wanted a change in Gitea to reach an n8n workflow without somebody carrying the event between the two. The pilot proved it could make the trip. It also made the sender less picky about where it could send requests and how it checked the connection. Those were the settings in use when the event arrived. The result didn’t tell me whether the integration worked under the rules I wanted to keep.</p>
+    <div class="article-content prose"><p>I wanted a change in Gitea to reach an n8n workflow without somebody carrying the event between them. The pilot delivered the event. Getting it there had also widened the allowed destinations and loosened connection verification.</p>
 
-<h2 id="what-went-back">What went back</h2>
+<p>That left a working integration with settings I wasn’t willing to keep.</p>
 
-<p>The June 30 rollback removed the webhook at the source and the associated workflow on the receiving side. It restored the transport settings that had been widened for the pilot. The follow-up checks still showed the underlying services available. I could keep Gitea and n8n without keeping that integration.</p>
+<h2 id="remove-the-connection-keep-the-applications">Remove the connection, keep the applications</h2>
 
-<p>That difference is easy to lose in a journal. Writing “n8n removed” would make it look like I had taken the service out again. Writing “webhook verified” would hide the condition I wouldn’t accept. The dated rollback records enough to name both results: event delivery was demonstrated, and that particular configuration was withdrawn.</p>
+<p>On June 30, the rollback removed the webhook from Gitea and the associated workflow from n8n. The transport settings widened for the pilot were restored. Follow-up checks found the underlying services still available.</p>
 
-<p>The next time I try the connection, I want to be able to show two things with the same test setup. The intended workflow received the event, and the sender reached only the intended receiver over a connection it verified. Until those two results sit next to each other, a success message is one part of the work.</p>
+<p>I could keep both applications without keeping this connection between them. That was different from April, when n8n itself had been removed from the lab.</p>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: June 30, 2026.</p><p>Dated pilot rollback and retained service checks. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+<p>Before trying the integration again, I needed the same setup to demonstrate both parts: the intended workflow received the event, and the sender reached only the intended receiver over a verified connection. The first pilot had demonstrated delivery. It hadn’t demonstrated delivery under the safeguards I wanted in production.</p>
+
+
     </div>
     
-    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#what-went-back">What went back</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
+    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#remove-the-connection-keep-the-applications">Remove the connection, keep the applications</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
   </div>
 </article>
 <section class="related-section"><div class="shell"><div class="section-heading"><h2>Keep reading</h2><a class="text-link" href="/cyberbiota-blog/journal/">All entries</a></div><div class="related-grid">

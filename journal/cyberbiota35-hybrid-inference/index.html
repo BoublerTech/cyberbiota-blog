@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="Qwen3 stayed local. The coordinator moved to the cloud." />
@@ -50,7 +50,7 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">AI &amp; automation</p>
     <h1>Qwen3 stayed local. The coordinator moved to the cloud.</h1><p class="entry-deck">A successful tool call was followed by a failed delegation test. That failure shaped the hybrid setup I put into production.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div><p class="entry-period">Work covered: November 23–25, 2026</p>
   </div></header>
   <div class="shell reading-layout">
     <div class="article-content prose"><p>Qwen3 could produce the tool call I asked for. That was the first encouraging result in the CyberBiota3.5 model tests. The harder delegation test failed later in the same project.</p>
@@ -66,11 +66,11 @@
 
 <p>A separate malicious-ticket test requested secret access, firewall changes, and self-approval. The model refused and made no tool calls.</p>
 
-<p>In the staging pilot, the coordinator had to spawn a child and handle the deferred tool response. On that multi-step task, Qwen3 returned an empty disposition. I kept that failed result in the record.</p>
+<p>In the staging pilot, the coordinator had to spawn a child and handle its deferred tool response. On that multi-step task, Qwen3 returned an empty result instead of completing the handoff.</p>
 
 <p>The approved OpenAI OAuth model completed the same task class. It delegated to <code class="language-plaintext highlighter-rouge">noc-lead</code>, which ran local Qwen3 inside its own Docker sandbox. That gave me a practical reason for the hybrid arrangement: use the cloud coordinator for the tested delegation work while keeping local inference for the other roles.</p>
 
-<p>It was a task-specific result. I didn’t have a benchmark showing that every cloud task would be better, and the cold tool-call timings weren’t comparable to warm role turns.</p>
+<p>That choice followed the delegation test. It wasn’t a general speed comparison: the cold tool-call timings and warm role turns weren’t directly comparable.</p>
 
 <h2 id="keep-shell-execution-denied">Keep shell execution denied</h2>
 
@@ -78,7 +78,7 @@
 
 <p>The next blocker was the execution harness. The selected Codex harness rejected the configuration while shell execution was denied. I wasn’t going to treat enabling shell access as a harmless way around that test.</p>
 
-<p>The working configuration selected OpenClaw’s built-in runtime for the cloud model. A harmless prompt then completed with <code class="language-plaintext highlighter-rouge">tools.exec.mode</code> still set to <code class="language-plaintext highlighter-rouge">deny</code>. The receipt identified the expected provider and model, a sandboxed run, and no fallback.</p>
+<p>The working configuration selected OpenClaw’s built-in runtime for the cloud model. A harmless prompt then completed with <code class="language-plaintext highlighter-rouge">tools.exec.mode</code> still set to <code class="language-plaintext highlighter-rouge">deny</code>. The run reported the expected provider and model, used its sandbox, and completed without a fallback.</p>
 
 <p>A follow-up request for a shell command and a host-file read was blocked. The governance role also had no inherited OAuth profile, and the workspaces had no copied credential databases.</p>
 
@@ -86,13 +86,13 @@
 
 <p>The pilot used <code class="language-plaintext highlighter-rouge">gpt-6-astra</code> for <code class="language-plaintext highlighter-rouge">main</code>. Delegation to local <code class="language-plaintext highlighter-rouge">noc-lead</code> succeeded. A direct request from <code class="language-plaintext highlighter-rouge">main</code> to <code class="language-plaintext highlighter-rouge">soc-tier1</code> was denied because it skipped the security lead.</p>
 
-<p>The installed OpenClaw release didn’t initially contain the newer 6.2 entries in its catalog. I approved the runtime upgrade separately before selecting the production model.</p>
+<p>The installed OpenClaw release didn’t initially contain the newer 6.2 entries in its catalog. The runtime needed its own upgrade before I could select the production model.</p>
 
 <p>On November 25, the live coordinator was set to <code class="language-plaintext highlighter-rouge">openai/gpt-6.2-sol</code> through the built-in runtime. The default stayed <code class="language-plaintext highlighter-rouge">ollama/qwen3:8b</code> for the other 44 registered roles. The live smoke identified the expected cloud model and <code class="language-plaintext highlighter-rouge">FALLBACK_USED=False</code>. The checked gateway process had no OpenAI API-key environment variable, and the 31 new role directories had no duplicated OAuth credentials.</p>
 
 <p>The live cloud-to-local route passed, and the specialist bypass was denied again. That was the arrangement I accepted for the <a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">production cutover</a>. Cloud coordination still means cloud processing; keeping the specialists local doesn’t make the whole request local. Provider limits and failure handling remain things to check during actual operation.</p>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: November 23–25, 2026.</p><p>Project records reviewed through November 25, 2026. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+
     </div>
     
     <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#a-tool-call-and-a-delegated-task-are-different-work">A tool call and a delegated task are different work</a></li><li><a href="#keep-shell-execution-denied">Keep shell execution denied</a></li><li><a href="#check-the-route-at-both-ends">Check the route at both ends</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>

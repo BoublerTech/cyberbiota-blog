@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="Why I removed n8n and brought it back" />
@@ -20,12 +20,12 @@
 <meta property="og:image" content="https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2026-11-24T00:00:00-05:00" />
-<meta property="article:modified_time" content="2026-11-24T00:00:00-05:00" />
+<meta property="article:modified_time" content="2026-11-25T00:00:00-05:00" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png" />
 <meta name="twitter:title" content="Why I removed n8n and brought it back" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-24T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"Removing a tool did not remove the jobs it had to do. I returned to n8n with a narrower role for it in the lab.","headline":"Why I removed n8n and brought it back","image":"https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/why-n8n-came-back/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/why-n8n-came-back/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-25T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"Removing a tool did not remove the jobs it had to do. I returned to n8n with a narrower role for it in the lab.","headline":"Why I removed n8n and brought it back","image":"https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/why-n8n-came-back/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/why-n8n-came-back/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -50,25 +50,27 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">AI &amp; automation</p>
     <h1>Why I removed n8n and brought it back</h1><p class="entry-deck">Removing a tool did not remove the jobs it had to do. I returned to n8n with a narrower role for it in the lab.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-24">November 24, 2026</time><span>2 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-24">November 24, 2026</time><span>Updated November 25, 2026</span><span>2 min read</span></div><p class="entry-period">Work covered: April 8 and June 26–30, 2026</p>
   </div></header>
   <div class="shell reading-layout">
-    <div class="article-content prose"><p>I didn’t think n8n was useful at first. The April 8 log shows it being removed after the move to Ubuntu. I was trying local models and agent-driven work, and the workflow engine no longer looked like something I needed to keep running.</p>
+    <div class="article-content prose"><p>I didn’t think n8n was useful at first. On April 8, after the move to Ubuntu, it came out of the lab. I was trying local models and agent-driven work, and the workflow engine didn’t seem to have a job worth keeping it for.</p>
 
-<p>I changed my mind after reading a home lab automation article from Virtualization Howto. That’s my recollection of what brought me back to it. I can’t point to the exact example in the article that did it. What I can show is the difference between trying a tool with no clear job for it and returning to it with a job I could test.</p>
+<p>I changed my mind after reading a home lab automation article from Virtualization Howto. That’s my recollection of what brought me back to it. By June, there was a specific integration to try.</p>
 
-<h2 id="what-came-back-in-june">What came back in June</h2>
+<h2 id="give-it-an-event-to-handle">Give it an event to handle</h2>
 
-<p>n8n appears in the June 26 CyberBiota3 deployment. A route check returned HTTP 200 that day. That told me the service answered. Four days later, the webhook pilot gave it a specific task: take an event from Gitea and hand it to a workflow. Now there was a source, a trigger and a receiver that could be checked independently.</p>
+<p>n8n was part of the June 26 CyberBiota3 deployment. Its route returned HTTP 200. Four days later, the Gitea webhook pilot gave it a task beyond answering a health check: receive an event and hand it to a workflow.</p>
 
-<p>The workflow did receive the event. The way the pilot got it there loosened the connection’s safeguards, so the webhook and associated workflow were removed and the settings were restored. Both applications stayed in the lab. This is where the April and June records can be easy to confuse. April reports removing n8n. June reports deploying it and later withdrawing one connection to it. The files I reviewed do not say whether any of the April workflow data survived.</p>
+<p>That gave the experiment a source, a trigger, and a receiver. The event did reach the workflow, but the connection used loosened safeguards. The webhook and associated workflow were removed, and the transport settings were restored.</p>
 
-<p>When n8n returned, the webhook finally gave me a specific way to tell whether it was doing something useful. I could also remove that one connection without undoing the rest of the installation. <a href="/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/">The rollback has its own post.</a></p>
+<p>Gitea and n8n stayed in place. Removing a single integration let me back out of that experiment without removing the workflow engine again. It was a fresh June deployment; I don’t have a record establishing that the old April workflows or their data were carried into it.</p>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: April 8 and June 26–30, 2026.</p><p>Dated change records and owner recollection. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+<p>The tool had returned with a concrete job to test. The first connection still needed a safer implementation. <a href="/cyberbiota-blog/journal/when-a-working-webhook-was-rolled-back/">The rollback has its own post.</a></p>
+
+
     </div>
     
-    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#what-came-back-in-june">What came back in June</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
+    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#give-it-an-event-to-handle">Give it an event to handle</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
   </div>
 </article>
 <section class="related-section"><div class="shell"><div class="section-heading"><h2>Keep reading</h2><a class="text-link" href="/cyberbiota-blog/journal/">All entries</a></div><div class="related-grid">

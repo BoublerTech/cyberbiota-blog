@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="Making the monitoring answer useful questions" />
@@ -50,7 +50,7 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">Operations</p>
     <h1>Making the monitoring answer useful questions</h1><p class="entry-deck">I reused VictoriaMetrics, Loki, and NetBox, then tested small interfaces for probes, inventory, logs, and configuration changes.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div><p class="entry-period">Work covered: November 23–24, 2026</p>
   </div></header>
   <div class="shell reading-layout">
     <div class="article-content prose"><p>The CyberBiota3.5 audit found a monitoring stack already doing work: VictoriaMetrics, vmalert, Alertmanager, Grafana, Loki, Alloy, and Blackbox Exporter. NetBox held inventory, and AdGuard handled DNS.</p>
@@ -65,15 +65,13 @@
 
 <p>The negative tests tried URLs outside the approved targets, SQL text, shell fragments, and free-form metric queries. They were denied. Shared code applied redaction, capped output at 64 KiB, and recorded calls in a restricted audit log. An unreachable backend returned <code class="language-plaintext highlighter-rouge">unavailable</code> rather than a made-up healthy result.</p>
 
-<p>These checks exercised the adapters under tested inputs. They weren’t a substitute for an authenticated production tool boundary.</p>
-
 <h2 id="follow-a-failed-probe-into-a-draft">Follow a failed probe into a draft</h2>
 
 <p>The monitoring drill targeted a deliberately closed local port. Blackbox Exporter reported <code class="language-plaintext highlighter-rouge">probe_success=0</code>, and a draft ticket was created without sending an external notification.</p>
 
 <p>Replaying the idempotency key returned a deduplicated result. Checking the working target then returned <code class="language-plaintext highlighter-rouge">probe_success=1</code>.</p>
 
-<p>I could follow that small chain: failed probe, draft, duplicate handling, healthy comparison. There was no automatic restart or claim that an agent had repaired an outage.</p>
+<p>The drill connected a failed probe to one draft ticket, suppressed the duplicate, and returned a healthy result for the working target. It made no automatic restart.</p>
 
 <p>Other checks read fresh telemetry, an Alertmanager summary, a bounded log sample, and selected host, container, database, and backup metadata. The first combined set passed 11 tests against the existing services.</p>
 
@@ -85,15 +83,13 @@
 
 <p>The configuration helper read an explicit set of approved files. Tests rejected traversal into other paths, secret-file requests, invalid revisions, and unauthorized role IDs. That made it possible to inspect a relevant change without handing a model the whole checkout.</p>
 
-<p>The report and code weren’t perfectly aligned here. One validation table listed a broader set of NOC roles than the shared implementation allowed. I used the narrower code allowlist when describing the result; the larger table didn’t prove those other roles had access.</p>
-
 <h2 id="keep-the-visibility-limits-in-view">Keep the visibility limits in view</h2>
 
 <p>The laptop was on Wi-Fi. There was no authorized switch-mirror feed or live packet sensor in this work. Zabbix, Oxidized, SmokePing, and continuous flow tooling stayed deferred because the existing tools covered the approved questions or there wasn’t a justified source and resource budget for the addition.</p>
 
-<p>The Python checks reached live backends. The separate gateway tests checked selected role routing and sandbox behavior. I still needed a real request through Telegram and the new tools to establish the complete user path. For this stage, I had tested interfaces I could use for that next check, with their limits recorded.</p>
+<p>The Python checks reached the live backends; separate gateway tests checked role routing and sandbox behavior. The remaining check was a real request from Telegram through the new tools. Until that path was exercised, the adapters were tested components rather than a demonstrated end-to-end monitoring assistant.</p>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: November 23–24, 2026.</p><p>Project records reviewed through November 25, 2026. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+
     </div>
     
     <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#give-each-query-a-shape">Give each query a shape</a></li><li><a href="#follow-a-failed-probe-into-a-draft">Follow a failed probe into a draft</a></li><li><a href="#compare-the-inventory-with-the-host">Compare the inventory with the host</a></li><li><a href="#keep-the-visibility-limits-in-view">Keep the visibility limits in view</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
@@ -103,7 +99,7 @@
 
 <article class="post-card">
   <span class="list-leading"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M240-40q-50 0-85-35t-35-85q0-50 35-85t85-35q14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35ZM120-540q17 0 28.5-11.5T160-580q0-17-11.5-28.5T120-620q-17 0-28.5 11.5T80-580q0 17 11.5 28.5T120-540Zm120 420q17 0 28.5-11.5T280-160q0-17-11.5-28.5T240-200q-17 0-28.5 11.5T200-160q0 17 11.5 28.5T240-120Zm240-680q17 0 28.5-11.5T520-840q0-17-11.5-28.5T480-880q-17 0-28.5 11.5T440-840q0 17 11.5 28.5T480-800Zm0 440q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Zm240 240q17 0 28.5-11.5T760-160q0-17-11.5-28.5T720-200q-17 0-28.5 11.5T680-160q0 17 11.5 28.5T720-120Zm120-420q17 0 28.5-11.5T880-580q0-17-11.5-28.5T840-620q-17 0-28.5 11.5T800-580q0 17 11.5 28.5T840-540ZM480-840ZM120-580Zm360 120Zm360-120ZM240-160Zm480 0Z"/></g><g class="symbol-filled"><path d="M240-40q-50 0-85-35t-35-85q0-50 35-85t85-35q14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35Z"/></g></svg></span>
-  <div class="post-card-body"><div class="post-meta"><span>Operations</span><time datetime="2026-11-25">Nov 25, 2026</time></div><h3><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></h3><p>The live cutover, the OpenClaw upgrade, and the tests that let me keep the new coordinator in place.</p><span class="reading-time">4 min read</span></div>
+  <div class="post-card-body"><div class="post-meta"><span>Operations</span><time datetime="2026-11-25">Nov 25, 2026</time></div><h3><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></h3><p>The live cutover, the OpenClaw upgrade, and the tests that let me keep the new coordinator in place.</p><span class="reading-time">3 min read</span></div>
   <span class="list-trailing"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg></span>
 </article>
 

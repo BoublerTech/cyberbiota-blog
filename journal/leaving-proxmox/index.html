@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="Why I moved the lab off Proxmox" />
@@ -20,12 +20,12 @@
 <meta property="og:image" content="https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2026-11-24T00:00:00-05:00" />
-<meta property="article:modified_time" content="2026-11-24T00:00:00-05:00" />
+<meta property="article:modified_time" content="2026-11-25T00:00:00-05:00" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png" />
 <meta name="twitter:title" content="Why I moved the lab off Proxmox" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-24T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"The move to native Ubuntu and Docker changed where storage, networking, and application responsibilities lived.","headline":"Why I moved the lab off Proxmox","image":"https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/leaving-proxmox/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/leaving-proxmox/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-25T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"The move to native Ubuntu and Docker changed where storage, networking, and application responsibilities lived.","headline":"Why I moved the lab off Proxmox","image":"https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/leaving-proxmox/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/leaving-proxmox/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -50,18 +50,22 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">Build history</p>
     <h1>Why I moved the lab off Proxmox</h1><p class="entry-deck">The move to native Ubuntu and Docker changed where storage, networking, and application responsibilities lived.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-24">November 24, 2026</time><span>2 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-24">November 24, 2026</time><span>Updated November 25, 2026</span><span>2 min read</span></div><p class="entry-period">Work covered: March 6 to May 2026</p>
   </div></header>
   <div class="shell reading-layout">
-    <div class="article-content prose"><p>The last night of the Proxmox build involved moving Linux guests to a new network, restarting them, and updating the reverse proxy so it knew where to find their services. The log says the monitoring UI remained reachable and the proxy got responses from the backends it checked. The next morning, I was starting over with Ubuntu.</p>
+    <div class="article-content prose"><p>The last night of the Proxmox build involved moving Linux guests to a new network, restarting them, and updating the reverse proxy. On April 6, the monitoring interface remained reachable and the proxy got responses from the backends it checked. The next morning, I was starting over with Ubuntu.</p>
 
-<p>That decision had a few months of experiments behind it. One March note records a failed attempt to restore OPNsense. Another describes a VyOS attempt that had problems. A later summary gives a different account of the gateway’s condition, so I can’t make a clean timeline of every working configuration. By April 6, the log does say the separate gateway experiments were being set aside in favor of Proxmox’s own network layer.</p>
+<h2 id="the-network-experiments-before-the-rebuild">The network experiments before the rebuild</h2>
 
-<p>The hardest part of a network change can be getting back in when it goes wrong. The March 14 notes describe losing SSH access after a change and having limited physical recovery options on a laptop usually run without a local console. A service responding through the proxy would not help if I couldn’t reach the host to undo the change.</p>
+<p>March had included a failed OPNsense restore and problems with a VyOS attempt. The gateway summaries don’t agree well enough to reconstruct every working configuration, but by April 6 the separate gateway experiments were being set aside in favor of Proxmox’s network layer.</p>
 
-<h2 id="the-april-7-rebuild">The April 7 rebuild</h2>
+<p>Access to the host was a practical concern. On March 14, a change left me without SSH and with limited physical recovery options on a laptop normally run without a local console. If I couldn’t reach the host, a working application route elsewhere in the stack wouldn’t give me a way to undo the change.</p>
 
-<p>The next build, CyberBiota 2, ran Ubuntu and Docker on the hardware. The installation record names Ubuntu 25.10. It describes a separate NVMe drive for persistent application data and local model storage, and records the NVIDIA driver seeing the GPU. The reasons in the transition notes were practical: memory pressure, competing workloads, and the repeated friction of getting commands and services through nested layers.</p>
+<p>The transition notes also describe memory pressure, competing workloads, and repeated friction getting commands and services through nested layers. Those were the reasons for simplifying the platform.</p>
+
+<h2 id="ubuntu-and-docker-on-the-hardware">Ubuntu and Docker on the hardware</h2>
+
+<p>The April 7 installation record names Ubuntu 25.10. Docker ran directly on the host. A separate NVMe drive was allocated to persistent application data and local model storage, and the NVIDIA driver check saw the GPU.</p>
 
 <table>
   <thead>
@@ -73,27 +77,29 @@
   <tbody>
     <tr>
       <td>Proxmox host with networked guests</td>
-      <td>Ubuntu on the hardware, with Docker running on the host</td>
+      <td>Ubuntu on the hardware, with Docker on the host</td>
     </tr>
     <tr>
       <td>Storage organized through the virtualization layout</td>
-      <td>A separate NVMe drive allocated to persistent app and model data</td>
+      <td>A separate NVMe drive for persistent app and model data</td>
     </tr>
     <tr>
-      <td>Hardware and service checks spread across host and guests</td>
-      <td>The native host could see the GPU in its own driver check</td>
+      <td>Hardware checks spread across host and guests</td>
+      <td>The native host could check the GPU directly</td>
     </tr>
   </tbody>
 </table>
 
-<p>It was a simpler layout to describe. It also concentrated more responsibility on the one host: storage, app permissions, backups and the path back into a machine that was normally headless. The April notes don’t give me enough measurements to claim a performance improvement, or a full restore list to say every application’s data survived. Later papers refer to Ubuntu 26.04 and don’t settle whether that was an upgrade or another reinstall.</p>
+<p>I could keep using containers with fewer layers between them and the hardware. Storage, application permissions, backups, and remote recovery also became responsibilities of that one Ubuntu host.</p>
 
-<p>For the thing I wanted out of my lab, hosting my own apps and data, the useful part of this story is what moved where. I could keep using containers. I no longer had to put a virtualized host between that container work and every part of the machine.</p>
+<p>There isn’t a before-and-after benchmark to put a performance number on the change, or a restore list showing that every application’s data survived. Later May notes name Ubuntu 26.04, but don’t establish whether that step was an upgrade or another reinstall.</p>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: March 6 to May 2026.</p><p>Network and access notes, April change log and transition summary. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+<p>The change I can pin down is the April rebuild: Proxmox came out of this iteration, and native Ubuntu with Docker became the base for the next one.</p>
+
+
     </div>
     
-    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#the-april-7-rebuild">The April 7 rebuild</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
+    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#the-network-experiments-before-the-rebuild">The network experiments before the rebuild</a></li><li><a href="#ubuntu-and-docker-on-the-hardware">Ubuntu and Docker on the hardware</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
   </div>
 </article>
 <section class="related-section"><div class="shell"><div class="section-heading"><h2>Keep reading</h2><a class="text-link" href="/cyberbiota-blog/journal/">All entries</a></div><div class="related-grid">

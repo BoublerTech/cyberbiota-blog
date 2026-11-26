@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="Restoring a database from the daily backup" />
@@ -50,12 +50,12 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">Storage &amp; recovery</p>
     <h1>Restoring a database from the daily backup</h1><p class="entry-deck">I restored the orchestration database into an isolated PostgreSQL instance and checked the tables, indexes, and remaining gaps.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>2 min read</span></div><p class="entry-period">Work covered: November 24, 2026</p>
   </div></header>
   <div class="shell reading-layout">
     <div class="article-content prose"><p>The earlier backup checks in the CyberBiota3.5 project could extract files and verify their hashes. The OpenClaw archive also passed a listing check that found PostgreSQL table objects.</p>
 
-<p>The next test needed a running engine. I approved restoring the orchestration dump from the daily backup into an isolated PostgreSQL instance, then checking what the database actually contained.</p>
+<p>The next test needed a running engine. The orchestration dump from the daily backup was restored into an isolated PostgreSQL instance, where its tables and indexes could be checked.</p>
 
 <h2 id="check-the-load-before-adding-another-component">Check the load before adding another component</h2>
 
@@ -104,24 +104,18 @@
 
 <p>The temporary container and staging files were removed afterward. Production volumes, backup cadence, and retention stayed in place.</p>
 
-<h2 id="keep-a-person-at-the-end-of-the-ticket">Keep a person at the end of the ticket</h2>
-
-<p>This phase also added draft service-desk classification, reviewed knowledge drafts, and a closure check requiring a human identifier and evidence references. The tests rejected registered agent IDs used as the human closer.</p>
-
-<p>That checked adapter behavior under the tested inputs. It didn’t establish a complete deployed help-desk identity system. GLPI stayed deferred: Leantime and Planka were already in the lab, and the draft helpers didn’t create a need for another application stack.</p>
-
-<h2 id="a-recovery-receipt-for-one-database">A recovery receipt for one database</h2>
+<h2 id="what-came-back">What came back</h2>
 
 <p>The restored tables were queryable, the indexes existed, and 12 tables were populated. I now had a functional database restore result to go with the earlier archive checks.</p>
 
 <p>The application itself hadn’t been exercised against that copy. The photo library and the rest of the host hadn’t been recovered either. The runbook retained the missing dump coverage and WAL work as separate jobs, along with a schema-compatibility check before any future image rollback.</p>
 
-<p>This was the orchestration database’s recovery receipt. The other applications still need their own tests.</p>
+<p>The next recovery work was still application-specific: verify the missing dump schedules, test the other databases, and check an application against a restored copy.</p>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: November 24, 2026.</p><p>Project records reviewed through November 25, 2026. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+
     </div>
     
-    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#check-the-load-before-adding-another-component">Check the load before adding another component</a></li><li><a href="#start-an-engine-that-cant-reach-production">Start an engine that can’t reach production</a></li><li><a href="#keep-a-person-at-the-end-of-the-ticket">Keep a person at the end of the ticket</a></li><li><a href="#a-recovery-receipt-for-one-database">A recovery receipt for one database</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
+    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#check-the-load-before-adding-another-component">Check the load before adding another component</a></li><li><a href="#start-an-engine-that-cant-reach-production">Start an engine that can’t reach production</a></li><li><a href="#what-came-back">What came back</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
   </div>
 </article>
 <section class="related-section"><div class="shell"><div class="section-heading"><h2>Keep reading</h2><a class="text-link" href="/cyberbiota-blog/journal/">All entries</a></div><div class="related-grid">
@@ -135,7 +129,7 @@
 
 <article class="post-card">
   <span class="list-leading"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M120-160v-160h720v160H120Zm80-40h80v-80h-80v80Zm-80-440v-160h720v160H120Zm80-40h80v-80h-80v80Zm-80 280v-160h720v160H120Zm80-40h80v-80h-80v80Z"/></g><g class="symbol-filled"><path d="M120-160v-160h720v160H120Zm80-40h80v-80h-80v80Zm-80-440v-160h720v160H120Zm80-40h80v-80h-80v80Zm-80 280v-160h720v160H120Zm80-40h80v-80h-80v80Z"/></g></svg></span>
-  <div class="post-card-body"><div class="post-meta"><span>Storage &amp; recovery</span><time datetime="2026-11-24">Nov 24, 2026</time></div><h3><a href="/cyberbiota-blog/journal/proving-the-restore/">The first backup I could show how to restore</a></h3><p>A repository restore and a later scheduled run gave me two different pieces of recovery evidence.</p><span class="reading-time">2 min read</span></div>
+  <div class="post-card-body"><div class="post-meta"><span>Storage &amp; recovery</span><time datetime="2026-11-24">Nov 24, 2026</time></div><h3><a href="/cyberbiota-blog/journal/proving-the-restore/">The first backup I could show how to restore</a></h3><p>Restic brought selected project files back into a separate folder. The next check was whether the backup would run on schedule.</p><span class="reading-time">2 min read</span></div>
   <span class="list-trailing"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg></span>
 </article>
 </div></div></section>

@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="The dashboard that came up empty" />
@@ -20,12 +20,12 @@
 <meta property="og:image" content="https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2026-11-24T00:00:00-05:00" />
-<meta property="article:modified_time" content="2026-11-24T00:00:00-05:00" />
+<meta property="article:modified_time" content="2026-11-25T00:00:00-05:00" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png" />
 <meta name="twitter:title" content="The dashboard that came up empty" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-24T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"The first CyberBiota build used Proxmox, ZFS, and Grafana. An empty dashboard exposed a gap between a connection and useful data.","headline":"The dashboard that came up empty","image":"https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota-first-build/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota-first-build/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-25T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"The first CyberBiota build used Proxmox, ZFS, and Grafana. An empty dashboard exposed a gap between a connection and useful data.","headline":"The dashboard that came up empty","image":"https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota-first-build/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/cyberbiota-first-build/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -50,48 +50,54 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">Build history</p>
     <h1>The dashboard that came up empty</h1><p class="entry-deck">The first CyberBiota build used Proxmox, ZFS, and Grafana. An empty dashboard exposed a gap between a connection and useful data.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-24">November 24, 2026</time><span>2 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-24">November 24, 2026</time><span>Updated November 25, 2026</span><span>2 min read</span></div><p class="entry-period">Work covered: February 13–14, 2026</p>
   </div></header>
   <div class="shell reading-layout">
-    <div class="article-content prose"><p>At 11:23 p.m. on February 13, the dashboard still had empty panels. Forty-three minutes earlier, the same log had marked the work as successful. The data was in InfluxDB, and Grafana could connect to it. The screen was still empty.</p>
+    <div class="article-content prose"><p>At 11:23 p.m. on February 13, the dashboard still had empty panels. Forty-three minutes earlier, the work had been marked successful. The data was in InfluxDB, and Grafana could connect to it. The screen was still empty.</p>
 
-<p>I was building the first CyberBiota with Proxmox, ZFS storage, and a Linux container for the control tools. That guest ran Docker and Ansible along with InfluxDB and Grafana. Proxmox sent metrics to InfluxDB. The idea was to see what the host was doing in Grafana without having to log in and check each piece by hand. Making it work meant following the metric all the way to a panel on the screen.</p>
+<p>I was building the first CyberBiota with Proxmox, ZFS storage, and a Linux container for the control tools. That guest ran Docker and Ansible alongside InfluxDB and Grafana. Proxmox sent its metrics to InfluxDB so I could view the host’s activity in Grafana.</p>
 
-<h2 id="what-each-check-told-me">What each check told me</h2>
+<h2 id="follow-the-data-to-the-screen">Follow the data to the screen</h2>
 
 <table>
   <thead>
     <tr>
-      <th>Part of the system</th>
-      <th>What the February log shows</th>
+      <th>Check that evening</th>
+      <th>Result</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>Proxmox to InfluxDB</td>
-      <td>The host sent metrics, and the database contained data.</td>
+      <td>Proxmox sending metrics</td>
+      <td>InfluxDB contained host data.</td>
     </tr>
     <tr>
-      <td>Grafana to InfluxDB</td>
-      <td>Grafana could connect. That still left the queries and dashboard to check.</td>
+      <td>Grafana connecting to InfluxDB</td>
+      <td>The connection worked.</td>
     </tr>
     <tr>
-      <td>Grafana panels</td>
-      <td>The late check found empty panels. The log says a subsequent check found no incoming queries, and the work stopped for the night.</td>
+      <td>Dashboard panels</td>
+      <td>Empty; a later check found no incoming queries.</td>
     </tr>
   </tbody>
 </table>
 
-<p>The next day, the fixes came in three pieces. The InfluxDB data source was changed to use explicit organization and bucket IDs. Then the dashboard JSON was cleaned up after Grafana reported a parsing error during provisioning. After that, the CPU panels needed queries that matched their actual sources. The Proxmox host metrics and the Telegraf metrics did not have the same CPU field or scale. A CPU panel that worked for one could give the wrong answer for the other.</p>
+<p>The work stopped at 11:34 p.m. There was data to query, but the dashboard wasn’t turning it into a useful view.</p>
 
-<p>I can’t pin the whole evening on one bug. The first note that says “success” predates the empty-panel observation. The next day’s log describes what changed, but I don’t have the original rendered panels or exact software versions to reconstruct the whole result independently. That leaves enough to tell the story without turning an early check into an uptime claim.</p>
+<p>The next day’s fixes addressed three different parts of that path. First, the InfluxDB data source was changed to use explicit organization and bucket IDs. Then Grafana reported a parsing error while provisioning the dashboard, so the dashboard JSON needed cleanup.</p>
 
-<p>When I look at a dashboard now, the question I come back to is the one that was missing at 10:40 p.m.: <strong>what did the panel actually show?</strong> A sample in the database helps me narrow down a fault. The panel is what I opened the dashboard to see.</p>
+<p>The CPU panels had another problem: the queries didn’t consistently match their sources. Proxmox host metrics and Telegraf metrics used different CPU fields and scales. A query suitable for one source could display the wrong value for the other. The panel queries had to match the data each panel was supposed to show.</p>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: February 13–14, 2026.</p><p>Dated CyberBiota operations log. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+<h2 id="the-connection-wasnt-the-finished-dashboard">The connection wasn’t the finished dashboard</h2>
+
+<p>The log records those corrections, but doesn’t preserve the final rendered panels well enough to reconstruct every result. I can describe the faults and the changes without claiming the whole dashboard was verified that night.</p>
+
+<p>The empty screen is the important part of this episode. Checking the database and testing the connection had both helped narrow the fault. Neither had checked the thing I wanted to use: a panel showing what the host was doing.</p>
+
+
     </div>
     
-    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#what-each-check-told-me">What each check told me</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
+    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#follow-the-data-to-the-screen">Follow the data to the screen</a></li><li><a href="#the-connection-wasnt-the-finished-dashboard">The connection wasn’t the finished dashboard</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
   </div>
 </article>
 <section class="related-section"><div class="shell"><div class="section-heading"><h2>Keep reading</h2><a class="text-link" href="/cyberbiota-blog/journal/">All entries</a></div><div class="related-grid">
@@ -105,7 +111,7 @@
 
 <article class="post-card">
   <span class="list-leading"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M300-720q-25 0-42.5 17.5T240-660q0 25 17.5 42.5T300-600q25 0 42.5-17.5T360-660q0-25-17.5-42.5T300-720Zm0 400q-25 0-42.5 17.5T240-260q0 25 17.5 42.5T300-200q25 0 42.5-17.5T360-260q0-25-17.5-42.5T300-320ZM160-840h640q17 0 28.5 11.5T840-800v280q0 17-11.5 28.5T800-480H160q-17 0-28.5-11.5T120-520v-280q0-17 11.5-28.5T160-840Zm40 80v200h560v-200H200Zm-40 320h640q17 0 28.5 11.5T840-400v280q0 17-11.5 28.5T800-80H160q-17 0-28.5-11.5T120-120v-280q0-17 11.5-28.5T160-440Zm40 80v200h560v-200H200Zm0-400v200-200Zm0 400v200-200Z"/></g><g class="symbol-filled"><path d="M300-720q-25 0-42.5 17.5T240-660q0 25 17.5 42.5T300-600q25 0 42.5-17.5T360-660q0-25-17.5-42.5T300-720Zm0 400q-25 0-42.5 17.5T240-260q0 25 17.5 42.5T300-200q25 0 42.5-17.5T360-260q0-25-17.5-42.5T300-320ZM160-840h640q17 0 28.5 11.5T840-800v280q0 17-11.5 28.5T800-480H160q-17 0-28.5-11.5T120-520v-280q0-17 11.5-28.5T160-840Zm0 400h640q17 0 28.5 11.5T840-400v280q0 17-11.5 28.5T800-80H160q-17 0-28.5-11.5T120-120v-280q0-17 11.5-28.5T160-440Z"/></g></svg></span>
-  <div class="post-card-body"><div class="post-meta"><span>Build history</span><time datetime="2026-11-24">Nov 24, 2026</time></div><h3><a href="/cyberbiota-blog/journal/leaving-proxmox/">Why I moved the lab off Proxmox</a></h3><p>The move to native Ubuntu and Docker changed where storage, networking, and application responsibilities lived.</p><span class="reading-time">3 min read</span></div>
+  <div class="post-card-body"><div class="post-meta"><span>Build history</span><time datetime="2026-11-24">Nov 24, 2026</time></div><h3><a href="/cyberbiota-blog/journal/leaving-proxmox/">Why I moved the lab off Proxmox</a></h3><p>The move to native Ubuntu and Docker changed where storage, networking, and application responsibilities lived.</p><span class="reading-time">2 min read</span></div>
   <span class="list-trailing"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg></span>
 </article>
 </div></div></section>

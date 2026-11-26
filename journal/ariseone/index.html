@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="AriseOne: my first apps and repeatable jobs" />
@@ -20,12 +20,12 @@
 <meta property="og:image" content="https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2026-11-24T00:00:00-05:00" />
-<meta property="article:modified_time" content="2026-11-24T00:00:00-05:00" />
+<meta property="article:modified_time" content="2026-11-25T00:00:00-05:00" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png" />
 <meta name="twitter:title" content="AriseOne: my first apps and repeatable jobs" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-24T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"The early health check, Ansible playbook, and ticketing work behind my first attempt at hosting my own services.","headline":"AriseOne: my first apps and repeatable jobs","image":"https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/ariseone/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/ariseone/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-25T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"The early health check, Ansible playbook, and ticketing work behind my first attempt at hosting my own services.","headline":"AriseOne: my first apps and repeatable jobs","image":"https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/ariseone/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/ariseone/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -50,31 +50,35 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">Build history</p>
     <h1>AriseOne: my first apps and repeatable jobs</h1><p class="entry-deck">The early health check, Ansible playbook, and ticketing work behind my first attempt at hosting my own services.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-24">November 24, 2026</time><span>3 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-24">November 24, 2026</time><span>Updated November 25, 2026</span><span>2 min read</span></div><p class="entry-period">Work covered: January to February 8, 2026</p>
   </div></header>
   <div class="shell reading-layout">
-    <div class="article-content prose"><p>The first thing I wanted AriseOne to do was simple: give me somewhere at home to run my own apps and keep my own data. I wanted to do it with open-source tools. Running several services made the next question obvious. How was I supposed to keep track of what each machine needed?</p>
+    <div class="article-content prose"><p>The first thing I wanted AriseOne to do was simple: give me somewhere at home to run my own apps and keep my own data. I wanted to do it with open-source tools. Once several services were involved, I also needed a way to keep track of the machines running them.</p>
 
-<h2 id="a-script-that-started-with-a-ping">A script that started with a ping</h2>
+<h2 id="start-with-a-ping">Start with a ping</h2>
 
-<p>The early repository has a Bash health check. It starts with a fixed list of machines. For each one, it tries a ping and then attempts to collect information like system load and free memory over SSH. The script can produce JSON as well as text. That made it possible to look at more than one machine from the same place.</p>
+<p>The early Bash health check worked through a fixed list of machines. It tried a ping, then used SSH to collect system load and free memory. It could return JSON or plain text, bringing several machines into one view.</p>
 
-<p>The script still had a boundary. A reply to a ping didn’t tell me whether a file service was usable. It told me a machine had replied. SSH and the commands run through it were a second test, and the application would need another. That distinction shows up again later in the story, when Grafana can connect to a database but has nothing useful to display.</p>
+<p>That was a host check. It could tell me that a machine replied and show its resource readings; checking whether Nextcloud could actually serve a file was a separate job.</p>
 
-<p>The Ansible playbook handled a different job. It refreshed the package cache on Debian-family systems, applied upgrades, and cleaned unused packages. At the end it looked for the reboot-required marker and reported which host needed attention. It didn’t reboot the machines. I could see where the automation stopped and where somebody still had to make a decision. These are things I can see in the January repository. I don’t have a run record that shows how often the playbook was used.</p>
+<p>The Ansible playbook handled maintenance on Debian-family systems. It refreshed the package cache, applied upgrades, and cleaned unused packages. At the end, it looked for the reboot-required marker and reported which hosts needed attention. It stopped there rather than rebooting them automatically.</p>
 
-<h2 id="a-lab-with-more-than-one-job">A lab with more than one job</h2>
+<p>Together, the two scripts gave the early lab repeatable jobs: collect a health snapshot, apply package updates, and identify the machines that still needed a reboot.</p>
 
-<p>The early February account describes the services that gave AriseOne a daily purpose. Nextcloud was the file service. Homepage was a single place to find the services. Zammad was for tickets. Proxmox ran the virtualized pieces, and a recurring problem with NVIDIA drivers turned up when the kernel changed. The notes describe a repair script and a ticket trigger. They don’t give me a full run showing that a ticket could trigger and verify a repair by itself.</p>
+<h2 id="give-the-services-somewhere-to-live">Give the services somewhere to live</h2>
 
-<p>The February 7 and 8 notes describe checking Zammad before changing a system and moving Markdown notes into its knowledge base. That was a way to put the past work somewhere it could be found the next time a driver or service broke. It matters here because I was learning how much of running the lab depended on having useful notes about it.</p>
+<p>By early February, Nextcloud held files, Homepage linked to the services, and Zammad handled tickets. Proxmox hosted the virtualized parts of the lab.</p>
 
-<p>The dates in the archive don’t all mean the same thing. A later account puts the workspace setup on January 16, and the earliest repository entries I’ve reviewed are from January 20. The next build has its own log. It shows the ideas I kept working with, including Proxmox, monitoring and ticketing. It leaves open which individual services and data moved over.</p>
+<p>NVIDIA drivers were a recurring maintenance problem after kernel changes. The notes describe a repair script and a ticket trigger, although I don’t have a complete run demonstrating unattended diagnosis and repair. The useful work at this stage was narrower: capturing the problem and keeping the repair instructions available.</p>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: January to February 8, 2026.</p><p>January repository records and a February retrospective. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+<p>On February 7 and 8, the work included checking Zammad before making system changes and moving Markdown notes into its knowledge base. The ticketing system was becoming a place to find what had happened the last time a service or driver broke.</p>
+
+<p>AriseOne gave me applications to use and maintenance to learn. The next build kept Proxmox and added more monitoring. That led to <a href="/cyberbiota-blog/journal/cyberbiota-first-build/">a dashboard that could connect to its database but still showed nothing</a>.</p>
+
+
     </div>
     
-    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#a-script-that-started-with-a-ping">A script that started with a ping</a></li><li><a href="#a-lab-with-more-than-one-job">A lab with more than one job</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
+    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#start-with-a-ping">Start with a ping</a></li><li><a href="#give-the-services-somewhere-to-live">Give the services somewhere to live</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
   </div>
 </article>
 <section class="related-section"><div class="shell"><div class="section-heading"><h2>Keep reading</h2><a class="text-link" href="/cyberbiota-blog/journal/">All entries</a></div><div class="related-grid">
@@ -88,7 +92,7 @@
 
 <article class="post-card">
   <span class="list-leading"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M300-720q-25 0-42.5 17.5T240-660q0 25 17.5 42.5T300-600q25 0 42.5-17.5T360-660q0-25-17.5-42.5T300-720Zm0 400q-25 0-42.5 17.5T240-260q0 25 17.5 42.5T300-200q25 0 42.5-17.5T360-260q0-25-17.5-42.5T300-320ZM160-840h640q17 0 28.5 11.5T840-800v280q0 17-11.5 28.5T800-480H160q-17 0-28.5-11.5T120-520v-280q0-17 11.5-28.5T160-840Zm40 80v200h560v-200H200Zm-40 320h640q17 0 28.5 11.5T840-400v280q0 17-11.5 28.5T800-80H160q-17 0-28.5-11.5T120-120v-280q0-17 11.5-28.5T160-440Zm40 80v200h560v-200H200Zm0-400v200-200Zm0 400v200-200Z"/></g><g class="symbol-filled"><path d="M300-720q-25 0-42.5 17.5T240-660q0 25 17.5 42.5T300-600q25 0 42.5-17.5T360-660q0-25-17.5-42.5T300-720Zm0 400q-25 0-42.5 17.5T240-260q0 25 17.5 42.5T300-200q25 0 42.5-17.5T360-260q0-25-17.5-42.5T300-320ZM160-840h640q17 0 28.5 11.5T840-800v280q0 17-11.5 28.5T800-480H160q-17 0-28.5-11.5T120-520v-280q0-17 11.5-28.5T160-840Zm0 400h640q17 0 28.5 11.5T840-400v280q0 17-11.5 28.5T800-80H160q-17 0-28.5-11.5T120-120v-280q0-17 11.5-28.5T160-440Z"/></g></svg></span>
-  <div class="post-card-body"><div class="post-meta"><span>Build history</span><time datetime="2026-11-24">Nov 24, 2026</time></div><h3><a href="/cyberbiota-blog/journal/leaving-proxmox/">Why I moved the lab off Proxmox</a></h3><p>The move to native Ubuntu and Docker changed where storage, networking, and application responsibilities lived.</p><span class="reading-time">3 min read</span></div>
+  <div class="post-card-body"><div class="post-meta"><span>Build history</span><time datetime="2026-11-24">Nov 24, 2026</time></div><h3><a href="/cyberbiota-blog/journal/leaving-proxmox/">Why I moved the lab off Proxmox</a></h3><p>The move to native Ubuntu and Docker changed where storage, networking, and application responsibilities lived.</p><span class="reading-time">2 min read</span></div>
   <span class="list-trailing"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg></span>
 </article>
 </div></div></section>

@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="A drifting clock and a crowded SSD" />
@@ -50,12 +50,12 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">Operations</p>
     <h1>A drifting clock and a crowded SSD</h1><p class="entry-deck">The CyberBiota3.5 work began with a broken authentication route, uncapped containers, and a system disk that needed attention.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div><p class="entry-period">Work covered: November 23–24, 2026</p>
   </div></header>
   <div class="shell reading-layout">
     <div class="article-content prose"><p>When I started the CyberBiota3.5 upgrade, OpenClaw’s health endpoint answered while the protected route returned HTTP 502. Authelia, the service handling authentication, was stuck restarting. The machine underneath it also wasn’t synchronizing its clock.</p>
 
-<p>There were already 70 containers running on the laptop. Before adding the new agent roles, I approved a round of repairs to the host and the services it was already carrying.</p>
+<p>There were already 70 containers running on the laptop. The host and its existing services needed repairs before I added the new agent roles.</p>
 
 <h2 id="the-clock-repair-changed-the-authentication-result">The clock repair changed the authentication result</h2>
 
@@ -65,7 +65,7 @@
 
 <p>Checking OpenClaw directly hadn’t exposed that difference. Its process could be alive while the login route in front of it was broken. I kept the proxy test alongside the direct health check.</p>
 
-<p>The repair record supports that sequence for this fault. It doesn’t settle the cause of every earlier authentication problem or host freeze.</p>
+<p>The 401 confirmed that the authentication layer was responding again. It didn’t establish that the separate host-freeze problem was fixed.</p>
 
 <h2 id="cadvisor-was-using-more-than-three-gigabytes">cAdvisor was using more than three gigabytes</h2>
 
@@ -73,9 +73,9 @@
 
 <p>cAdvisor gave the clearest before-and-after reading. Its recorded usage was 3.39 GiB before recreation. Afterward it was about 50 MiB, with a 512 MiB limit; a later checkpoint showed about 37 MiB. Those are individual readings rather than a long-term benchmark, but they made the resource problem concrete.</p>
 
-<p>At the first completed checkpoint, all 70 running containers had both limits and none were unhealthy. The later post-reboot count was 71 of 71. The running total changes when a temporary agent sandbox is present, so I attach those counts to the checks that produced them.</p>
+<p>At the first completed checkpoint, all 70 running containers had both limits and none were unhealthy. After reboot, the check covered 71 of 71; temporary agent sandboxes could change the running count.</p>
 
-<p>I also approved removing the deprecated Portainer container and 26 stale rehearsal or candidate containers. Dockhand stayed healthy. No volumes were removed, and Portainer’s Compose definition remained available behind a deprecated profile.</p>
+<p>The cleanup also removed the deprecated Portainer container and 26 stale rehearsal or candidate containers. Dockhand stayed healthy. No volumes were removed, and Portainer’s Compose definition remained available behind a deprecated profile.</p>
 
 <h2 id="make-room-on-the-disk-that-needed-it">Make room on the disk that needed it</h2>
 
@@ -89,9 +89,9 @@
 
 <p>The repository backup job had been exiting with status 3. Its repair added narrow exclusions for protected key, runtime, and staging paths. File permissions stayed restricted.</p>
 
-<p>The rerun succeeded, and <code class="language-plaintext highlighter-rouge">restic check</code> passed across all 44 existing snapshots. Nothing was pruned. Between the clock repair, resource limits, storage work, and passing backup, the next stage had a much clearer starting point than the first audit did.</p>
+<p>The rerun succeeded, and <code class="language-plaintext highlighter-rouge">restic check</code> passed across all 44 existing snapshots. Nothing was pruned. The host could synchronize its clock, the protected route answered correctly, the system disk had room, and the repository backup was working again. The longer stability observation was still ahead.</p>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: November 23–24, 2026.</p><p>Project records reviewed through November 25, 2026. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+
     </div>
     
     <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#the-clock-repair-changed-the-authentication-result">The clock repair changed the authentication result</a></li><li><a href="#cadvisor-was-using-more-than-three-gigabytes">cAdvisor was using more than three gigabytes</a></li><li><a href="#make-room-on-the-disk-that-needed-it">Make room on the disk that needed it</a></li><li><a href="#keep-the-old-backups">Keep the old backups</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
@@ -101,7 +101,7 @@
 
 <article class="post-card">
   <span class="list-leading"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M240-40q-50 0-85-35t-35-85q0-50 35-85t85-35q14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35ZM120-540q17 0 28.5-11.5T160-580q0-17-11.5-28.5T120-620q-17 0-28.5 11.5T80-580q0 17 11.5 28.5T120-540Zm120 420q17 0 28.5-11.5T280-160q0-17-11.5-28.5T240-200q-17 0-28.5 11.5T200-160q0 17 11.5 28.5T240-120Zm240-680q17 0 28.5-11.5T520-840q0-17-11.5-28.5T480-880q-17 0-28.5 11.5T440-840q0 17 11.5 28.5T480-800Zm0 440q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Zm240 240q17 0 28.5-11.5T760-160q0-17-11.5-28.5T720-200q-17 0-28.5 11.5T680-160q0 17 11.5 28.5T720-120Zm120-420q17 0 28.5-11.5T880-580q0-17-11.5-28.5T840-620q-17 0-28.5 11.5T800-580q0 17 11.5 28.5T840-540ZM480-840ZM120-580Zm360 120Zm360-120ZM240-160Zm480 0Z"/></g><g class="symbol-filled"><path d="M240-40q-50 0-85-35t-35-85q0-50 35-85t85-35q14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35Z"/></g></svg></span>
-  <div class="post-card-body"><div class="post-meta"><span>Operations</span><time datetime="2026-11-25">Nov 25, 2026</time></div><h3><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></h3><p>The live cutover, the OpenClaw upgrade, and the tests that let me keep the new coordinator in place.</p><span class="reading-time">4 min read</span></div>
+  <div class="post-card-body"><div class="post-meta"><span>Operations</span><time datetime="2026-11-25">Nov 25, 2026</time></div><h3><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></h3><p>The live cutover, the OpenClaw upgrade, and the tests that let me keep the new coordinator in place.</p><span class="reading-time">3 min read</span></div>
   <span class="list-trailing"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg></span>
 </article>
 

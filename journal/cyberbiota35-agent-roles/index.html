@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="Giving the agents separate jobs" />
@@ -50,12 +50,12 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">AI &amp; automation</p>
     <h1>Giving the agents separate jobs</h1><p class="entry-deck">The new role structure divided operations into leads and specialists, with explicit limits on tools and delegation.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div><p class="entry-period">Work covered: November 23–24, 2026</p>
   </div></header>
   <div class="shell reading-layout">
     <div class="article-content prose"><p>CyberBiota3 already had 14 agent IDs when I started this upgrade. The coordinator was connected to Telegram, and the older roles had existing workflows. Replacing their configuration in one step would have made it harder to tell what broke.</p>
 
-<p>I approved building the new role structure offline first. It used 32 identities, each with a defined job and an explicit delegation path. Only <code class="language-plaintext highlighter-rouge">main</code>, the coordinator, shared its name with the old structure.</p>
+<p>The new role structure was built offline first. It used 32 identities, each with a defined job and an explicit delegation path. Only <code class="language-plaintext highlighter-rouge">main</code>, the coordinator, shared its name with the old structure.</p>
 
 <h2 id="divide-the-work-without-loading-more-models">Divide the work without loading more models</h2>
 
@@ -70,7 +70,7 @@
 
 <p>The coordinator could reach department leads. Leads could reach their own registered specialists. Specialists had no children, and governance could review evidence without approving a change.</p>
 
-<p>The candidate required explicit agent IDs and allowed two delegation edges below <code class="language-plaintext highlighter-rouge">main</code>. Structural checks looked for cycles, orphaned routes, and paths beyond that limit. I also ratified the three database-role IDs after the collision check found none in the existing registry.</p>
+<p>The candidate required explicit agent IDs and allowed two delegation edges below <code class="language-plaintext highlighter-rouge">main</code>. Structural checks looked for cycles, orphaned routes, and paths beyond that limit. The three new database-role IDs were checked for collisions with the existing registry before being added.</p>
 
 <h2 id="give-the-restrictions-something-to-run-on">Give the restrictions something to run on</h2>
 
@@ -92,7 +92,7 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
 
-<p>This excerpt isn’t a complete deployment file. The per-role tool rules separately denied shell execution and modifying tools. Later, a live container inspection checked that the sandbox settings had actually taken effect.</p>
+<p>These sandbox settings worked alongside per-role rules denying shell execution and modifying tools. Later, a live container inspection checked the filesystem, network, capabilities, and resource limits.</p>
 
 <h2 id="add-the-new-roles-beside-the-legacy-ones">Add the new roles beside the legacy ones</h2>
 
@@ -106,7 +106,7 @@
 
 <p>Those attempts were denied. The allowed route from the coordinator to <code class="language-plaintext highlighter-rouge">noc-lead</code> succeeded. Getting that successful delegation took another change, though: <a href="/cyberbiota-blog/journal/cyberbiota35-hybrid-inference/">the local model’s multi-step test failed</a>, and the working pilot used a cloud coordinator with local Qwen3 specialists.</p>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: November 23–24, 2026.</p><p>Project records reviewed through November 25, 2026. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+
     </div>
     
     <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#divide-the-work-without-loading-more-models">Divide the work without loading more models</a></li><li><a href="#give-the-restrictions-something-to-run-on">Give the restrictions something to run on</a></li><li><a href="#add-the-new-roles-beside-the-legacy-ones">Add the new roles beside the legacy ones</a></li><li><a href="#check-a-refusal-as-well-as-a-successful-route">Check a refusal as well as a successful route</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>

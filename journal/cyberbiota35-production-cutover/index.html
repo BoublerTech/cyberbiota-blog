@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="Putting CyberBiota3.5 into production" />
@@ -50,7 +50,7 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">Operations</p>
     <h1>Putting CyberBiota3.5 into production</h1><p class="entry-deck">The live cutover, the OpenClaw upgrade, and the tests that let me keep the new coordinator in place.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>4 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div><p class="entry-period">Work covered: November 24–25, 2026</p>
   </div></header>
   <div class="shell reading-layout">
     <div class="article-content prose"><p>On November 25, the live coordinator delegated to a local <code class="language-plaintext highlighter-rouge">noc-lead</code> sandbox. When it tried to reach <code class="language-plaintext highlighter-rouge">soc-tier1</code> directly, the gateway denied the request. Those two results were the last routing checks in the CyberBiota3.5 cutover.</p>
@@ -71,13 +71,13 @@
 
 <h2 id="deal-with-the-upgrade-blockers">Deal with the upgrade blockers</h2>
 
-<p>I approved moving OpenClaw from <code class="language-plaintext highlighter-rouge">2026.10.4</code> to <code class="language-plaintext highlighter-rouge">2026.11.9</code> as its own change. The daily OpenClaw backup and USB copy had successful receipts before that step.</p>
+<p>I approved moving OpenClaw from <code class="language-plaintext highlighter-rouge">2026.10.4</code> to <code class="language-plaintext highlighter-rouge">2026.11.9</code> as its own change. The daily OpenClaw backup and USB copy had both succeeded before that step.</p>
 
 <p>Candidate admission hit two blockers. An unused development symlink caused the snapshot to be rejected; its target was recorded before the link was removed. The expected policy-attestation hash also needed reconciliation with the verified post-cutover state. The policy check passed all 68 checks before proceeding.</p>
 
 <p>After the upgrade, the installed version, health, schema, reliability monitor, and a sandboxed governance turn were checked again. The 37-test adapter suite passed, and the newer model entries appeared in the catalog.</p>
 
-<p>One host check needed follow-up. The daily AIDE file-integrity service reported failure after the approved changes. The receipt left it for an explicit baseline review instead of reinitializing the integrity database to clear the result. That failure stayed open.</p>
+<p>One host check needed follow-up. The daily AIDE file-integrity service reported failure after the approved changes. The failure stayed open for an explicit baseline review. The integrity database was not reinitialized just to clear the alert.</p>
 
 <h2 id="put-the-hybrid-coordinator-on-the-live-route">Put the hybrid coordinator on the live route</h2>
 
@@ -91,15 +91,13 @@
 
 <h2 id="watch-the-lab-after-the-cutover">Watch the lab after the cutover</h2>
 
-<p>The operating handoff had been written before these changes and still called production cutover future work. The later receipts record what actually happened. They establish selected live routing and sandbox checks, alongside a separately exercised Python adapter suite.</p>
-
-<p>At this entry’s date, the planned observation window ran from November 24 to December 1. It hadn’t elapsed. Daily backup receipts, stability checks, and investigation of material regressions still mattered before final acceptance.</p>
+<p>The planned observation window ran from November 24 to December 1. At publication, it was still underway. Daily backups and stability checks needed to keep passing, and any material regression needed investigation before final project acceptance.</p>
 
 <p>The remaining list included the AIDE review, incomplete database dump coverage, no demonstrated WAL-based point-in-time recovery, a separately held recovery key, and a pending desktop-agent permission review. The lab still depended on one host.</p>
 
-<p>The next evidence needs to come from operation: real requests through the new tools, scheduled jobs, any failures, and the eventual observation-period decision. The production change was in place; those results were still to come.</p>
+<p>The new coordinator was live. The next test was everyday use: requests through Telegram and the new tools, scheduled jobs running without intervention, and a week of watching for regressions. Those results would decide what could stay and what needed another change.</p>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: November 24–25, 2026.</p><p>Project records reviewed through November 25, 2026. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+
     </div>
     
     <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#add-the-new-roles-and-preserve-the-old-workflows">Add the new roles and preserve the old workflows</a></li><li><a href="#deal-with-the-upgrade-blockers">Deal with the upgrade blockers</a></li><li><a href="#put-the-hybrid-coordinator-on-the-live-route">Put the hybrid coordinator on the live route</a></li><li><a href="#watch-the-lab-after-the-cutover">Watch the lab after the cutover</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>

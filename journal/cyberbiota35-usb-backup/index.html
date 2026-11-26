@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="Taking a backup off the laptop" />
@@ -50,7 +50,7 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">Storage &amp; recovery</p>
     <h1>Taking a backup off the laptop</h1><p class="entry-deck">I added an encrypted repository to an existing USB drive, restored selected files, and checked the overnight job.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div><p class="entry-period">Work covered: November 23–25, 2026</p>
   </div></header>
   <div class="shell reading-layout">
     <div class="article-content prose"><p>The first backup question in the CyberBiota3.5 audit was where the successful jobs were writing. The verified copies were on the same laptop that ran the lab.</p>
@@ -63,7 +63,7 @@
 
 <p>Its scope was specific: the new 3.5 project records, selected Compose configuration, scripts, and the latest verified daily OpenClaw archive. Staging and selected sensitive or runtime files were excluded. It was a recovery copy for that material, rather than a full image of the laptop or every application’s data.</p>
 
-<p>Restic encrypted the repository. The job used the established credential arrangement without printing values in its receipts. I also needed a usable copy of the repository password outside the Dell. The encrypted files would be little use on replacement hardware if the only decryption key disappeared with the host.</p>
+<p>Restic encrypted the repository. The backup job used the existing credential configuration. I also needed a usable copy of the repository password outside the Dell. The encrypted files would be little use on replacement hardware if the only decryption key disappeared with the host.</p>
 
 <h2 id="test-the-missing-drive-before-the-successful-backup">Test the missing drive before the successful backup</h2>
 
@@ -75,11 +75,11 @@
 
 <h2 id="restore-something-from-the-external-copy">Restore something from the external copy</h2>
 
-<p>The restore test brought two selected project files back from the USB repository into a private staging directory on the data SSD. Their SHA-256 hashes matched the originals. The selective restore took 1.07 seconds, after which the temporary directory was removed.</p>
+<p>The restore test brought two selected project files back from the USB repository into a private staging directory on the data SSD. Their SHA-256 hashes matched the originals. The two-file restore took 1.07 seconds. The temporary directory was removed afterward.</p>
 
 <p>That established that those files could be recovered from the encrypted external copy. The timing belongs to that two-file exercise. It doesn’t describe how long it would take to rebuild CyberBiota or restore its applications.</p>
 
-<p>The <a href="/cyberbiota-blog/journal/cyberbiota35-database-restore/">database restore</a> went further by restoring a dump into an isolated PostgreSQL engine. I kept the two results separate because a matching file and a usable database answer different questions.</p>
+<p>The <a href="/cyberbiota-blog/journal/cyberbiota35-database-restore/">database restore</a> went further by restoring a dump into an isolated PostgreSQL engine. That test checked the restored tables and indexes as well as the saved file.</p>
 
 <h2 id="watch-the-overnight-job-run">Watch the overnight job run</h2>
 
@@ -87,9 +87,9 @@
 
 <p>The November 25 upgrade receipt recorded an automatic run at 04:17 and a clean repository check. That was the scheduled path actually running, beyond the manual service test.</p>
 
-<p>CyberBiota_Ark now gave this upgrade an external encrypted copy, a selective restore receipt, and an unattended-run receipt. It was still an attached USB drive. Offsite protection, complete application coverage, and recovery onto replacement hardware remained separate work.</p>
+<p>CyberBiota_Ark held an external encrypted copy that had passed a selective restore and an automatic overnight run. It was still an attached USB drive. Offsite protection, complete application coverage, and recovery onto replacement hardware remained separate work.</p>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: November 23–25, 2026.</p><p>Project records reviewed through November 25, 2026. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+
     </div>
     
     <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#the-drive-already-had-my-files-on-it">The drive already had my files on it</a></li><li><a href="#test-the-missing-drive-before-the-successful-backup">Test the missing drive before the successful backup</a></li><li><a href="#restore-something-from-the-external-copy">Restore something from the external copy</a></li><li><a href="#watch-the-overnight-job-run">Watch the overnight job run</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
@@ -99,14 +99,14 @@
 
 <article class="post-card">
   <span class="list-leading"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M120-160v-160h720v160H120Zm80-40h80v-80h-80v80Zm-80-440v-160h720v160H120Zm80-40h80v-80h-80v80Zm-80 280v-160h720v160H120Zm80-40h80v-80h-80v80Z"/></g><g class="symbol-filled"><path d="M120-160v-160h720v160H120Zm80-40h80v-80h-80v80Zm-80-440v-160h720v160H120Zm80-40h80v-80h-80v80Zm-80 280v-160h720v160H120Zm80-40h80v-80h-80v80Z"/></g></svg></span>
-  <div class="post-card-body"><div class="post-meta"><span>Storage &amp; recovery</span><time datetime="2026-11-25">Nov 25, 2026</time></div><h3><a href="/cyberbiota-blog/journal/cyberbiota35-database-restore/">Restoring a database from the daily backup</a></h3><p>I restored the orchestration database into an isolated PostgreSQL instance and checked the tables, indexes, and remaining gaps.</p><span class="reading-time">3 min read</span></div>
+  <div class="post-card-body"><div class="post-meta"><span>Storage &amp; recovery</span><time datetime="2026-11-25">Nov 25, 2026</time></div><h3><a href="/cyberbiota-blog/journal/cyberbiota35-database-restore/">Restoring a database from the daily backup</a></h3><p>I restored the orchestration database into an isolated PostgreSQL instance and checked the tables, indexes, and remaining gaps.</p><span class="reading-time">2 min read</span></div>
   <span class="list-trailing"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg></span>
 </article>
 
 
 <article class="post-card">
   <span class="list-leading"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M120-160v-160h720v160H120Zm80-40h80v-80h-80v80Zm-80-440v-160h720v160H120Zm80-40h80v-80h-80v80Zm-80 280v-160h720v160H120Zm80-40h80v-80h-80v80Z"/></g><g class="symbol-filled"><path d="M120-160v-160h720v160H120Zm80-40h80v-80h-80v80Zm-80-440v-160h720v160H120Zm80-40h80v-80h-80v80Zm-80 280v-160h720v160H120Zm80-40h80v-80h-80v80Z"/></g></svg></span>
-  <div class="post-card-body"><div class="post-meta"><span>Storage &amp; recovery</span><time datetime="2026-11-24">Nov 24, 2026</time></div><h3><a href="/cyberbiota-blog/journal/proving-the-restore/">The first backup I could show how to restore</a></h3><p>A repository restore and a later scheduled run gave me two different pieces of recovery evidence.</p><span class="reading-time">2 min read</span></div>
+  <div class="post-card-body"><div class="post-meta"><span>Storage &amp; recovery</span><time datetime="2026-11-24">Nov 24, 2026</time></div><h3><a href="/cyberbiota-blog/journal/proving-the-restore/">The first backup I could show how to restore</a></h3><p>Restic brought selected project files back into a separate folder. The next check was whether the backup would run on schedule.</p><span class="reading-time">2 min read</span></div>
   <span class="list-trailing"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg></span>
 </article>
 </div></div></section>

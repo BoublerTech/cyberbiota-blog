@@ -6,24 +6,24 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="Making a backup prove itself" />
 <meta name="author" content="BoublerTech" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="The operating problem" />
-<meta name="twitter:description" property="og:description" content="The operating problem" />
+<meta name="description" content="Recover the project instructions" />
+<meta name="twitter:description" property="og:description" content="Recover the project instructions" />
 <link rel="canonical" href="https://boublertech.github.io/cyberbiota-blog/case-studies/repository-restore/" />
 <meta property="og:url" content="https://boublertech.github.io/cyberbiota-blog/case-studies/repository-restore/" />
 <meta property="og:site_name" content="CyberBiota3" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2026-11-25T21:25:56-05:00" />
-<meta property="article:modified_time" content="2026-11-25T21:25:56-05:00" />
+<meta property="article:published_time" content="2026-11-25T21:45:00-05:00" />
+<meta property="article:modified_time" content="2026-11-25T21:45:00-05:00" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="Making a backup prove itself" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-25T21:25:56-05:00","datePublished":"2026-11-25T21:25:56-05:00","description":"The operating problem","headline":"Making a backup prove itself","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/case-studies/repository-restore/"},"url":"https://boublertech.github.io/cyberbiota-blog/case-studies/repository-restore/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-25T21:45:00-05:00","datePublished":"2026-11-25T21:45:00-05:00","description":"Recover the project instructions","headline":"Making a backup prove itself","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/case-studies/repository-restore/"},"url":"https://boublertech.github.io/cyberbiota-blog/case-studies/repository-restore/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -48,65 +48,32 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">Recovery</p>
     <h1>Making a backup prove itself</h1><p class="entry-deck">A scoped encrypted repository backup gained practical meaning through an isolated restore check and a later unattended timer receipt.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>2 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>1 min read</span></div><p class="entry-period">Work covered: June 25–July 6, 2026</p>
   </div></header>
   <div class="shell reading-layout">
-    <div class="article-content prose"><h2 id="the-operating-problem">The operating problem</h2>
+    <div class="article-content prose"><h2 id="recover-the-project-instructions">Recover the project instructions</h2>
 
-<p>A successful backup command says that a job ran. It does not by itself show that the saved material can be recovered. CyberBiota3’s early recovery work therefore treated <strong>restoring</strong> as a separate acceptance step.</p>
+<p>The June 25 exercise used an encrypted local Restic backup of selected repository material. Project instructions and change records were included; sensitive configuration and live runtime data were excluded.</p>
 
-<p>The selected scope was the project repository. The June record describes an encrypted Restic repository and a test restore. A later July 6 record captures a natural scheduled run rather than only a manually invoked command. These are different proofs: the restore tests recoverability of the selected material, while the timer result tests whether the scheduled path executed on that occasion.</p>
+<p>The snapshot was restored into a separate folder. Checks covered the README, operations instructions, and backup plan, plus paths that were supposed to stay excluded. The working repository was not overwritten.</p>
 
-<h2 id="evidence-and-limits">Evidence and limits</h2>
+<p>On July 6, the systemd timer ran without a manual start. It exited with status zero, created a new snapshot, and passed the Restic check.</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Question</th>
-      <th>Historical result</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Was there a selected backup scope?</td>
-      <td>Yes: repository material, with exclusions documented in the private operating record.</td>
-    </tr>
-    <tr>
-      <td>Was a restore attempted?</td>
-      <td>Yes: a scoped restore validation is recorded.</td>
-    </tr>
-    <tr>
-      <td>Did the schedule run on its own?</td>
-      <td>A natural timer result was recorded on July 6.</td>
-    </tr>
-    <tr>
-      <td>Was the entire homelab recoverable?</td>
-      <td>That does <strong>not</strong> follow from these records.</td>
-    </tr>
-    <tr>
-      <td>Was there an independent off-site copy?</td>
-      <td>The reviewed case does not establish one.</td>
-    </tr>
-  </tbody>
-</table>
+<p>This recovered selected project files and checked the scheduled backup path. It did not recover a live database or the whole host, and the local copy did not protect against losing the laptop and its storage together.</p>
 
-<p>The exact restored artifact count is intentionally absent here until it is checked against detailed validation output. Application databases, consistent snapshots, host rebuilds, and off-site disaster recovery each need their own tests. A local repository restore is a meaningful success within its scope; it is not a universal recovery guarantee.</p>
+<p><a href="/cyberbiota-blog/journal/proving-the-restore/">Read the journal entry</a> or the later <a href="/cyberbiota-blog/journal/cyberbiota35-usb-backup/">external USB backup</a>.</p>
 
-<h2 id="what-this-taught-the-operating-process">What this taught the operating process</h2>
 
-<p>Recovery claims should name the object restored, the isolation of the test, the evidence captured, and the time of the test. The July timer result adds scheduling evidence but cannot update a June restore result into a later whole-system assurance. The next defensible step is a matrix of critical data sets and independent restore drills, each with its own receipt.</p>
-
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: June 25–July 6, 2026.</p><p>Repository restore report and timer result. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
     </div>
     
-    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#the-operating-problem">The operating problem</a></li><li><a href="#evidence-and-limits">Evidence and limits</a></li><li><a href="#what-this-taught-the-operating-process">What this taught the operating process</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
+    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#recover-the-project-instructions">Recover the project instructions</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
   </div>
 </article>
 <section class="related-section"><div class="shell"><div class="section-heading"><h2>Keep reading</h2><a class="text-link" href="/cyberbiota-blog/journal/">All entries</a></div><div class="related-grid">
 
 <article class="post-card">
   <span class="list-leading"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M240-40q-50 0-85-35t-35-85q0-50 35-85t85-35q14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35ZM120-540q17 0 28.5-11.5T160-580q0-17-11.5-28.5T120-620q-17 0-28.5 11.5T80-580q0 17 11.5 28.5T120-540Zm120 420q17 0 28.5-11.5T280-160q0-17-11.5-28.5T240-200q-17 0-28.5 11.5T200-160q0 17 11.5 28.5T240-120Zm240-680q17 0 28.5-11.5T520-840q0-17-11.5-28.5T480-880q-17 0-28.5 11.5T440-840q0 17 11.5 28.5T480-800Zm0 440q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Zm240 240q17 0 28.5-11.5T760-160q0-17-11.5-28.5T720-200q-17 0-28.5 11.5T680-160q0 17 11.5 28.5T720-120Zm120-420q17 0 28.5-11.5T880-580q0-17-11.5-28.5T840-620q-17 0-28.5 11.5T800-580q0 17 11.5 28.5T840-540ZM480-840ZM120-580Zm360 120Zm360-120ZM240-160Zm480 0Z"/></g><g class="symbol-filled"><path d="M240-40q-50 0-85-35t-35-85q0-50 35-85t85-35q14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35Z"/></g></svg></span>
-  <div class="post-card-body"><div class="post-meta"><span>Operations</span><time datetime="2026-11-25">Nov 25, 2026</time></div><h3><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></h3><p>The live cutover, the OpenClaw upgrade, and the tests that let me keep the new coordinator in place.</p><span class="reading-time">4 min read</span></div>
+  <div class="post-card-body"><div class="post-meta"><span>Operations</span><time datetime="2026-11-25">Nov 25, 2026</time></div><h3><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></h3><p>The live cutover, the OpenClaw upgrade, and the tests that let me keep the new coordinator in place.</p><span class="reading-time">3 min read</span></div>
   <span class="list-trailing"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg></span>
 </article>
 

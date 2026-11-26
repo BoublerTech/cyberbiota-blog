@@ -6,26 +6,26 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="The first backup I could show how to restore" />
 <meta name="author" content="BoublerTech" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="A repository restore and a later scheduled run gave me two different pieces of recovery evidence." />
-<meta name="twitter:description" property="og:description" content="A repository restore and a later scheduled run gave me two different pieces of recovery evidence." />
+<meta name="description" content="Restic brought selected project files back into a separate folder. The next check was whether the backup would run on schedule." />
+<meta name="twitter:description" property="og:description" content="Restic brought selected project files back into a separate folder. The next check was whether the backup would run on schedule." />
 <link rel="canonical" href="https://boublertech.github.io/cyberbiota-blog/journal/proving-the-restore/" />
 <meta property="og:url" content="https://boublertech.github.io/cyberbiota-blog/journal/proving-the-restore/" />
 <meta property="og:site_name" content="CyberBiota3" />
 <meta property="og:image" content="https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2026-11-24T00:00:00-05:00" />
-<meta property="article:modified_time" content="2026-11-24T00:00:00-05:00" />
+<meta property="article:modified_time" content="2026-11-25T00:00:00-05:00" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png" />
 <meta name="twitter:title" content="The first backup I could show how to restore" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-24T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"A repository restore and a later scheduled run gave me two different pieces of recovery evidence.","headline":"The first backup I could show how to restore","image":"https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/proving-the-restore/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/proving-the-restore/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"BoublerTech"},"dateModified":"2026-11-25T00:00:00-05:00","datePublished":"2026-11-24T00:00:00-05:00","description":"Restic brought selected project files back into a separate folder. The next check was whether the backup would run on schedule.","headline":"The first backup I could show how to restore","image":"https://boublertech.github.io/cyberbiota-blog/assets/brand/social-preview.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://boublertech.github.io/cyberbiota-blog/journal/proving-the-restore/"},"url":"https://boublertech.github.io/cyberbiota-blog/journal/proving-the-restore/"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -49,26 +49,32 @@
   <header class="entry-header"><div class="shell entry-heading">
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">Storage &amp; recovery</p>
-    <h1>The first backup I could show how to restore</h1><p class="entry-deck">A repository restore and a later scheduled run gave me two different pieces of recovery evidence.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-24">November 24, 2026</time><span>2 min read</span></div>
+    <h1>The first backup I could show how to restore</h1><p class="entry-deck">Restic brought selected project files back into a separate folder. The next check was whether the backup would run on schedule.</p>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-24">November 24, 2026</time><span>Updated November 25, 2026</span><span>2 min read</span></div><p class="entry-period">Work covered: June 25 to July 6, 2026</p>
   </div></header>
   <div class="shell reading-layout">
-    <div class="article-content prose"><p>If the machine disappeared, I’d need to know how to put it back together. The first CyberBiota3 backup exercise kept that question small: could I get the project repository back and read the files that explained how the lab was built?</p>
+    <div class="article-content prose"><p>The first CyberBiota3 recovery exercise started with the project repository. Could I recover the files that explained how the lab was built, without overwriting the working copy?</p>
 
-<p>I used Restic for a local encrypted copy. The result records both what was included and what was kept out. The project instructions and change records belonged in the backup. Known sensitive configuration and live runtime data were outside that scope. There was no reason to treat an encrypted copy as a reason to back up everything indiscriminately.</p>
+<p>Restic made an encrypted local backup of the selected repository material, including project instructions and change records. Known sensitive configuration and live runtime data were excluded. Application databases were outside this exercise.</p>
 
-<h2 id="open-the-copy-and-check-it">Open the copy and check it</h2>
+<h2 id="restore-into-a-separate-folder">Restore into a separate folder</h2>
 
-<p>After confirming a snapshot existed, the test restored it into a separate folder. That meant I could inspect the restored files without laying them over the working copy. The June report names the README, the operations instructions and the backup plan among the files restored. It records a separate check for excluded paths. Those are the details that let me follow the test. I can tell where the data was restored, what was expected to show up, and what the test deliberately left outside.</p>
+<p>On June 25, the test confirmed a snapshot existed, then restored it into a separate directory. The README, operations instructions, and backup plan were among the files checked. A separate check looked for paths that were supposed to stay excluded.</p>
 
-<p>On July 6, the systemd timer ran the repository backup without a manual start. The receipt records an exit status of zero, a new snapshot timestamp and a successful Restic check. That’s useful because a recoverable copy today doesn’t mean the schedule will leave me another copy tomorrow. The scheduled run is also a different result from the June test, which actually put files back in a directory.</p>
+<p>Restoring beside the working repository let the test inspect the copy without replacing the files in use. The result was a recovery of selected project files, not just a successful backup command.</p>
 
-<p>The two checks leave me with something I can work from: selected project files were recoverable, and a later backup ran on schedule. The result doesn’t tell me how to restore a live app database or bring the whole host back. And because the copy was local, it doesn’t cover losing the machine and its storage together. If I’m keeping my own data, each of those jobs deserves the same treatment as the repository: restore it somewhere safe, then check what’s really there.</p>
+<h2 id="wait-for-the-schedule">Wait for the schedule</h2>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: June 25 to July 6, 2026.</p><p>Repository backup and restore proof, plus later timer evidence. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+<p>On July 6, the systemd timer ran the repository backup without a manual start. It exited with status zero, produced a new snapshot, and passed the Restic check.</p>
+
+<p>The June restore and July run checked different parts of the job. The restore put files back. The timer showed that the scheduled path could create another copy on its own.</p>
+
+<p>The backup was still local. Losing the laptop and its storage together would also mean losing that copy, and neither test restored a running application or database. Later, the CyberBiota3.5 work added <a href="/cyberbiota-blog/journal/cyberbiota35-usb-backup/">an external USB copy</a> and <a href="/cyberbiota-blog/journal/cyberbiota35-database-restore/">an isolated database restore</a>. Those addressed parts of recovery this first repository exercise had left open.</p>
+
+
     </div>
     
-    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#open-the-copy-and-check-it">Open the copy and check it</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
+    <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#restore-into-a-separate-folder">Restore into a separate folder</a></li><li><a href="#wait-for-the-schedule">Wait for the schedule</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
   </div>
 </article>
 <section class="related-section"><div class="shell"><div class="section-heading"><h2>Keep reading</h2><a class="text-link" href="/cyberbiota-blog/journal/">All entries</a></div><div class="related-grid">

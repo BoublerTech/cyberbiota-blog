@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="What I wanted from CyberBiota3.5" />
@@ -50,7 +50,7 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">Build history</p>
     <h1>What I wanted from CyberBiota3.5</h1><p class="entry-deck">The next step for a home lab built to run my own apps and keep my own data—and the machine I had to build it on.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div><p class="entry-period">Work covered: November 22–25, 2026</p>
   </div></header>
   <div class="shell reading-layout">
     <div class="article-content prose"><p>I wanted my first home lab to use open-source technology to host my own apps and data. That goal started with AriseOne. CyberBiota 1 and 2 gave me different versions to try, and CyberBiota3 was the fresh start that brought those earlier lessons together.</p>
@@ -61,7 +61,7 @@
 
 <p>The plan had two connected aims. OpenClaw would coordinate work on the home lab. Addie 3 would bring together personal knowledge, planning, research, and selected actions. It covered the interfaces, model routes, retrieval, tools, identity, automation, monitoring, and recovery around that assistant.</p>
 
-<p>The following days delivered a narrower set of changes I can trace: host repairs, the operations roles, subscription-backed inference, read-only and draft adapters, recovery tests, and the gateway cutovers. Those records don’t establish that the complete personal-assistant and second-brain plan was implemented.</p>
+<p>This round concentrated on the foundations: repairing the host, dividing operations into roles, connecting the models, testing recovery, and moving the new coordinator into production. The complete Addie 3 personal-assistant and second-brain system remained a larger project.</p>
 
 <p>The machine carrying the work was the existing Dell G7 7700: a six-core, twelve-thread i7, about 30 GiB of usable RAM, and an RTX 2070 with 8 GiB of VRAM. It already hosted applications, databases, monitoring, and local inference.</p>
 
@@ -71,7 +71,7 @@
 
 <p>The smaller system SSD was 87% full. The larger data SSD had about 1.2 TiB free. Most running containers lacked CPU or memory limits, and the repository backup job had failed on its last recorded run.</p>
 
-<p>The paperwork needed corrections too. The running monitoring backend was VictoriaMetrics, with vmalert, Alertmanager, Grafana, Loki, Alloy, and Blackbox Exporter. NetBox and CrowdSec were already deployed. An older proposal’s component list wasn’t a reason to install another copy of work the lab could already do.</p>
+<p>The lab already had VictoriaMetrics, vmalert, Alertmanager, Grafana, Loki, Alloy, and Blackbox Exporter for monitoring, plus NetBox and CrowdSec. The upgrade could reuse those services instead of adding overlapping tools from an older proposal.</p>
 
 <p>Those findings set the first jobs: <a href="/cyberbiota-blog/journal/cyberbiota35-host-repairs/">repair the host</a>, recover space, and check the backups.</p>
 
@@ -89,9 +89,9 @@
 
 <p>The same project also produced an external encrypted backup, a selective USB restore, a functional database restore, and controlled adapter and incident tests. Automatic production remediation remained disabled, heavy security additions were deferred, and the observation period was still running.</p>
 
-<p>Each of those changes has its own entry in the journal. They explain what was tried and what the checks showed, including the failures that changed the implementation. That’s the part of CyberBiota3.5 I can describe from this round of work.</p>
+<p>The next job was the host itself: <a href="/cyberbiota-blog/journal/cyberbiota35-host-repairs/">fix the clock, recover the authentication route, and get the system SSD below its space limit</a>.</p>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: November 22–25, 2026.</p><p>Project records reviewed through November 25, 2026. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+
     </div>
     
     <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#a-bigger-plan-on-the-same-laptop">A bigger plan, on the same laptop</a></li><li><a href="#find-the-problems-before-adding-to-them">Find the problems before adding to them</a></li><li><a href="#keep-the-build-inside-its-resource-budget">Keep the build inside its resource budget</a></li><li><a href="#carry-the-tested-pieces-into-production">Carry the tested pieces into production</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>

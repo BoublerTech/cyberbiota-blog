@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="/cyberbiota-blog/assets/brand/favicon.svg">
   <link rel="alternate" type="application/atom+xml" title="CyberBiota3 journal" href="https://boublertech.github.io/cyberbiota-blog/feed.xml">
   <link rel="preload" as="font" href="/cyberbiota-blog/assets/fonts/InstrumentSans.ttf" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795659956">
+  <link rel="stylesheet" href="/cyberbiota-blog/assets/css/style.css?v=1795661100">
   <!-- Begin Jekyll SEO tag v2.9.1 -->
 <meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="Why I left Wazuh out of this build" />
@@ -50,7 +50,7 @@
     <a class="back-link" href="/cyberbiota-blog/journal/"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg> Journal</a>
     <p class="entry-topic">Security</p>
     <h1>Why I left Wazuh out of this build</h1><p class="entry-deck">The laptop had room for bounded security queries. The RAM budget ruled out the proposed central SIEM stack.</p>
-    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div>
+    <div class="entry-byline"><img src="/cyberbiota-blog/assets/brand/mark.svg" width="32" height="32" alt=""><span>By BoublerTech</span><time datetime="2026-11-25">November 25, 2026</time><span>3 min read</span></div><p class="entry-period">Work covered: November 23–24, 2026</p>
   </div></header>
   <div class="shell reading-layout">
     <div class="article-content prose"><p>Wazuh was in the CyberBiota3.5 proposal, but the laptop’s RAM budget ruled it out of this build.</p>
@@ -65,7 +65,7 @@
 
 <p>The vulnerability helper read stored reports rather than starting a scan. Case creation produced a draft. The response interface produced a proposal awaiting approval, with <code class="language-plaintext highlighter-rouge">executed: false</code>.</p>
 
-<p>The tests included malicious instructions embedded in tickets, cross-role access attempts, and filtering for indicator lookups. Internal addresses, internal domains, and incident prose were rejected as external-enrichment inputs. The indicator tests used offline fixtures, so I wasn’t treating them as proof of a complete live threat-intelligence service.</p>
+<p>The tests included malicious instructions embedded in tickets, cross-role access attempts, and filtering for indicator lookups. Internal addresses, internal domains, and incident prose were rejected as external-enrichment inputs. Those indicator tests used offline fixtures; live external threat-intelligence queries were outside the exercise.</p>
 
 <h2 id="use-a-sample-without-calling-it-a-sensor">Use a sample without calling it a sensor</h2>
 
@@ -81,17 +81,17 @@
 
 <p>The endpoint posture view collected a defined selection of information, including AppArmor status, failed units, and existing security-service status. The investigation helper used pre-approved packs for listening ports, container digests, privileged containers, and systemd timers.</p>
 
-<p>The container review found two privileged containers and seven using host networking. Those were existing exceptions in the lab. Adding restricted agent sandboxes didn’t remove them, and a passing sandbox test couldn’t describe the whole Docker estate.</p>
+<p>The container review found two privileged containers and seven using host networking. Those existing exceptions remained after the new agent sandboxes were restricted.</p>
 
 <p>A benign forensic collection manifest supplied the chain-of-custody test. SHA-256 verification passed, and the helper returned evidence metadata instead of raw contents. That was a controlled test of evidence handling; there hadn’t been an actual compromise to investigate in that exercise.</p>
 
 <h2 id="leave-the-larger-additions-for-a-justified-change">Leave the larger additions for a justified change</h2>
 
-<p>Security Onion, Arkime, Graylog, Greenbone/OpenVAS, MISP, Fleet, Velociraptor, and Shuffle also stayed deferred. The resource cost, source coverage, target scope, or need for a separate authorization wasn’t resolved by putting a product name in the plan.</p>
+<p>Security Onion, Arkime, Graylog, Greenbone/OpenVAS, MISP, Fleet, Velociraptor, and Shuffle also stayed deferred. They needed more resources, an appropriate data source, or a separately scoped deployment before they could be useful here.</p>
 
-<p>The delivered security work was smaller: queries over existing signals, draft cases, fixed posture and investigation helpers, and tests that kept live data separate from offline samples. That gave me specific functions to evaluate during use while the heavier platforms remained outside the approved footprint.</p>
+<p>The delivered security work was smaller: queries over existing signals, draft cases, fixed posture and investigation helpers, and tests that kept live data separate from offline samples. Wazuh remained deferred. The next step was to try the smaller tools on actual requests without enabling automatic response.</p>
 
-      <details class="entry-notes"><summary>Dates and source notes</summary><p>Events covered: November 23–24, 2026.</p><p>Project records reviewed through November 25, 2026. Publication dates reflect when I wrote about the work, rather than when every event happened.</p><p><a href="/cyberbiota-blog/methods/">How I handle sources and corrections</a></p></details>
+
     </div>
     
     <aside class="reading-aside"><nav aria-label="On this page"><h2>In this entry</h2><ul><li><a href="#start-with-the-signals-already-available">Start with the signals already available</a></li><li><a href="#use-a-sample-without-calling-it-a-sensor">Use a sample without calling it a sensor</a></li><li><a href="#inspect-the-host-through-fixed-questions">Inspect the host through fixed questions</a></li><li><a href="#leave-the-larger-additions-for-a-justified-change">Leave the larger additions for a justified change</a></li></ul></nav><a class="aside-journal" href="/cyberbiota-blog/journal/">Browse the journal</a></aside>
@@ -101,7 +101,7 @@
 
 <article class="post-card">
   <span class="list-leading"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M240-40q-50 0-85-35t-35-85q0-50 35-85t85-35q14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35ZM120-540q17 0 28.5-11.5T160-580q0-17-11.5-28.5T120-620q-17 0-28.5 11.5T80-580q0 17 11.5 28.5T120-540Zm120 420q17 0 28.5-11.5T280-160q0-17-11.5-28.5T240-200q-17 0-28.5 11.5T200-160q0 17 11.5 28.5T240-120Zm240-680q17 0 28.5-11.5T520-840q0-17-11.5-28.5T480-880q-17 0-28.5 11.5T440-840q0 17 11.5 28.5T480-800Zm0 440q42 0 71-29t29-71q0-42-29-71t-71-29q-42 0-71 29t-29 71q0 42 29 71t71 29Zm240 240q17 0 28.5-11.5T760-160q0-17-11.5-28.5T720-200q-17 0-28.5 11.5T680-160q0 17 11.5 28.5T720-120Zm120-420q17 0 28.5-11.5T880-580q0-17-11.5-28.5T840-620q-17 0-28.5 11.5T800-580q0 17 11.5 28.5T840-540ZM480-840ZM120-580Zm360 120Zm360-120ZM240-160Zm480 0Z"/></g><g class="symbol-filled"><path d="M240-40q-50 0-85-35t-35-85q0-50 35-85t85-35q14 0 26 3t23 8l57-71q-28-31-39-70t-5-78l-81-27q-17 25-43 40t-58 15q-50 0-85-35T0-580q0-50 35-85t85-35q50 0 85 35t35 85v8l81 28q20-36 53.5-61t75.5-32v-87q-39-11-64.5-42.5T360-840q0-50 35-85t85-35q50 0 85 35t35 85q0 42-26 73.5T510-724v87q42 7 75.5 32t53.5 61l81-28v-8q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35q-32 0-58.5-15T739-515l-81 27q6 39-5 77.5T614-340l57 70q11-5 23-7.5t26-2.5q50 0 85 35t35 85q0 50-35 85t-85 35q-50 0-85-35t-35-85q0-20 6.5-38.5T624-232l-57-71q-41 23-87.5 23T392-303l-56 71q11 15 17.5 33.5T360-160q0 50-35 85t-85 35Z"/></g></svg></span>
-  <div class="post-card-body"><div class="post-meta"><span>Operations</span><time datetime="2026-11-25">Nov 25, 2026</time></div><h3><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></h3><p>The live cutover, the OpenClaw upgrade, and the tests that let me keep the new coordinator in place.</p><span class="reading-time">4 min read</span></div>
+  <div class="post-card-body"><div class="post-meta"><span>Operations</span><time datetime="2026-11-25">Nov 25, 2026</time></div><h3><a href="/cyberbiota-blog/journal/cyberbiota35-production-cutover/">Putting CyberBiota3.5 into production</a></h3><p>The live cutover, the OpenClaw upgrade, and the tests that let me keep the new coordinator in place.</p><span class="reading-time">3 min read</span></div>
   <span class="list-trailing"><svg class="md-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="24" height="24" aria-hidden="true" focusable="false"><g class="symbol-outline"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g><g class="symbol-filled"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></g></svg></span>
 </article>
 
